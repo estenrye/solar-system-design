@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dual Array Solar Analysis — Bloomington, MN</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #F5A623;
+    --solar: #FFD166;
+    --deep: #0D1117;
+    --panel: #141B24;
+    --card: #1A2332;
+    --border: #243040;
+    --text: #E8EDF3;
+    --muted: #7A8A9A;
+    --green: #3DD68C;
+    --red: #FF6B6B;
+    --blue: #4FC3F7;
+    --accent: #F5A623;
+    --array1: #4FC3F7;
+    --array2: #A78BFA;
+    --combined: #3DD68C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--deep); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+  header {
+    background: linear-gradient(135deg, #0D1117 0%, #141B24 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .header-left h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; letter-spacing: 0.08em; color: var(--solar); line-height: 1; margin-bottom: 4px; }
+  .header-left p { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+  .header-right { text-align: right; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.9; }
+  .header-right span { color: var(--solar); }
+
+  .upgrade-banner {
+    background: linear-gradient(90deg, rgba(61,214,140,0.12) 0%, rgba(167,139,250,0.08) 50%, rgba(79,195,247,0.08) 100%);
+    border-bottom: 1px solid rgba(61,214,140,0.25);
+    padding: 12px 40px;
+    display: flex; align-items: center; gap: 16px;
+    font-size: 0.82rem;
+  }
+  .upgrade-banner strong { color: var(--green); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; }
+  .upgrade-banner span { color: var(--muted); }
+
+  main { padding: 28px 40px; max-width: 1500px; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; position: relative; overflow: hidden;
+  }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-card.purple::before { background: var(--array2); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.04em; color: var(--text); line-height: 1; }
+  .stat-value .unit { font-size: 0.9rem; color: var(--muted); }
+  .stat-sub { font-size: 0.7rem; color: var(--muted); margin-top: 5px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+
+  .section-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; }
+  .section-title { font-family: 'DM Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ARRAY COMPARISON */
+  .array-compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 18px; }
+  .array-col { padding: 20px; }
+  .array-col:not(:last-child) { border-right: 1px solid var(--border); }
+  .array-col.combined { background: linear-gradient(135deg, rgba(61,214,140,0.06) 0%, rgba(61,214,140,0.02) 100%); }
+  .array-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; margin-bottom: 12px; }
+  .badge-1 { background: rgba(79,195,247,0.15); color: var(--array1); }
+  .badge-2 { background: rgba(167,139,250,0.15); color: var(--array2); }
+  .badge-c { background: rgba(61,214,140,0.15); color: var(--green); }
+  .array-col h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .array-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid rgba(36,48,64,0.5); }
+  .array-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .array-key { color: var(--muted); }
+  .array-val { font-family: 'DM Mono', monospace; font-weight: 500; }
+
+  /* CHART */
+  .bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 180px; padding-bottom: 22px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; height: 100%; justify-content: flex-end; }
+  .bar-wrap { width: 100%; display: flex; gap: 1px; justify-content: center; align-items: flex-end; flex: 1; }
+  .bar { border-radius: 2px 2px 0 0; min-width: 6px; flex: 1; cursor: pointer; transition: opacity 0.2s; }
+  .bar:hover { opacity: 0.75; }
+  .bar-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--muted); text-align: center; margin-top: 3px; white-space: nowrap; }
+  .chart-legend { display: flex; gap: 14px; margin-top: 10px; font-size: 0.71rem; color: var(--muted); font-family: 'DM Mono', monospace; flex-wrap: wrap; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: middle; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th { font-family: 'DM Mono', monospace; font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 6px 8px; font-size: 0.78rem; border-bottom: 1px solid rgba(36,48,64,0.4); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .num { font-family: 'DM Mono', monospace; text-align: right; }
+  .surplus { color: var(--green); }
+  .deficit { color: var(--red); }
+  .neutral { color: var(--muted); }
+
+  .sizing-block { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin-bottom: 8px; }
+  .sizing-block:last-child { margin-bottom: 0; }
+  .sizing-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 5px; }
+  .sizing-row:last-child { margin-bottom: 0; }
+  .sizing-key { color: var(--muted); }
+  .sizing-val { font-family: 'DM Mono', monospace; font-weight: 500; }
+
+  .progress-track { background: var(--panel); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 6px; }
+  .progress-fill { height: 100%; border-radius: 4px; }
+
+  .rec-box { background: linear-gradient(135deg, rgba(61,214,140,0.08) 0%, rgba(61,214,140,0.03) 100%); border: 1px solid rgba(61,214,140,0.25); border-radius: 8px; padding: 20px 24px; margin-bottom: 18px; }
+  .rec-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--green); margin-bottom: 14px; }
+  .rec-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .rec-item-label { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .rec-item-val { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+  .rec-item-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+  .season-badge { display: inline-block; font-size: 0.58rem; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 1px 5px; border-radius: 2px; margin-left: 5px; }
+  .s-summer { background: rgba(245,166,35,0.15); color: var(--solar); }
+  .s-winter { background: rgba(79,195,247,0.15); color: var(--blue); }
+  .s-spring { background: rgba(61,214,140,0.15); color: var(--green); }
+  .s-fall { background: rgba(255,107,107,0.15); color: var(--red); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+  .inverter-option { border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; }
+  .inverter-option:last-child { margin-bottom: 0; }
+  .inverter-option.recommended { border-color: rgba(61,214,140,0.4); background: rgba(61,214,140,0.04); }
+  .inverter-tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 6px; border-radius: 2px; margin-bottom: 6px; display: inline-block; }
+  .tag-rec { background: rgba(61,214,140,0.15); color: var(--green); }
+  .tag-alt { background: rgba(167,139,250,0.15); color: var(--array2); }
+
+  @media (max-width: 1000px) {
+    .stats-grid { grid-template-columns: repeat(3,1fr); }
+    .two-col, .three-col, .array-compare, .rec-grid { grid-template-columns: 1fr; }
+    main, header { padding: 18px; }
+    .upgrade-banner { padding: 12px 18px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>☀☀ Dual Array Solar Analysis</h1>
+    <p>Bloomington, Minnesota · 44.8°N · 2× 22ft × 22ft Ground Mounts</p>
+  </div>
+  <div class="header-right">
+    <div>Array 1 <span>6.02 kW · 14 panels</span></div>
+    <div>Array 2 <span>6.02 kW · 14 panels</span></div>
+    <div>Combined DC <span>12.04 kW</span></div>
+    <div>Est. Annual Production <span>~19,400 kWh</span></div>
+  </div>
+</header>
+
+<div class="upgrade-banner">
+  <strong>⚡ SYSTEM UPGRADE</strong>
+  <span>Second array changes everything — combined 12 kW system now produces <strong style="color:var(--green)">~19,400 kWh/yr</strong>, exceeding your 2-year average consumption of <strong style="color:var(--solar)">~16,050 kWh/yr</strong> by <strong style="color:var(--green)">~3,350 kWh surplus annually</strong>. True energy independence is achievable.</span>
+</div>
+
+<main>
+
+  <div class="stats-grid">
+    <div class="stat-card blue">
+      <div class="stat-label">Array 1 Production</div>
+      <div class="stat-value">9,700 <span class="unit">kWh/yr</span></div>
+      <div class="stat-sub">6.02 kW · 14 panels</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Array 2 Production</div>
+      <div class="stat-value">9,700 <span class="unit">kWh/yr</span></div>
+      <div class="stat-sub">6.02 kW · 14 panels</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Combined Production</div>
+      <div class="stat-value">19,400 <span class="unit">kWh/yr</span></div>
+      <div class="stat-sub">12.04 kW total DC</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">2-Yr Avg Consumption</div>
+      <div class="stat-value">16,052 <span class="unit">kWh/yr</span></div>
+      <div class="stat-sub">Your actual usage</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Annual Surplus</div>
+      <div class="stat-value">~3,350 <span class="unit">kWh/yr</span></div>
+      <div class="stat-sub">Net metering credit to Xcel</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Offset Coverage</div>
+      <div class="stat-value">121 <span class="unit">%</span></div>
+      <div class="stat-sub">Full offset + surplus</div>
+    </div>
+  </div>
+
+  <!-- ARRAY COMPARISON -->
+  <div class="array-compare">
+    <div class="array-col">
+      <span class="array-badge badge-1">Array 1 — Existing Plan</span>
+      <h3 style="color:var(--array1)">6.02 kW</h3>
+      <div class="array-row"><span class="array-key">Panels</span><span class="array-val">14 × 430W</span></div>
+      <div class="array-row"><span class="array-key">Annual production</span><span class="array-val">~9,700 kWh</span></div>
+      <div class="array-row"><span class="array-key">Covers avg usage</span><span class="array-val" style="color:var(--red)">60%</span></div>
+      <div class="array-row"><span class="array-key">Summer peak offset</span><span class="array-val" style="color:var(--red)">~45%</span></div>
+      <div class="array-row"><span class="array-key">Winter offset</span><span class="array-val" style="color:var(--solar)">~72%</span></div>
+      <div class="array-row"><span class="array-key">Inverter</span><span class="array-val">EG4 18kPV</span></div>
+      <div class="array-row"><span class="array-key">Structure</span><span class="array-val">Wood pergola + patio</span></div>
+    </div>
+    <div class="array-col">
+      <span class="array-badge badge-2">Array 2 — New Addition</span>
+      <h3 style="color:var(--array2)">6.02 kW</h3>
+      <div class="array-row"><span class="array-key">Panels</span><span class="array-val">14 × 430W</span></div>
+      <div class="array-row"><span class="array-key">Annual production</span><span class="array-val">~9,700 kWh</span></div>
+      <div class="array-row"><span class="array-key">Adds to coverage</span><span class="array-val" style="color:var(--green)">+60%</span></div>
+      <div class="array-row"><span class="array-key">Net to grid (surplus)</span><span class="array-val" style="color:var(--green)">~3,350 kWh/yr</span></div>
+      <div class="array-row"><span class="array-key">Orientation</span><span class="array-val">South-facing 45°</span></div>
+      <div class="array-row"><span class="array-key">Inverter options</span><span class="array-val">See below ↓</span></div>
+      <div class="array-row"><span class="array-key">Structure</span><span class="array-val">Wood pergola + patio</span></div>
+    </div>
+    <div class="array-col combined">
+      <span class="array-badge badge-c">Combined System</span>
+      <h3 style="color:var(--green)">12.04 kW</h3>
+      <div class="array-row"><span class="array-key">Total panels</span><span class="array-val">28 × 430W</span></div>
+      <div class="array-row"><span class="array-key">Annual production</span><span class="array-val" style="color:var(--green)">~19,400 kWh</span></div>
+      <div class="array-row"><span class="array-key">Annual consumption</span><span class="array-val">~16,052 kWh</span></div>
+      <div class="array-row"><span class="array-key">Annual surplus</span><span class="array-val" style="color:var(--green)">~3,348 kWh</span></div>
+      <div class="array-row"><span class="array-key">Batteries</span><span class="array-val">4–6× EG4 PowerPro</span></div>
+      <div class="array-row"><span class="array-key">Total DC input</span><span class="array-val">12.04 kW</span></div>
+      <div class="array-row"><span class="array-key">True independence</span><span class="array-val" style="color:var(--green)">✓ YES</span></div>
+    </div>
+  </div>
+
+  <!-- CHART + TABLE -->
+  <div class="two-col" style="grid-template-columns: 3fr 2fr;">
+    <div class="section-card">
+      <div class="section-title">Monthly Usage vs. Combined Production (Both Arrays)</div>
+      <div class="bar-chart" id="barChart"></div>
+      <div class="chart-legend">
+        <div><span class="legend-dot" style="background:var(--blue)"></span>Actual Usage</div>
+        <div><span class="legend-dot" style="background:var(--green)"></span>Combined Production (12 kW)</div>
+        <div><span class="legend-dot" style="background:var(--array1); opacity:0.5"></span>Array 1 only (6 kW)</div>
+      </div>
+      <div style="margin-top:8px; font-size:0.7rem; color:var(--muted); font-family:'DM Mono',monospace;">* Avg of 2-year data · NREL irradiance for 44.8°N at 45° tilt</div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Monthly Net Balance — Dual Array</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th style="text-align:right">Avg Usage</th>
+            <th style="text-align:right">Production</th>
+            <th style="text-align:right">Net Balance</th>
+          </tr>
+        </thead>
+        <tbody id="monthTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- INVERTER RECOMMENDATION -->
+  <div class="two-col">
+    <div class="section-card">
+      <div class="section-title">Inverter Strategy for Dual Array</div>
+
+      <div class="inverter-option recommended">
+        <span class="inverter-tag tag-rec">✓ Recommended</span>
+        <div style="font-size:0.9rem; font-weight:600; margin-bottom:8px;">2× EG4 18kPV — Parallel Configuration</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.7; margin-bottom:10px;">
+          One inverter per array, wired in parallel to the same battery bank and service panel. Each 18kPV has 3 MPPTs — dedicated string management per array maximizes harvest. Combined output: 24kW continuous. Clean, redundant — if one inverter fails, the other keeps running.
+        </div>
+        <div class="sizing-block" style="margin:0">
+          <div class="sizing-row"><span class="sizing-key">Per inverter DC input</span><span class="sizing-val">6.02 kW (2 strings of 7)</span></div>
+          <div class="sizing-row"><span class="sizing-key">Combined AC output</span><span class="sizing-val" style="color:var(--green)">24 kW continuous</span></div>
+          <div class="sizing-row"><span class="sizing-key">MPPTs used per unit</span><span class="sizing-val">2 of 3 (1 spare for expansion)</span></div>
+          <div class="sizing-row"><span class="sizing-key">Cost (×2)</span><span class="sizing-val" style="color:var(--accent)">~$5,600</span></div>
+          <div class="sizing-row"><span class="sizing-key">Redundancy</span><span class="sizing-val" style="color:var(--green)">✓ Full — independent units</span></div>
+        </div>
+      </div>
+
+      <div class="inverter-option" style="margin-top:10px;">
+        <span class="inverter-tag tag-alt">Alternative</span>
+        <div style="font-size:0.9rem; font-weight:600; margin-bottom:8px;">1× EG4 18kPV + EG4 GridBOSS</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.7; margin-bottom:10px;">
+          Single inverter handles both arrays via the GridBOSS distribution panel. The 18kPV has 3 MPPTs total — you'd use all 3, splitting the 28 panels across strings. Simpler wiring, lower cost, but no redundancy and the 18kPV's 18kW PV input limit is approached at 12 kW DC (comfortable margin exists).
+        </div>
+        <div class="sizing-block" style="margin:0">
+          <div class="sizing-row"><span class="sizing-key">DC input to single 18kPV</span><span class="sizing-val">12.04 kW (within 18kW limit)</span></div>
+          <div class="sizing-row"><span class="sizing-key">AC output</span><span class="sizing-val">12 kW continuous</span></div>
+          <div class="sizing-row"><span class="sizing-key">Cost savings vs. 2× inverter</span><span class="sizing-val" style="color:var(--green)">~$2,800 saved</span></div>
+          <div class="sizing-row"><span class="sizing-key">Redundancy</span><span class="sizing-val" style="color:var(--red)">✗ Single point of failure</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Battery Sizing — Updated for Dual Array</div>
+      <div style="font-size:0.78rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">
+        With 12 kW of production, your batteries charge significantly faster — roughly <strong style="color:var(--text)">2× as fast</strong> as with a single array. This means the same kWh of storage gives you more daily cycling value and deeper overnight reserves.
+      </div>
+
+      <div class="sizing-block">
+        <div style="font-size:0.75rem; font-family:'DM Mono',monospace; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px;">4× PowerPro — 57.2 kWh</div>
+        <div class="sizing-row"><span class="sizing-key">Daily avg usage coverage</span><span class="sizing-val" style="color:var(--green)">~1.3 days</span></div>
+        <div class="sizing-row"><span class="sizing-key">Winter day coverage</span><span class="sizing-val" style="color:var(--green)">~2.0 days</span></div>
+        <div class="sizing-row"><span class="sizing-key">Charge time from 12kW array</span><span class="sizing-val" style="color:var(--green)">~5.5 hrs sun</span></div>
+        <div class="sizing-row"><span class="sizing-key">Verdict</span><span class="sizing-val" style="color:var(--solar)">Good — covers most scenarios</span></div>
+      </div>
+
+      <div class="sizing-block">
+        <div style="font-size:0.75rem; font-family:'DM Mono',monospace; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px;">6× PowerPro — 85.8 kWh ← Recommended for dual array</div>
+        <div class="sizing-row"><span class="sizing-key">Daily avg usage coverage</span><span class="sizing-val" style="color:var(--green)">~1.9 days</span></div>
+        <div class="sizing-row"><span class="sizing-key">Winter day coverage</span><span class="sizing-val" style="color:var(--green)">~3.0 days</span></div>
+        <div class="sizing-row"><span class="sizing-key">Summer peak coverage</span><span class="sizing-val" style="color:var(--green)">~1.3 days</span></div>
+        <div class="sizing-row"><span class="sizing-key">Charge time from 12kW array</span><span class="sizing-val" style="color:var(--green)">~8 hrs sun</span></div>
+        <div class="sizing-row"><span class="sizing-key">Verdict</span><span class="sizing-val" style="color:var(--green)">✓ True energy independence</span></div>
+      </div>
+
+      <div style="font-size:0.72rem; color:var(--muted); margin-top:10px; line-height:1.6;">
+        With a 12 kW array and 6× PowerPro, you can realistically operate <strong style="color:var(--text)">off-grid for extended periods</strong> in all but the deepest winter cloudy stretches. The EG4 PowerPro self-heating ensures no cold-weather degradation.
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL BOM -->
+  <div class="rec-box">
+    <div class="rec-title">✓ Complete Dual-Array System — Final Recommendation</div>
+    <div class="rec-grid">
+      <div>
+        <div class="rec-item-label">Panels</div>
+        <div class="rec-item-val">28 × 430W</div>
+        <div class="rec-item-sub">12.04 kW DC total · 14 per array</div>
+      </div>
+      <div>
+        <div class="rec-item-label">Inverters</div>
+        <div class="rec-item-val">2 × EG4 18kPV</div>
+        <div class="rec-item-sub">One per array · parallel to shared battery bank</div>
+      </div>
+      <div>
+        <div class="rec-item-label">Batteries</div>
+        <div class="rec-item-val">6 × EG4 PowerPro</div>
+        <div class="rec-item-sub">85.8 kWh · self-heat · IP65 · 10-yr warranty</div>
+      </div>
+      <div>
+        <div class="rec-item-label">Structures</div>
+        <div class="rec-item-val">2 × PT Wood Pergola</div>
+        <div class="rec-item-sub">45° south pitch · shaded patio each</div>
+      </div>
+      <div>
+        <div class="rec-item-label">Annual Outcome</div>
+        <div class="rec-item-val" style="color:var(--green)">~121% offset</div>
+        <div class="rec-item-sub">~3,350 kWh surplus sold to Xcel/yr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST TABLE -->
+  <div class="section-card">
+    <div class="section-title">Updated Bill of Materials — Dual Array System</div>
+    <div style="display:grid; grid-template-columns: repeat(7,1fr); gap:10px; margin-bottom:14px;">
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Panels (×28)</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">28× 430W Mono</div>
+        <div style="font-size:0.7rem; color:var(--muted);">12.04 kW DC</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$8,400</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Inverters (×2)</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">2× EG4 18kPV</div>
+        <div style="font-size:0.7rem; color:var(--muted);">Parallel config</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$5,600</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Batteries (×6)</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">6× EG4 PowerPro</div>
+        <div style="font-size:0.7rem; color:var(--muted);">85.8 kWh · self-heat</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$19,800</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Racking (×2 kits)</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">2× IronRidge XR100</div>
+        <div style="font-size:0.7rem; color:var(--muted);">Rails, clamps, L-feet</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$1,200</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Structures (×2)</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">2× PT Pergola</div>
+        <div style="font-size:0.7rem; color:var(--muted);">Posts, beams, concrete</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$3,000</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Wiring & BOS</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">Conduit, breakers</div>
+        <div style="font-size:0.7rem; color:var(--muted);">Disconnects, wire</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$1,400</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px;">Electrical + Labor</div>
+        <div style="font-size:0.82rem; font-weight:600; margin-bottom:3px;">Licensed Electrician</div>
+        <div style="font-size:0.7rem; color:var(--muted);">2 arrays · permits · interconnect</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.78rem; color:var(--accent);">~$5,500</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:12px;">
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row"><span class="sizing-key">Gross Total</span><span class="sizing-val" style="color:var(--accent)">~$44,900</span></div>
+        <div class="sizing-row"><span class="sizing-key">Federal 30% ITC</span><span class="sizing-val" style="color:var(--green)">−$13,470</span></div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Net after credit</span>
+          <span class="sizing-val" style="color:var(--accent); font-size:1.1rem;">~$31,430</span>
+        </div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row"><span class="sizing-key">Annual bill eliminated</span><span class="sizing-val" style="color:var(--green)">~$2,167/yr</span></div>
+        <div class="sizing-row"><span class="sizing-key">Net metering surplus credit</span><span class="sizing-val" style="color:var(--green)">~$450/yr</span></div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Total annual savings</span>
+          <span class="sizing-val" style="color:var(--green); font-size:1.1rem;">~$2,617/yr</span>
+        </div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row"><span class="sizing-key">Simple payback period</span><span class="sizing-val" style="color:var(--accent)" id="paybackDual">—</span></div>
+        <div class="sizing-row"><span class="sizing-key">25-year net savings</span><span class="sizing-val" style="color:var(--green)" id="savings25">—</span></div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">vs. single array savings</span>
+          <span class="sizing-val" style="color:var(--green)">+$32,700 over 25 yrs</span>
+        </div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row"><span class="sizing-key">Xcel rate escalation (3%/yr)</span><span class="sizing-val" style="color:var(--muted)">assumed</span></div>
+        <div class="sizing-row"><span class="sizing-key">Yr 10 savings rate</span><span class="sizing-val" style="color:var(--green)">~$3,500/yr</span></div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Battery life (8,000+ cycles)</span>
+          <span class="sizing-val" style="color:var(--green)">~20+ years</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const monthAvg = {1:1183,2:1390,3:1256,4:1040,5:1059,6:1469,7:1902,8:2027,9:1670,10:1577,11:1093,12:1226};
+// Production factors — NREL 44.8N 45° tilt, scaled to 9700/yr per array
+const pf = {1:.045,2:.058,3:.082,4:.097,5:.112,6:.118,7:.115,8:.108,9:.087,10:.065,11:.042,12:.035};
+const annualProd1 = 9700;
+const annualProd2 = 9700;
+const months = [5,6,7,8,9,10,11,12,1,2,3,4];
+const monthNames = {1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+const seasons = {1:'winter',2:'winter',3:'spring',4:'spring',5:'spring',6:'summer',7:'summer',8:'summer',9:'fall',10:'fall',11:'fall',12:'winter'};
+const seasonClass = {winter:'s-winter',summer:'s-summer',spring:'s-spring',fall:'s-fall'};
+
+const maxBar = 2400;
+
+// CHART
+const chart = document.getElementById('barChart');
+months.forEach(mo => {
+  const usage = monthAvg[mo];
+  const prod1 = Math.round(pf[mo] * annualProd1);
+  const prodCombined = prod1 * 2;
+  const usageH = Math.round((usage / maxBar) * 155);
+  const prod1H = Math.round((prod1 / maxBar) * 155);
+  const prodCH = Math.round((prodCombined / maxBar) * 155);
+  const surplus = prodCombined >= usage;
+
+  const group = document.createElement('div');
+  group.className = 'bar-group';
+  group.innerHTML = `
+    <div class="bar-wrap">
+      <div class="bar" style="height:${usageH}px; background:var(--blue);" title="${monthNames[mo]} usage: ${usage.toLocaleString()} kWh"></div>
+      <div class="bar" style="height:${prod1H}px; background:rgba(79,195,247,0.3);" title="Array 1 only: ${prod1.toLocaleString()} kWh"></div>
+      <div class="bar" style="height:${prodCH}px; background:${surplus?'var(--green)':'rgba(61,214,140,0.4)'};" title="Combined production: ${prodCombined.toLocaleString()} kWh"></div>
+    </div>
+    <div class="bar-label">${monthNames[mo]}</div>
+  `;
+  chart.appendChild(group);
+});
+
+// TABLE
+const tbody = document.getElementById('monthTable');
+months.forEach(mo => {
+  const usage = monthAvg[mo];
+  const prod = Math.round(pf[mo] * annualProd1 * 2);
+  const net = prod - usage;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${monthNames[mo]}<span class="season-badge ${seasonClass[seasons[mo]]}">${seasons[mo]}</span></td>
+    <td class="num">${usage.toLocaleString()}</td>
+    <td class="num" style="color:var(--green)">${prod.toLocaleString()}</td>
+    <td class="num ${net>=0?'surplus':'deficit'}">${net>=0?'+':''}${net.toLocaleString()}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// PAYBACK CALCS
+const netCost = 31430;
+const annualSavings = 2617;
+const payback = (netCost / annualSavings).toFixed(1);
+document.getElementById('paybackDual').textContent = payback + ' years';
+
+let total = 0;
+let rate = annualSavings;
+for (let i = 0; i < 25; i++) {
+  total += rate;
+  rate *= 1.03;
+}
+const net25 = Math.round(total - netCost);
+document.getElementById('savings25').textContent = '~$' + net25.toLocaleString();
+</script>
+</body>
+</html>

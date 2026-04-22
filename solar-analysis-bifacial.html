@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bifacial Dual Array Solar Analysis — Bloomington, MN</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne+Mono&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080C10;
+    --surface: #0E1520;
+    --card: #121C28;
+    --border: #1E2D3E;
+    --border2: #263545;
+    --text: #DDE6F0;
+    --muted: #637A8E;
+    --dim: #3A4F62;
+    --gold: #F0B429;
+    --gold2: #FFD97D;
+    --green: #2ECC8A;
+    --green2: #5DFFC0;
+    --blue: #3DA9F5;
+    --purple: #9B7FE8;
+    --red: #F06060;
+    --snow: #B8D4E8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; min-height: 100vh; }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #0A1220 0%, #080C10 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 44px 28px;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(240,180,41,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner { display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
+  .h-title { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; line-height: 1.05; }
+  .h-title span { color: var(--gold); }
+  .h-sub { margin-top: 6px; font-size: 0.78rem; color: var(--muted); font-family: 'Syne Mono', monospace; letter-spacing: 0.07em; text-transform: uppercase; }
+  .h-pills { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .pill { font-family: 'Syne Mono', monospace; font-size: 0.68rem; padding: 4px 10px; border-radius: 20px; border: 1px solid; letter-spacing: 0.05em; }
+  .pill-gold { border-color: rgba(240,180,41,0.4); color: var(--gold); background: rgba(240,180,41,0.07); }
+  .pill-green { border-color: rgba(46,204,138,0.4); color: var(--green); background: rgba(46,204,138,0.07); }
+  .pill-blue { border-color: rgba(61,169,245,0.4); color: var(--blue); background: rgba(61,169,245,0.07); }
+  .pill-snow { border-color: rgba(184,212,232,0.4); color: var(--snow); background: rgba(184,212,232,0.07); }
+  .h-meta { text-align: right; font-family: 'Syne Mono', monospace; font-size: 0.72rem; color: var(--muted); line-height: 2; }
+  .h-meta b { color: var(--gold2); font-weight: 500; }
+
+  /* ── UPGRADE BAR ── */
+  .upgrade-bar {
+    background: linear-gradient(90deg, rgba(46,204,138,0.1) 0%, rgba(46,204,138,0.04) 60%, transparent 100%);
+    border-bottom: 1px solid rgba(46,204,138,0.2);
+    padding: 11px 44px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.81rem; color: var(--muted);
+  }
+  .upgrade-bar .tag { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--green); letter-spacing: 0.06em; white-space: nowrap; }
+  .upgrade-bar b { color: var(--text); }
+
+  /* ── LAYOUT ── */
+  main { padding: 28px 44px 48px; }
+  .gap16 { gap: 16px; }
+  .grid-6 { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-bottom: 20px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+  /* ── STAT CARDS ── */
+  .kpi {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; position: relative; overflow: hidden;
+  }
+  .kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .kpi-label { font-family: 'Syne Mono', monospace; font-size: 0.63rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 7px; }
+  .kpi-val { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--text); }
+  .kpi-val .u { font-size: 0.85rem; font-weight: 400; color: var(--muted); margin-left: 2px; }
+  .kpi-sub { font-size: 0.69rem; color: var(--dim); margin-top: 5px; }
+  .kpi-delta { font-size: 0.7rem; font-family: 'Syne Mono', monospace; margin-top: 4px; }
+
+  /* ── SECTION CARDS ── */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .card-title {
+    font-family: 'Syne Mono', monospace; font-size: 0.67rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--gold); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── BIFACIAL COMPARISON BANNER ── */
+  .bifacial-banner {
+    border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+  }
+  .bf-col { padding: 18px 20px; }
+  .bf-col:not(:last-child) { border-right: 1px solid var(--border2); }
+  .bf-col.highlight { background: linear-gradient(160deg, rgba(46,204,138,0.07) 0%, rgba(46,204,138,0.02) 100%); }
+  .bf-badge { font-family: 'Syne Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em; padding: 3px 8px; border-radius: 20px; border: 1px solid; display: inline-block; margin-bottom: 10px; }
+  .bf-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
+  .bf-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 5px 0; border-bottom: 1px solid rgba(30,45,62,0.6); }
+  .bf-row:last-child { border-bottom: none; }
+  .bf-key { color: var(--muted); }
+  .bf-val { font-family: 'Syne Mono', monospace; font-size: 0.76rem; }
+
+  /* ── CHART ── */
+  .chart-area { height: 200px; display: flex; align-items: flex-end; gap: 3px; padding-bottom: 22px; position: relative; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+  .bars { width: 100%; display: flex; gap: 1px; align-items: flex-end; flex: 1; }
+  .bar { flex: 1; border-radius: 2px 2px 0 0; min-width: 5px; transition: opacity .2s; cursor: default; }
+  .bar:hover { opacity: 0.75; }
+  .blabel { font-family: 'Syne Mono', monospace; font-size: 0.53rem; color: var(--muted); margin-top: 4px; text-align: center; }
+  .legend { display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-family: 'Syne Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+  .ldot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── TABLE ── */
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th { font-family: 'Syne Mono', monospace; font-size: 0.61rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); }
+  .tbl td { padding: 6px 8px; font-size: 0.77rem; border-bottom: 1px solid rgba(30,45,62,0.5); vertical-align: middle; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .num { font-family: 'Syne Mono', monospace; text-align: right; }
+  .surplus { color: var(--green); }
+  .deficit { color: var(--red); }
+
+  /* ── SEASON BADGE ── */
+  .sbadge { display: inline-block; font-size: 0.57rem; font-family: 'Syne Mono', monospace; text-transform: uppercase; padding: 1px 5px; border-radius: 2px; margin-left: 5px; vertical-align: middle; }
+  .s-su { background: rgba(240,180,41,0.13); color: var(--gold); }
+  .s-fa { background: rgba(240,96,96,0.13); color: var(--red); }
+  .s-wi { background: rgba(184,212,232,0.13); color: var(--snow); }
+  .s-sp { background: rgba(46,204,138,0.13); color: var(--green); }
+
+  /* ── BLOCKS ── */
+  .block { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 12px 14px; margin-bottom: 9px; }
+  .block:last-child { margin-bottom: 0; }
+  .brow { display: flex; justify-content: space-between; align-items: center; font-size: 0.79rem; margin-bottom: 5px; }
+  .brow:last-child { margin-bottom: 0; }
+  .bkey { color: var(--muted); }
+  .bval { font-family: 'Syne Mono', monospace; font-size: 0.76rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+  /* ── PROGRESS ── */
+  .ptrack { background: rgba(14,21,32,0.8); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 7px; }
+  .pfill { height: 100%; border-radius: 4px; }
+
+  /* ── ALBEDO TABLE ── */
+  .albedo-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(30,45,62,0.5); font-size: 0.79rem; }
+  .albedo-row:last-child { border-bottom: none; }
+  .albedo-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+  .albedo-name { flex: 1; color: var(--text); }
+  .albedo-val { font-family: 'Syne Mono', monospace; font-size: 0.73rem; color: var(--muted); min-width: 36px; text-align: right; }
+  .albedo-gain { font-family: 'Syne Mono', monospace; font-size: 0.73rem; min-width: 48px; text-align: right; }
+  .albedo-bar-wrap { width: 80px; }
+  .albedo-bar { height: 5px; border-radius: 3px; }
+  .rec-tag { font-family: 'Syne Mono', monospace; font-size: 0.58rem; padding: 1px 5px; border-radius: 2px; background: rgba(46,204,138,0.12); color: var(--green); border: 1px solid rgba(46,204,138,0.25); }
+
+  /* ── FINAL REC ── */
+  .final-rec {
+    background: linear-gradient(135deg, rgba(46,204,138,0.07) 0%, rgba(46,204,138,0.02) 60%, transparent 100%);
+    border: 1px solid rgba(46,204,138,0.25); border-radius: 10px; padding: 22px 26px; margin-bottom: 16px;
+  }
+  .final-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--green2); margin-bottom: 16px; letter-spacing: 0.01em; }
+  .final-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
+  .fi-label { font-family: 'Syne Mono', monospace; font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .fi-val { font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .fi-sub { font-size: 0.69rem; color: var(--dim); margin-top: 3px; }
+
+  /* ── BOM ── */
+  .bom-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 10px; margin-bottom: 12px; }
+  .bom-card { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 12px 13px; }
+  .bom-label { font-family: 'Syne Mono', monospace; font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+  .bom-name { font-size: 0.8rem; font-weight: 600; margin-bottom: 3px; }
+  .bom-sub { font-size: 0.68rem; color: var(--muted); margin-bottom: 8px; }
+  .bom-price { font-family: 'Syne Mono', monospace; font-size: 0.78rem; color: var(--gold); }
+
+  @media (max-width: 1100px) {
+    .grid-6 { grid-template-columns: repeat(3,1fr); }
+    .grid-2, .grid-3, .bifacial-banner, .final-grid { grid-template-columns: 1fr; }
+    .bom-grid { grid-template-columns: repeat(3,1fr); }
+    main, header { padding: 18px 20px; }
+    .upgrade-bar { padding: 10px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="h-title">Bifacial <span>Dual Array</span><br>Solar Analysis</div>
+      <div class="h-sub">Bloomington, MN · 44.8°N · 2 × 22ft × 22ft · White Gravel Patio</div>
+      <div class="h-pills">
+        <span class="pill pill-gold">28× TOPCon Bifacial 445W</span>
+        <span class="pill pill-green">12.46 kW DC Combined</span>
+        <span class="pill pill-blue">2× EG4 18kPV · 6× PowerPro</span>
+        <span class="pill pill-snow">+15% Gravel · +5% Snow Bonus</span>
+      </div>
+    </div>
+    <div class="h-meta">
+      <div>Latitude <b>44.8°N</b></div>
+      <div>Tilt <b>45° South</b></div>
+      <div>Peak Sun Hours <b>4.5 hrs/day</b></div>
+      <div>Bifacial Gain <b>~20% blended</b></div>
+      <div>Est. Annual <b>~23,280 kWh</b></div>
+    </div>
+  </div>
+</header>
+
+<div class="upgrade-bar">
+  <span class="tag">☀ BIFACIAL UPGRADE</span>
+  <span>Switching to TOPCon bifacial panels with white gravel patios adds <b>~3,880 kWh/year</b> vs. monofacial — total system now produces <b>~23,280 kWh/yr</b>, a <b>~7,230 kWh annual surplus</b> over your actual 16,050 kWh/yr consumption. Upgrade cost: ~$1,160. Payback on upgrade alone: <b>~1.3 years.</b></span>
+</div>
+
+<main>
+
+  <!-- KPI ROW -->
+  <div class="grid-6">
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--blue)"></div>
+      <div class="kpi-label">Array 1 Production</div>
+      <div class="kpi-val">11,640<span class="u">kWh/yr</span></div>
+      <div class="kpi-sub">6.23kW · 14× 445W bifacial</div>
+      <div class="kpi-delta" style="color:var(--green)">↑ +1,940 vs monofacial</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--purple)"></div>
+      <div class="kpi-label">Array 2 Production</div>
+      <div class="kpi-val">11,640<span class="u">kWh/yr</span></div>
+      <div class="kpi-sub">6.23kW · 14× 445W bifacial</div>
+      <div class="kpi-delta" style="color:var(--green)">↑ +1,940 vs monofacial</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-label">Combined Production</div>
+      <div class="kpi-val">23,280<span class="u">kWh/yr</span></div>
+      <div class="kpi-sub">12.46 kW DC total</div>
+      <div class="kpi-delta" style="color:var(--green)">↑ +3,880 vs dual monofacial</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--gold)"></div>
+      <div class="kpi-label">Your Avg Consumption</div>
+      <div class="kpi-val">16,052<span class="u">kWh/yr</span></div>
+      <div class="kpi-sub">2-year actual average</div>
+      <div class="kpi-delta" style="color:var(--muted)">44.5 kWh/day avg</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-label">Annual Surplus</div>
+      <div class="kpi-val">7,228<span class="u">kWh/yr</span></div>
+      <div class="kpi-sub">Net metering to Xcel</div>
+      <div class="kpi-delta" style="color:var(--green)">~$976/yr credit</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-label">Total Offset</div>
+      <div class="kpi-val">145<span class="u">%</span></div>
+      <div class="kpi-sub">vs 121% monofacial dual</div>
+      <div class="kpi-delta" style="color:var(--green)">True energy independence</div>
+    </div>
+  </div>
+
+  <!-- BIFACIAL COMPARISON -->
+  <div class="bifacial-banner">
+    <div class="bf-col">
+      <span class="bf-badge" style="border-color:rgba(99,122,142,0.4);color:var(--muted)">Baseline</span>
+      <div class="bf-title" style="color:var(--muted)">Single Array · Monofacial</div>
+      <div class="bf-row"><span class="bf-key">Panels</span><span class="bf-val">14× 430W mono</span></div>
+      <div class="bf-row"><span class="bf-key">Annual production</span><span class="bf-val">9,700 kWh/yr</span></div>
+      <div class="bf-row"><span class="bf-key">Bifacial gain</span><span class="bf-val">0%</span></div>
+      <div class="bf-row"><span class="bf-key">Patio surface effect</span><span class="bf-val">None</span></div>
+      <div class="bf-row"><span class="bf-key">Offset of consumption</span><span class="bf-val" style="color:var(--red)">60%</span></div>
+      <div class="bf-row"><span class="bf-key">Panel cost (est.)</span><span class="bf-val">~$4,200</span></div>
+    </div>
+    <div class="bf-col">
+      <span class="bf-badge" style="border-color:rgba(61,169,245,0.4);color:var(--blue)">Previous Plan</span>
+      <div class="bf-title" style="color:var(--blue)">Dual Array · Monofacial</div>
+      <div class="bf-row"><span class="bf-key">Panels</span><span class="bf-val">28× 430W mono</span></div>
+      <div class="bf-row"><span class="bf-key">Annual production</span><span class="bf-val">19,400 kWh/yr</span></div>
+      <div class="bf-row"><span class="bf-key">Bifacial gain</span><span class="bf-val">0%</span></div>
+      <div class="bf-row"><span class="bf-key">Annual surplus</span><span class="bf-val">~3,350 kWh</span></div>
+      <div class="bf-row"><span class="bf-key">Offset of consumption</span><span class="bf-val" style="color:var(--gold)">121%</span></div>
+      <div class="bf-row"><span class="bf-key">Panel cost (est.)</span><span class="bf-val">~$8,400</span></div>
+    </div>
+    <div class="bf-col highlight">
+      <span class="bf-badge" style="border-color:rgba(46,204,138,0.4);color:var(--green)">✓ This Plan</span>
+      <div class="bf-title" style="color:var(--green2)">Dual Array · Bifacial TOPCon</div>
+      <div class="bf-row"><span class="bf-key">Panels</span><span class="bf-val" style="color:var(--text)">28× 445W TOPCon bifacial</span></div>
+      <div class="bf-row"><span class="bf-key">Annual production</span><span class="bf-val" style="color:var(--green)">23,280 kWh/yr</span></div>
+      <div class="bf-row"><span class="bf-key">Bifacial gain (blended)</span><span class="bf-val" style="color:var(--green)">+20% avg · +30% winter</span></div>
+      <div class="bf-row"><span class="bf-key">Annual surplus</span><span class="bf-val" style="color:var(--green)">~7,228 kWh</span></div>
+      <div class="bf-row"><span class="bf-key">Offset of consumption</span><span class="bf-val" style="color:var(--green)">145%</span></div>
+      <div class="bf-row"><span class="bf-key">Panel cost (est.)</span><span class="bf-val" style="color:var(--text)">~$8,960 (+$560)</span></div>
+    </div>
+  </div>
+
+  <!-- CHART + TABLE -->
+  <div class="grid-2" style="grid-template-columns: 3fr 2fr;">
+    <div class="card">
+      <div class="card-title">Monthly Usage vs. Bifacial Production (Both Arrays)</div>
+      <div class="chart-area" id="chart"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="ldot" style="background:var(--blue)"></div>Actual usage (2-yr avg)</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--green)"></div>Bifacial production (gravel)</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--snow); opacity:.6"></div>Snow albedo bonus (Nov–Mar)</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--muted); opacity:.4"></div>Monofacial reference</div>
+      </div>
+      <div style="margin-top:9px; font-size:0.68rem; color:var(--dim); font-family:'Syne Mono',monospace;">
+        * NREL PVWatts 44.8°N · 45° tilt · 20% bifacial gain baseline · +5% Nov–Mar snow albedo bonus
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Monthly Net Balance — Bifacial Dual</div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th style="text-align:right">Avg Use</th>
+            <th style="text-align:right">Bifacial Prod</th>
+            <th style="text-align:right">Net</th>
+          </tr>
+        </thead>
+        <tbody id="tbl"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ALBEDO + SEASON -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Albedo Guide — Patio Surface Selection</div>
+      <div id="albedoRows"></div>
+      <div style="margin-top:14px; font-size:0.73rem; color:var(--muted); line-height:1.7; background:var(--surface); border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+        <b style="color:var(--text);">Your plan uses white limestone gravel</b> — an excellent balance of cost (~$300/array), aesthetics as a functional patio surface, and albedo performance. In Minnesota winters, snow covering the gravel temporarily raises albedo to 0.80–0.90, delivering peak rear-side irradiance precisely when solar production is otherwise at its lowest.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Season-by-Season Bifacial Balance</div>
+      <div id="seasons"></div>
+    </div>
+  </div>
+
+  <!-- BIFACIAL MOUNTING NOTES -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-title">Bifacial-Specific Design Requirements</div>
+    <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:12px;">
+      <div class="block" style="margin:0">
+        <div style="font-family:'Syne Mono',monospace; font-size:0.63rem; color:var(--gold); text-transform:uppercase; letter-spacing:.07em; margin-bottom:7px;">Min Ground Clearance</div>
+        <div style="font-size:1.3rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); margin-bottom:4px;">20–24 in</div>
+        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6;">NREL recommends ≥20" from bottom panel edge to ground. Your 6ft front posts achieve this easily. Minimum bottom rail height = 24" in final design.</div>
+      </div>
+      <div class="block" style="margin:0">
+        <div style="font-family:'Syne Mono',monospace; font-size:0.63rem; color:var(--gold); text-transform:uppercase; letter-spacing:.07em; margin-bottom:7px;">Row Gap Spacing</div>
+        <div style="font-size:1.3rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); margin-bottom:4px;">3–5 in</div>
+        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6;">Gap between stacked portrait rows allows snow to shed between rows and fall to the ground beneath — adding to albedo and preventing pile-up at lower rail.</div>
+      </div>
+      <div class="block" style="margin:0">
+        <div style="font-family:'Syne Mono',monospace; font-size:0.63rem; color:var(--gold); text-transform:uppercase; letter-spacing:.07em; margin-bottom:7px;">Racking Rear Clearance</div>
+        <div style="font-size:1.3rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); margin-bottom:4px;">Open Frame</div>
+        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6;">IronRidge XR rails are open-frame by design — rear surface fully exposed. No solid purlins or opaque mounting hardware behind panel rear face. Specify bifacial-compatible clamps only.</div>
+      </div>
+      <div class="block" style="margin:0">
+        <div style="font-family:'Syne Mono',monospace; font-size:0.63rem; color:var(--gold); text-transform:uppercase; letter-spacing:.07em; margin-bottom:7px;">Wiring / Shading</div>
+        <div style="font-size:1.3rem; font-family:'Syne',sans-serif; font-weight:700; color:var(--text); margin-bottom:4px;">Route Down</div>
+        <div style="font-size:0.72rem; color:var(--muted); line-height:1.6;">Run all DC wiring along front face of rafter or down the posts — never zip-tied across the rear of the panels. Rear-face wiring shadows degrade bifacial performance. Use conduit on post faces.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL RECOMMENDATION -->
+  <div class="final-rec">
+    <div class="final-title">✓ Complete Bifacial System Recommendation</div>
+    <div class="final-grid">
+      <div>
+        <div class="fi-label">Panels</div>
+        <div class="fi-val">28× TOPCon Bifacial 445W</div>
+        <div class="fi-sub">LonGi Hi-MO 6 or REC Alpha Pure RB · 88–92% bifaciality</div>
+      </div>
+      <div>
+        <div class="fi-label">Inverters</div>
+        <div class="fi-val">2× EG4 18kPV</div>
+        <div class="fi-sub">One per array · parallel to shared battery bank · 24kW combined output</div>
+      </div>
+      <div>
+        <div class="fi-label">Batteries</div>
+        <div class="fi-val">6× EG4 PowerPro</div>
+        <div class="fi-sub">85.8 kWh · self-heat · IP65 · closed-loop CAN · 10-yr warranty</div>
+      </div>
+      <div>
+        <div class="fi-label">Patio Surface</div>
+        <div class="fi-val">White Limestone Gravel</div>
+        <div class="fi-sub">0.40–0.50 albedo · $300/array · functional patio + albedo boost</div>
+      </div>
+      <div>
+        <div class="fi-label">Annual Outcome</div>
+        <div class="fi-val" style="color:var(--green2)">145% offset · ~7,228 kWh surplus</div>
+        <div class="fi-sub">~$976/yr net metering credit · true energy independence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOM + FINANCIALS -->
+  <div class="card">
+    <div class="card-title">Full Bill of Materials — Bifacial Dual Array System</div>
+    <div class="bom-grid">
+      <div class="bom-card">
+        <div class="bom-label">Panels (×28)</div>
+        <div class="bom-name">28× TOPCon 445W Bifacial</div>
+        <div class="bom-sub">12.46 kW DC · glass-glass · 88%+ bifaciality</div>
+        <div class="bom-price">~$8,960</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Inverters (×2)</div>
+        <div class="bom-name">2× EG4 18kPV Hybrid</div>
+        <div class="bom-sub">Parallel · 3 MPPTs each · grid sellback · 10-yr</div>
+        <div class="bom-price">~$5,600</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Batteries (×6)</div>
+        <div class="bom-name">6× EG4 PowerPro 14.3kWh</div>
+        <div class="bom-sub">85.8 kWh · self-heat · IP65 · 8,000+ cycles</div>
+        <div class="bom-price">~$19,800</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Racking (×2 kits)</div>
+        <div class="bom-name">2× IronRidge XR100</div>
+        <div class="bom-sub">Open-frame · bifacial-compatible clamps</div>
+        <div class="bom-price">~$1,200</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Structures (×2)</div>
+        <div class="bom-name">2× PT Wood Pergola</div>
+        <div class="bom-sub">6×6 posts · LVL beams · 45° rafters · concrete</div>
+        <div class="bom-price">~$3,000</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Patio Surface (×2)</div>
+        <div class="bom-name">White Limestone Gravel</div>
+        <div class="bom-sub">~400 sq ft each · albedo 0.40–0.50</div>
+        <div class="bom-price">~$600</div>
+      </div>
+      <div class="bom-card">
+        <div class="bom-label">Electrical + Labor</div>
+        <div class="bom-name">Licensed Electrician</div>
+        <div class="bom-sub">2 arrays · permits · interconnect · BOS wiring</div>
+        <div class="bom-price">~$6,700</div>
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-top:0;">
+      <div class="block" style="margin:0">
+        <div class="brow"><span class="bkey">Gross Total</span><span class="bval" style="color:var(--gold)">~$45,860</span></div>
+        <div class="brow"><span class="bkey">Federal 30% ITC</span><span class="bval" style="color:var(--green)">−$13,758</span></div>
+        <div class="divider"></div>
+        <div class="brow"><span class="bkey" style="color:var(--text);font-weight:600;">Net After Tax Credit</span><span class="bval" style="color:var(--gold);font-size:1rem;">~$32,102</span></div>
+      </div>
+      <div class="block" style="margin:0">
+        <div class="brow"><span class="bkey">Annual bill eliminated</span><span class="bval" style="color:var(--green)">~$2,167/yr</span></div>
+        <div class="brow"><span class="bkey">Net metering surplus</span><span class="bval" style="color:var(--green)">~$976/yr</span></div>
+        <div class="divider"></div>
+        <div class="brow"><span class="bkey" style="color:var(--text);font-weight:600;">Total Annual Savings</span><span class="bval" style="color:var(--green);font-size:1rem;">~$3,143/yr</span></div>
+      </div>
+      <div class="block" style="margin:0">
+        <div class="brow"><span class="bkey">Simple payback</span><span class="bval" style="color:var(--gold)" id="payback">—</span></div>
+        <div class="brow"><span class="bkey">25-yr net savings (3% escalation)</span><span class="bval" style="color:var(--green)" id="savings25">—</span></div>
+        <div class="divider"></div>
+        <div class="brow"><span class="bkey" style="color:var(--text);font-weight:600;">vs. monofacial dual (+$672 cost)</span><span class="bval" style="color:var(--green)">+$13,200 over 25 yrs</span></div>
+      </div>
+      <div class="block" style="margin:0">
+        <div class="brow"><span class="bkey">Panel degradation rate</span><span class="bval" style="color:var(--green)">0.3–0.4%/yr</span></div>
+        <div class="brow"><span class="bkey">vs. monofacial degradation</span><span class="bval" style="color:var(--muted)">0.5%/yr</span></div>
+        <div class="divider"></div>
+        <div class="brow"><span class="bkey" style="color:var(--text);font-weight:600;">Yr 25 production retained</span><span class="bval" style="color:var(--green)">~91–92%</span></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── DATA ──
+const monthAvg = {1:1183,2:1390,3:1256,4:1040,5:1059,6:1469,7:1902,8:2027,9:1670,10:1577,11:1093,12:1226};
+// Base production factors per array (NREL 44.8N 45deg), scaled to 9700/yr monofacial
+const pf = {1:.045,2:.058,3:.082,4:.097,5:.112,6:.118,7:.115,8:.108,9:.087,10:.065,11:.042,12:.035};
+const monoAnnual = 9700;
+// Bifacial gain: 20% base (white gravel); +5% Nov-Mar snow bonus
+const bifacialBase = 1.20;
+const snowMonths = new Set([11,12,1,2,3]);
+const snowBonus = 1.05;
+const months = [5,6,7,8,9,10,11,12,1,2,3,4];
+const mnames = {1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+const seasons = {1:'wi',2:'wi',3:'sp',4:'sp',5:'sp',6:'su',7:'su',8:'su',9:'fa',10:'fa',11:'fa',12:'wi'};
+const snames = {wi:'Winter',su:'Summer',sp:'Spring',fa:'Fall'};
+
+function bifacialProd(mo) {
+  const base = pf[mo] * monoAnnual * bifacialBase;
+  return Math.round(snowMonths.has(mo) ? base * snowBonus : base);
+}
+function monoProd(mo) { return Math.round(pf[mo] * monoAnnual); }
+
+// ── CHART ──
+const maxBar = 2400;
+const chart = document.getElementById('chart');
+months.forEach(mo => {
+  const usage = monthAvg[mo];
+  const bf = bifacialProd(mo) * 2;
+  const mono = monoProd(mo) * 2;
+  const uh = Math.round((usage / maxBar) * 160);
+  const bfh = Math.round((bf / maxBar) * 160);
+  const mh = Math.round((mono / maxBar) * 160);
+  const snowBoost = snowMonths.has(mo);
+  const surplus = bf >= usage;
+  const g = document.createElement('div');
+  g.className = 'bar-group';
+  g.innerHTML = `
+    <div class="bars">
+      <div class="bar" style="height:${uh}px;background:var(--blue);" title="${mnames[mo]} usage: ${usage.toLocaleString()} kWh"></div>
+      <div class="bar" style="height:${mh}px;background:rgba(99,122,142,0.3);" title="Monofacial: ${mono.toLocaleString()} kWh"></div>
+      <div class="bar" style="height:${bfh}px;background:${surplus?'var(--green)':'rgba(46,204,138,0.35)'};" title="Bifacial: ${bf.toLocaleString()} kWh${snowBoost?' (incl. snow bonus)':''}"></div>
+      ${snowBoost ? `<div class="bar" style="height:${Math.round(bfh*0.05)}px;background:var(--snow);opacity:0.7;" title="Snow albedo extra"></div>` : ''}
+    </div>
+    <div class="blabel">${mnames[mo]}</div>
+  `;
+  chart.appendChild(g);
+});
+
+// ── TABLE ──
+const tbody = document.getElementById('tbl');
+months.forEach(mo => {
+  const usage = monthAvg[mo];
+  const prod = bifacialProd(mo) * 2;
+  const net = prod - usage;
+  const snow = snowMonths.has(mo) ? ' <span class="sbadge s-wi">❄ snow+</span>' : '';
+  const sc = {wi:'s-wi',su:'s-su',sp:'s-sp',fa:'s-fa'};
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${mnames[mo]}<span class="sbadge ${sc[seasons[mo]]}">${snames[seasons[mo]]}</span>${snow}</td>
+    <td class="num">${usage.toLocaleString()}</td>
+    <td class="num" style="color:var(--green)">${prod.toLocaleString()}</td>
+    <td class="num ${net>=0?'surplus':'deficit'}">${net>=0?'+':''}${net.toLocaleString()}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ── ALBEDO ──
+const albedoData = [
+  { name:'Dark pavers / asphalt', albedo:0.10, gain:6, color:'#2A2A2A', rec:false },
+  { name:'Bare soil / dark mulch', albedo:0.15, gain:8, color:'#3D2B1A', rec:false },
+  { name:'Green grass', albedo:0.22, gain:10, color:'#2A6B3A', rec:false },
+  { name:'Natural concrete (gray)', albedo:0.35, gain:16, color:'#7A8A8A', rec:false },
+  { name:'White limestone gravel', albedo:0.45, gain:20, color:'#C8C8BC', rec:true },
+  { name:'White concrete pavers', albedo:0.65, gain:25, color:'#E8E8E0', rec:false },
+  { name:'Fresh snow (Nov–Mar)', albedo:0.85, gain:30, color:'#D4E8F8', rec:false },
+];
+const ar = document.getElementById('albedoRows');
+albedoData.forEach(d => {
+  const div = document.createElement('div');
+  div.className = 'albedo-row';
+  div.innerHTML = `
+    <div class="albedo-swatch" style="background:${d.color};border:1px solid rgba(255,255,255,0.1)"></div>
+    <div class="albedo-name">${d.name}${d.rec?' <span class="rec-tag">✓ Your Plan</span>':''}</div>
+    <div class="albedo-val">${d.albedo}</div>
+    <div class="albedo-bar-wrap"><div class="albedo-bar" style="width:${Math.round(d.albedo*100)}%;background:${d.gain>=20?'var(--green)':d.gain>=14?'var(--gold)':'var(--red)'};"></div></div>
+    <div class="albedo-gain" style="color:${d.gain>=20?'var(--green)':d.gain>=14?'var(--gold)':'var(--muted)'}">+${d.gain}%</div>
+  `;
+  ar.appendChild(div);
+});
+
+// ── SEASONS ──
+const seasonDefs = [
+  { name:'Spring (Mar–May)', mos:[3,4,5], sclass:'s-sp', note:'Best direct offset season — production matches or exceeds usage' },
+  { name:'Summer (Jun–Aug)', mos:[6,7,8], sclass:'s-su', note:'A/C peak months — bifacial adds ~20% but deficit persists; net metering covers' },
+  { name:'Fall (Sep–Nov)', mos:[9,10,11], sclass:'s-fa', note:'Production falling rapidly; Nov snow albedo starts contributing' },
+  { name:'Winter (Dec–Feb)', mos:[12,1,2], sclass:'s-wi', note:'Snow albedo delivers +30% bifacial bonus — partially compensates low irradiance' },
+];
+const sc = document.getElementById('seasons');
+seasonDefs.forEach(s => {
+  const avgUsage = Math.round(s.mos.reduce((a,mo)=>a+monthAvg[mo],0)/s.mos.length);
+  const avgProd = Math.round(s.mos.reduce((a,mo)=>a+bifacialProd(mo)*2,0)/s.mos.length);
+  const net = avgProd - avgUsage;
+  const pct = Math.min(100, Math.round((avgProd/avgUsage)*100));
+  const div = document.createElement('div');
+  div.className = 'block';
+  div.innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+      <span style="font-size:0.79rem;font-weight:600;">${s.name}</span>
+      <span style="font-family:'Syne Mono',monospace;font-size:0.72rem;color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}${net.toLocaleString()} kWh/mo avg</span>
+    </div>
+    <div style="font-size:0.69rem;color:var(--muted);margin-bottom:6px;">${s.note}</div>
+    <div class="ptrack">
+      <div class="pfill" style="width:${pct}%;background:${net>=0?'var(--green)':'linear-gradient(90deg,var(--red),var(--gold))'}"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:5px;font-family:'Syne Mono',monospace;font-size:0.63rem;color:var(--muted);">
+      <span>Usage: ${avgUsage.toLocaleString()} kWh/mo</span>
+      <span>Prod: ${avgProd.toLocaleString()} kWh/mo · ${pct}% covered</span>
+    </div>
+  `;
+  sc.appendChild(div);
+});
+
+// ── FINANCIALS ──
+const netCost = 32102;
+const annualSavings = 3143;
+const payback = (netCost / annualSavings).toFixed(1);
+document.getElementById('payback').textContent = payback + ' years';
+let total = 0, rate = annualSavings;
+for (let i = 0; i < 25; i++) { total += rate; rate *= 1.03; }
+const net25 = Math.round(total - netCost);
+document.getElementById('savings25').textContent = '~$' + net25.toLocaleString();
+</script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Plans — Bloomington, MN · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090D;
+  --surf: #0C1018;
+  --card: #111820;
+  --card2: #162030;
+  --border: #1C2A38;
+  --border2: #253545;
+  --text: #D8E4EE;
+  --muted: #607080;
+  --dim: #344555;
+  --gold: #EDB44A;
+  --gold2: #F7D080;
+  --green: #34C87E;
+  --green2: #6EFCB8;
+  --blue: #3BA8F0;
+  --purple: #9278E4;
+  --red: #E85858;
+  --snow: #A8C8E0;
+  --phase1: #3BA8F0;
+  --phase2: #9278E4;
+  --dual: #34C87E;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; min-height: 100vh; }
+
+/* TABS */
+.tab-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,9,13,0.97); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  padding: 0 40px;
+}
+.tab-btn {
+  padding: 16px 28px; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.09em; cursor: pointer;
+  border: none; background: none; color: var(--muted);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .2s, border-color .2s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active-a { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.active-b { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-btn.active-c { color: var(--green); border-bottom-color: var(--green); }
+.tab-divider { width: 1px; background: var(--border); margin: 10px 4px; }
+.tab-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--dim); padding: 16px 0; margin-right: 4px; align-self: center; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* HEADER */
+.page-header {
+  padding: 28px 40px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.ph-title { font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; font-weight: 800; line-height: 1; letter-spacing: 0.02em; }
+.ph-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+.ph-pills { display: flex; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
+.pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; padding: 3px 9px; border-radius: 3px; border: 1px solid; }
+.ph-meta { text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); line-height: 2; }
+.ph-meta b { font-weight: 500; }
+
+/* NOTICE BAR */
+.notice-bar {
+  padding: 10px 40px; font-size: 0.79rem;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid;
+}
+.notice-bar .ntag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; white-space: nowrap; }
+
+/* LAYOUT */
+main { padding: 24px 40px 48px; }
+.g6 { display: grid; grid-template-columns: repeat(6,1fr); gap: 11px; margin-bottom: 18px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.g2-wide { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; margin-bottom: 16px; }
+.mb16 { margin-bottom: 16px; }
+
+/* KPIS */
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; position: relative; overflow: hidden; }
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+.kpi.g { .kpi::before { background: var(--green); } }
+.kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.kpi-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.kpi-val { font-family: 'Barlow Condensed', sans-serif; font-size: 1.9rem; font-weight: 700; line-height: 1; }
+.kpi-val .u { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+.kpi-sub { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+.kpi-d { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; margin-top: 3px; }
+
+/* CARDS */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; }
+.ct { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+.ct::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ct.blue { color: var(--blue); }
+.ct.green { color: var(--green); }
+.ct.purple { color: var(--purple); }
+
+/* PHASE TIMELINE */
+.timeline { position: relative; padding-left: 24px; }
+.tl-line { position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--border2); }
+.tl-item { position: relative; margin-bottom: 18px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot { position: absolute; left: -20px; top: 3px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid; }
+.tl-phase { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.tl-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+.tl-body { font-size: 0.77rem; color: var(--muted); line-height: 1.6; }
+
+/* BLOCKS */
+.blk { background: var(--surf); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; margin-bottom: 8px; }
+.blk:last-child { margin-bottom: 0; }
+.br { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; margin-bottom: 5px; }
+.br:last-child { margin-bottom: 0; }
+.bk { color: var(--muted); }
+.bv { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; }
+.div { border: none; border-top: 1px solid var(--border); margin: 7px 0; }
+
+/* PROGRESS */
+.pt { background: rgba(7,9,13,0.8); border-radius: 3px; height: 5px; overflow: hidden; margin-top: 6px; }
+.pf { height: 100%; border-radius: 3px; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); text-align: left; padding: 5px 7px; border-bottom: 1px solid var(--border); }
+.tbl td { padding: 5px 7px; font-size: 0.75rem; border-bottom: 1px solid rgba(28,42,56,0.5); }
+.tbl tr:last-child td { border-bottom: none; }
+.num { font-family: 'IBM Plex Mono', monospace; text-align: right; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+
+/* CHART */
+.chart-area { height: 180px; display: flex; align-items: flex-end; gap: 3px; padding-bottom: 20px; }
+.bg { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.bars { width: 100%; display: flex; gap: 1px; align-items: flex-end; flex: 1; }
+.bar { flex: 1; border-radius: 2px 2px 0 0; min-width: 4px; cursor: default; }
+.bl { font-family: 'IBM Plex Mono', monospace; font-size: 0.51rem; color: var(--muted); margin-top: 3px; text-align: center; }
+.legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+.li { display: flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; color: var(--muted); }
+.ld { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SBADGE */
+.sb { display: inline-block; font-size: 0.55rem; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; padding: 1px 4px; border-radius: 2px; margin-left: 4px; }
+.s-su { background: rgba(237,180,74,0.12); color: var(--gold); }
+.s-fa { background: rgba(232,88,88,0.12); color: var(--red); }
+.s-wi { background: rgba(168,200,224,0.12); color: var(--snow); }
+.s-sp { background: rgba(52,200,126,0.12); color: var(--green); }
+
+/* INCENTIVE TABLE */
+.inc-row { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(28,42,56,0.6); font-size: 0.78rem; }
+.inc-row:last-child { border-bottom: none; }
+.inc-status { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; padding: 2px 7px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.s-active { background: rgba(52,200,126,0.12); color: var(--green); border: 1px solid rgba(52,200,126,0.25); }
+.s-gone { background: rgba(232,88,88,0.1); color: var(--red); border: 1px solid rgba(232,88,88,0.2); text-decoration: line-through; }
+.inc-name { flex: 1; font-weight: 500; }
+.inc-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.73rem; white-space: nowrap; }
+.inc-note { font-size: 0.69rem; color: var(--muted); margin-top: 2px; }
+
+/* BOM */
+.bom-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 9px; margin-bottom: 11px; }
+.bom-card { background: var(--surf); border: 1px solid var(--border); border-radius: 6px; padding: 11px 12px; }
+.bom-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+.bom-name { font-size: 0.79rem; font-weight: 600; margin-bottom: 2px; }
+.bom-sub { font-size: 0.66rem; color: var(--muted); margin-bottom: 7px; }
+.bom-price { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; }
+
+/* COMPARE STRIP (page C) */
+.compare-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.cs-col { padding: 20px 22px; }
+.cs-col:first-child { border-right: 1px solid var(--border2); }
+.cs-col.highlight { background: linear-gradient(160deg, rgba(52,200,126,0.06) 0%, transparent 100%); }
+.cs-badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 3px; border: 1px solid; display: inline-block; margin-bottom: 9px; }
+.cs-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+.cs-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 5px 0; border-bottom: 1px solid rgba(28,42,56,0.5); }
+.cs-row:last-child { border-bottom: none; }
+.cs-key { color: var(--muted); }
+.cs-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; }
+
+@media (max-width: 1100px) {
+  .g6, .g4 { grid-template-columns: repeat(3,1fr); }
+  .g3, .g2, .g2-wide, .compare-strip { grid-template-columns: 1fr; }
+  .bom-grid { grid-template-columns: repeat(3,1fr); }
+  main, .page-header, .tab-bar, .notice-bar { padding-left: 18px; padding-right: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <span class="tab-label">Plan →</span>
+  <button class="tab-btn active-a" onclick="showTab('a',this)">A · Dual Array (Full Build)</button>
+  <div class="tab-divider"></div>
+  <button class="tab-btn" onclick="showTab('b',this)">B · Phase 1: Single Array</button>
+  <div class="tab-divider"></div>
+  <button class="tab-btn" onclick="showTab('b2',this)">B2 · Phase 2: Expansion</button>
+  <div class="tab-divider"></div>
+  <button class="tab-btn" onclick="showTab('c',this)">C · Side-by-Side Comparison</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE A — FULL DUAL ARRAY
+═══════════════════════════════════════════════════════ -->
+<div id="page-a" class="page active">
+  <div class="page-header">
+    <div>
+      <div class="ph-title" style="color:var(--gold)">Plan A — Full Dual Array Build</div>
+      <div class="ph-sub">Bloomington, MN · 44.8°N · Both Arrays Built Simultaneously</div>
+      <div class="ph-pills">
+        <span class="pill" style="border-color:rgba(237,180,74,0.35);color:var(--gold)">28× TOPCon Bifacial 445W</span>
+        <span class="pill" style="border-color:rgba(52,200,126,0.35);color:var(--green)">12.46 kW DC · ~23,280 kWh/yr</span>
+        <span class="pill" style="border-color:rgba(59,168,240,0.35);color:var(--blue)">2× EG4 18kPV · 6× PowerPro</span>
+        <span class="pill" style="border-color:rgba(168,200,224,0.35);color:var(--snow)">White Gravel + Snow Albedo</span>
+      </div>
+    </div>
+    <div class="ph-meta">
+      <div>Arrays <b>2 × 22ft×22ft</b></div>
+      <div>Combined DC <b>12.46 kW</b></div>
+      <div>Bifacial Gain <b>~20% base + snow</b></div>
+      <div>Annual Prod <b>~23,280 kWh</b></div>
+      <div>Offset <b style="color:var(--green)">145%</b></div>
+    </div>
+  </div>
+  <div class="notice-bar" style="background:rgba(232,88,88,0.06);border-color:rgba(232,88,88,0.2);">
+    <span class="ntag" style="color:var(--red)">⚠ NO FEDERAL ITC</span>
+    <span style="color:var(--muted);">The 30% residential solar tax credit expired Dec 31, 2025. All costs shown are gross — no federal deduction applies. Minnesota incentives still apply: <b style="color:var(--text)">Sales tax exemption (6.875%) · Xcel Solar*Rewards $0.03/kWh · Xcel Battery Incentive $175/kWh (≤$5,000)</b></span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-a"></div>
+    <div class="g2-wide">
+      <div class="card"><div class="ct">Monthly Usage vs. Bifacial Production</div><div class="chart-area" id="chart-a"></div><div class="legend" id="leg-a"></div><div style="margin-top:8px;font-size:0.66rem;color:var(--dim);font-family:'IBM Plex Mono',monospace;">NREL PVWatts 44.8°N · 45° · 20% bifacial gain · +5% Nov–Mar snow bonus · 2-yr usage avg</div></div>
+      <div class="card"><div class="ct">Monthly Net Balance</div><table class="tbl"><thead><tr><th>Month</th><th style="text-align:right">Avg Use</th><th style="text-align:right">Bifacial Prod</th><th style="text-align:right">Net</th></tr></thead><tbody id="tbl-a"></tbody></table></div>
+    </div>
+    <div class="g3">
+      <div class="card"><div class="ct">Minnesota Incentives (2026)</div><div id="inc-a"></div></div>
+      <div class="card"><div class="ct">Season Balance</div><div id="season-a"></div></div>
+      <div class="card">
+        <div class="ct">Battery Coverage</div>
+        <div class="blk"><div class="br"><span class="bk">Total storage (6× PowerPro)</span><span class="bv" style="color:var(--green)">85.8 kWh</span></div><div class="br"><span class="bk">Avg daily usage</span><span class="bv">44.5 kWh</span></div><div class="br"><span class="bk">Coverage avg day</span><span class="bv" style="color:var(--green)">~1.93 days</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Winter daily usage</span><span class="bv">~39 kWh</span></div><div class="br"><span class="bk">Coverage winter day</span><span class="bv" style="color:var(--green)">~2.2 days</span></div><div class="br"><span class="bk">Summer peak daily</span><span class="bv">~67 kWh</span></div><div class="br"><span class="bk">Coverage summer peak</span><span class="bv" style="color:var(--gold)">~1.3 days</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Xcel battery incentive</span><span class="bv" style="color:var(--green)">−$5,000</span></div><div class="br"><span class="bk">Applied to 6× 14.3kWh</span><span class="bv" style="color:var(--muted)">85.8 kWh @ $175/kWh = $15,015 → cap $5k</span></div></div>
+      </div>
+    </div>
+    <div class="card mb16"><div class="ct">Full Bill of Materials — Plan A</div><div class="bom-grid" id="bom-a"></div><div class="g4" id="fin-a"></div></div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE B — PHASE 1 SINGLE ARRAY
+═══════════════════════════════════════════════════════ -->
+<div id="page-b" class="page">
+  <div class="page-header">
+    <div>
+      <div class="ph-title" style="color:var(--blue)">Plan B · Phase 1 — Single Array</div>
+      <div class="ph-sub">Bloomington, MN · First Array · Designed for Future Expansion</div>
+      <div class="ph-pills">
+        <span class="pill" style="border-color:rgba(59,168,240,0.35);color:var(--blue)">14× TOPCon Bifacial 445W</span>
+        <span class="pill" style="border-color:rgba(59,168,240,0.35);color:var(--blue)">6.23 kW DC · ~11,640 kWh/yr</span>
+        <span class="pill" style="border-color:rgba(59,168,240,0.35);color:var(--blue)">1× EG4 18kPV · 4× PowerPro</span>
+        <span class="pill" style="border-color:rgba(168,200,224,0.35);color:var(--snow)">Expansion-ready wiring</span>
+      </div>
+    </div>
+    <div class="ph-meta">
+      <div>Array <b>1 × 22ft×22ft</b></div>
+      <div>DC Capacity <b>6.23 kW</b></div>
+      <div>Annual Prod <b>~11,640 kWh</b></div>
+      <div>Offset <b style="color:var(--gold)">~73%</b></div>
+      <div>Expandable <b style="color:var(--blue)">Yes → Phase 2</b></div>
+    </div>
+  </div>
+  <div class="notice-bar" style="background:rgba(59,168,240,0.05);border-color:rgba(59,168,240,0.18);">
+    <span class="ntag" style="color:var(--blue)">ℹ PHASE 1 OF 2</span>
+    <span style="color:var(--muted);">This system is designed from day one for seamless expansion. Phase 2 adds the second array and 2 batteries — <b style="color:var(--text)">no rewiring of Phase 1 required</b>. EG4 18kPV supports parallel inverter operation. All conduit, panel, and battery connections pre-sized for Phase 2.</span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-b"></div>
+
+    <!-- PHASE TIMELINE -->
+    <div class="g2" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="ct blue">Phased Build Timeline</div>
+        <div class="timeline">
+          <div class="tl-line"></div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color:var(--blue);background:var(--blue)"></div>
+            <div class="tl-phase" style="color:var(--blue)">Phase 1 — Now</div>
+            <div class="tl-title">Array 1 · Full Pergola + Patio</div>
+            <div class="tl-body">14× 445W TOPCon bifacial · 1× EG4 18kPV · 4× PowerPro (57.2 kWh) · White gravel patio. Inverter pre-configured for parallel operation. Service panel sized for both arrays. Conduit home-run left stubbed for Phase 2 DC wiring.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color:var(--purple);background:var(--card)"></div>
+            <div class="tl-phase" style="color:var(--purple)">Phase 2 — Future (1–5 yrs)</div>
+            <div class="tl-title">Array 2 · Second Pergola + Patio</div>
+            <div class="tl-body">Add 14× 445W panels · 1× EG4 18kPV (parallel to existing) · 2× PowerPro (total 6 batteries, 85.8 kWh) · Second pergola structure · White gravel patio. Electrician connects pre-run conduit to existing panel. No modifications to Array 1 needed.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color:var(--green);background:var(--card)"></div>
+            <div class="tl-phase" style="color:var(--green)">Phase 2 Complete</div>
+            <div class="tl-title">Full Dual Array System (= Plan A)</div>
+            <div class="tl-body">Identical final outcome to Plan A: 12.46 kW bifacial, 23,280 kWh/yr, 145% offset, 85.8 kWh storage. Total cost equals Plan A gross — phased cash flow only difference.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct blue">What to Pre-Size in Phase 1</div>
+        <div style="font-size:0.77rem;color:var(--muted);line-height:1.7;margin-bottom:12px;">Build these Phase 2 accommodations into Phase 1 at minimal added cost:</div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Service Panel</span></div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">Install 200A panel (or upgrade) with dedicated breaker slots for Phase 2 inverter. Cost to do this in Phase 1 vs. Phase 2: saves ~$400 in labor.</div>
+        </div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Conduit Home-Run</span></div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">Run empty 1.5" conduit from Phase 2 array location to inverter/battery location while trench is open. Cost to add now vs. re-dig later: saves ~$600–900.</div>
+        </div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Battery Bank Busbar</span></div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">Install EG4 external busbar sized for 6 batteries, populate 4 now. Phase 2 adds 2 more — no rewiring needed.</div>
+        </div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Inverter Parallel Port</span></div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">EG4 18kPV has a dedicated parallel communication port. Leave accessible. Phase 2 inverter plugs in directly.</div>
+        </div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Phase 1 Pre-Sizing Cost</span></div>
+          <div class="br"><span class="bk">Extra conduit + panel slots</span><span class="bv" style="color:var(--gold)">~$300–500</span></div>
+          <div class="br"><span class="bk">Saved in Phase 2</span><span class="bv" style="color:var(--green)">~$1,200–1,600</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2-wide">
+      <div class="card"><div class="ct blue">Phase 1 Monthly Balance (Single Array)</div><div class="chart-area" id="chart-b"></div><div class="legend" id="leg-b"></div><div style="margin-top:8px;font-size:0.66rem;color:var(--dim);font-family:'IBM Plex Mono',monospace;">Single array 6.23kW bifacial · ~11,640 kWh/yr · net metering covers deficit months</div></div>
+      <div class="card"><div class="ct blue">Monthly Net — Phase 1</div><table class="tbl"><thead><tr><th>Month</th><th style="text-align:right">Avg Use</th><th style="text-align:right">Array 1 Prod</th><th style="text-align:right">Net</th></tr></thead><tbody id="tbl-b"></tbody></table></div>
+    </div>
+
+    <div class="g3">
+      <div class="card"><div class="ct blue">Phase 1 Incentives (2026)</div><div id="inc-b"></div></div>
+      <div class="card">
+        <div class="ct blue">Phase 1 Battery Coverage</div>
+        <div class="blk"><div class="br"><span class="bk">Storage (4× PowerPro)</span><span class="bv" style="color:var(--green)">57.2 kWh</span></div><div class="br"><span class="bk">Avg day coverage</span><span class="bv" style="color:var(--gold)">~1.29 days</span></div><div class="br"><span class="bk">Winter day coverage</span><span class="bv" style="color:var(--green)">~1.47 days</span></div><div class="br"><span class="bk">Summer peak coverage</span><span class="bv" style="color:var(--red)">~0.85 days</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Xcel battery incentive</span><span class="bv" style="color:var(--green)">−$5,000</span></div><div class="br"><span class="bk">57.2 kWh @ $175/kWh = $10,010 → cap $5k</span></div></div>
+        <div style="font-size:0.71rem;color:var(--muted);margin-top:10px;line-height:1.6;">Phase 2 adds 2 more batteries (28.6 kWh) → 85.8 kWh total. Phase 2 battery incentive capped already claimed in Phase 1 — no additional battery incentive in Phase 2.</div>
+      </div>
+      <div class="card"><div class="ct blue">Season Balance — Phase 1</div><div id="season-b"></div></div>
+    </div>
+
+    <div class="card mb16"><div class="ct blue">Phase 1 Bill of Materials</div><div class="bom-grid" id="bom-b"></div><div class="g4" id="fin-b"></div></div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE B2 — PHASE 2 EXPANSION
+═══════════════════════════════════════════════════════ -->
+<div id="page-b2" class="page">
+  <div class="page-header">
+    <div>
+      <div class="ph-title" style="color:var(--purple)">Plan B · Phase 2 — Expansion</div>
+      <div class="ph-sub">Bloomington, MN · Second Array Addition · Incremental Cost Only</div>
+      <div class="ph-pills">
+        <span class="pill" style="border-color:rgba(146,120,228,0.35);color:var(--purple)">+14× TOPCon Bifacial 445W</span>
+        <span class="pill" style="border-color:rgba(146,120,228,0.35);color:var(--purple)">+6.23 kW DC · Total 12.46 kW</span>
+        <span class="pill" style="border-color:rgba(146,120,228,0.35);color:var(--purple)">+1× EG4 18kPV · +2× PowerPro</span>
+        <span class="pill" style="border-color:rgba(52,200,126,0.35);color:var(--green)">Final System = Plan A</span>
+      </div>
+    </div>
+    <div class="ph-meta">
+      <div>Incremental Array <b>+1 × 22ft×22ft</b></div>
+      <div>Added Production <b>+11,640 kWh/yr</b></div>
+      <div>Total Production <b style="color:var(--green)">~23,280 kWh/yr</b></div>
+      <div>Final Offset <b style="color:var(--green)">145%</b></div>
+    </div>
+  </div>
+  <div class="notice-bar" style="background:rgba(146,120,228,0.06);border-color:rgba(146,120,228,0.2);">
+    <span class="ntag" style="color:var(--purple)">↑ INCREMENTAL UPGRADE</span>
+    <span style="color:var(--muted);">Phase 2 costs are <b style="color:var(--text)">incremental only</b> — no duplication of Phase 1 costs. Service panel, battery busbar, and conduit home-run already completed in Phase 1. Electrician labor is reduced accordingly. No federal ITC at this time.</span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-b2"></div>
+    <div class="g2">
+      <div class="card"><div class="ct purple">Phase 2 Incremental BOM</div><div id="bom-b2-list"></div></div>
+      <div class="card">
+        <div class="ct purple">Cumulative System After Phase 2</div>
+        <div class="blk"><div class="br"><span class="bk">Total panels</span><span class="bv">28× 445W TOPCon bifacial</span></div><div class="br"><span class="bk">Total DC</span><span class="bv">12.46 kW</span></div><div class="br"><span class="bk">Total annual production</span><span class="bv" style="color:var(--green)">~23,280 kWh</span></div><div class="br"><span class="bk">Total storage</span><span class="bv" style="color:var(--green)">85.8 kWh (6× PowerPro)</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Annual surplus to grid</span><span class="bv" style="color:var(--green)">~7,228 kWh</span></div><div class="br"><span class="bk">Xcel Solar*Rewards (total)</span><span class="bv" style="color:var(--green)">~$697/yr (10 yrs)</span></div><div class="br"><span class="bk">Net metering credit est.</span><span class="bv" style="color:var(--green)">~$976/yr</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Offset</span><span class="bv" style="color:var(--green)">145%</span></div><div class="br"><span class="bk">Identical to Plan A outcome?</span><span class="bv" style="color:var(--green)">✓ Yes</span></div><div class="br"><span class="bk">Total gross spend (P1+P2)</span><span class="bv" style="color:var(--gold)" id="p2-total-gross">—</span></div><div class="br"><span class="bk">vs Plan A gross</span><span class="bv" style="color:var(--muted)" id="p2-vs-a">—</span></div></div>
+      </div>
+    </div>
+    <div class="card mb16"><div class="ct purple">Phase 2 Financial Summary</div><div class="g4" id="fin-b2"></div></div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE C — COMPARISON
+═══════════════════════════════════════════════════════ -->
+<div id="page-c" class="page">
+  <div class="page-header">
+    <div>
+      <div class="ph-title" style="color:var(--green)">Plan C — Side-by-Side Comparison</div>
+      <div class="ph-sub">Plan A (Full Build) vs. Plan B (Phased) · No Federal ITC · 2026 Pricing</div>
+    </div>
+    <div class="ph-meta"><div>Both plans reach <b style="color:var(--green)">identical final state</b></div><div>Difference is cash flow timing only</div></div>
+  </div>
+  <div class="notice-bar" style="background:rgba(52,200,126,0.05);border-color:rgba(52,200,126,0.18);">
+    <span class="ntag" style="color:var(--green)">★ KEY INSIGHT</span>
+    <span style="color:var(--muted);">Both plans reach the same final system. Plan A has lower total cost (single mobilization, one electrical permit). Plan B spreads cash outlay over time and lets Phase 1 savings fund Phase 2. <b style="color:var(--text)">Plan A saves ~$1,500–2,500 in total spend.</b> Plan B reduces initial outlay by ~$20,000.</span>
+  </div>
+  <main>
+    <div class="compare-strip">
+      <div class="cs-col">
+        <span class="cs-badge" style="border-color:rgba(237,180,74,0.4);color:var(--gold)">Plan A · Full Build</span>
+        <div class="cs-title" style="color:var(--gold)">Dual Array — All at Once</div>
+        <div class="cs-row"><span class="cs-key">Upfront gross cost</span><span class="cs-val" style="color:var(--red)" id="ca-gross">—</span></div>
+        <div class="cs-row"><span class="cs-key">MN Sales Tax Exemption (6.875%)</span><span class="cs-val" style="color:var(--green)" id="ca-stax">—</span></div>
+        <div class="cs-row"><span class="cs-key">Xcel Battery Incentive (capped)</span><span class="cs-val" style="color:var(--green)">−$5,000</span></div>
+        <div class="cs-row"><span class="cs-key">Net upfront cost</span><span class="cs-val" style="color:var(--gold)" id="ca-net">—</span></div>
+        <div class="cs-row"><span class="cs-key">Federal ITC</span><span class="cs-val" style="color:var(--red)">$0 (expired)</span></div>
+        <div class="cs-row"><span class="cs-key">Annual savings yr 1</span><span class="cs-val" style="color:var(--green)">~$3,143</span></div>
+        <div class="cs-row"><span class="cs-key">Simple payback</span><span class="cs-val" id="ca-pb">—</span></div>
+        <div class="cs-row"><span class="cs-key">25-yr net savings (3% rate escalation)</span><span class="cs-val" style="color:var(--green)" id="ca-25">—</span></div>
+        <div class="cs-row"><span class="cs-key">Permits / mobilizations</span><span class="cs-val">1 permit · 1 electrical mobilization</span></div>
+        <div class="cs-row"><span class="cs-key">Final system offset</span><span class="cs-val" style="color:var(--green)">145%</span></div>
+      </div>
+      <div class="cs-col highlight">
+        <span class="cs-badge" style="border-color:rgba(59,168,240,0.4);color:var(--blue)">Plan B · Phased Build</span>
+        <div class="cs-title" style="color:var(--blue)">Phase 1 Now · Phase 2 Later</div>
+        <div class="cs-row"><span class="cs-key">Phase 1 gross cost</span><span class="cs-val" style="color:var(--blue)" id="cb-p1gross">—</span></div>
+        <div class="cs-row"><span class="cs-key">Phase 1 MN Sales Tax Exemption</span><span class="cs-val" style="color:var(--green)" id="cb-p1stax">—</span></div>
+        <div class="cs-row"><span class="cs-key">Phase 1 Battery Incentive (capped)</span><span class="cs-val" style="color:var(--green)">−$5,000</span></div>
+        <div class="cs-row"><span class="cs-key">Phase 1 net upfront</span><span class="cs-val" style="color:var(--blue)" id="cb-p1net">—</span></div>
+        <div class="cs-row"><span class="cs-key">Phase 2 incremental gross</span><span class="cs-val" id="cb-p2gross">—</span></div>
+        <div class="cs-row"><span class="cs-key">Phase 2 MN Sales Tax Exemption</span><span class="cs-val" style="color:var(--green)" id="cb-p2stax">—</span></div>
+        <div class="cs-row"><span class="cs-key">Total gross (P1+P2)</span><span class="cs-val" id="cb-total">—</span></div>
+        <div class="cs-row"><span class="cs-key">vs Plan A (total cost delta)</span><span class="cs-val" id="cb-delta">—</span></div>
+        <div class="cs-row"><span class="cs-key">Permits / mobilizations</span><span class="cs-val">2 permits · 2 electrical mobilizations</span></div>
+        <div class="cs-row"><span class="cs-key">Final system offset</span><span class="cs-val" style="color:var(--green)">145% (same)</span></div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="card">
+        <div class="ct green">Annual Savings Comparison</div>
+        <div class="blk"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;">Plan A — From Day 1</div><div class="br"><span class="bk">Xcel bill eliminated</span><span class="bv" style="color:var(--green)">~$2,167/yr</span></div><div class="br"><span class="bk">Solar*Rewards ($0.03/kWh × 23,280)</span><span class="bv" style="color:var(--green)">~$698/yr</span></div><div class="br"><span class="bk">Net metering surplus (~7,228 kWh)</span><span class="bv" style="color:var(--green)">~$976/yr</span></div><div class="div"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Total annual savings</span><span class="bv" style="color:var(--green);font-size:0.9rem;">~$3,841/yr</span></div></div>
+        <div class="blk" style="margin-top:8px"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;">Plan B Phase 1 Only</div><div class="br"><span class="bk">Partial bill offset (~73%)</span><span class="bv" style="color:var(--gold)">~$1,582/yr</span></div><div class="br"><span class="bk">Solar*Rewards (11,640 kWh × $0.03)</span><span class="bv" style="color:var(--green)">~$349/yr</span></div><div class="br"><span class="bk">Net metering (minimal surplus)</span><span class="bv" style="color:var(--muted)">~$0–100/yr</span></div><div class="div"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Phase 1 annual savings</span><span class="bv" style="color:var(--gold);font-size:0.9rem;">~$1,931/yr</span></div></div>
+      </div>
+      <div class="card">
+        <div class="ct green">Payback Comparison</div>
+        <div class="blk"><div class="br"><span class="bk">Plan A net cost</span><span class="bv" id="cmp-a-net">—</span></div><div class="br"><span class="bk">Plan A annual savings</span><span class="bv" style="color:var(--green)">~$3,841/yr</span></div><div class="br"><span class="bk" style="color:var(--text);font-weight:600;">Plan A payback</span><span class="bv" style="color:var(--gold)" id="cmp-a-pb">—</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Plan B Phase 1 net</span><span class="bv" id="cmp-b-net">—</span></div><div class="br"><span class="bk">Phase 1 annual savings</span><span class="bv" style="color:var(--green)">~$1,931/yr</span></div><div class="br"><span class="bk" style="color:var(--text);font-weight:600;">Phase 1 payback</span><span class="bv" style="color:var(--blue)" id="cmp-b-pb">—</span></div></div>
+        <div style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.6;">Note: Plan A's payback is calculated on full dual cost. Plan B's Phase 1 payback is shorter because Phase 1 savings run before Phase 2 spend. Once Phase 2 is added, the combined payback resets to Plan A equivalent.</div>
+      </div>
+      <div class="card">
+        <div class="ct green">Which Plan for You?</div>
+        <div class="blk"><div style="font-size:0.78rem;font-weight:600;color:var(--gold);margin-bottom:6px;">Choose Plan A if…</div><div style="font-size:0.73rem;color:var(--muted);line-height:1.7;">· You have the capital available now<br>· You want maximum immediate energy independence<br>· You want to minimize total long-term spend (~$1,500–2,500 savings vs phased)<br>· You prefer one permit, one contractor mobilization</div></div>
+        <div class="blk"><div style="font-size:0.78rem;font-weight:600;color:var(--blue);margin-bottom:6px;">Choose Plan B if…</div><div style="font-size:0.73rem;color:var(--muted);line-height:1.7;">· You prefer to spread capital outlay over time<br>· You want Phase 1 savings to help fund Phase 2<br>· You want to validate the system before committing fully<br>· Your current summer deficit bothers you less than a large upfront check</div></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ── DATA ──
+const monthAvg={1:1183,2:1390,3:1256,4:1040,5:1059,6:1469,7:1902,8:2027,9:1670,10:1577,11:1093,12:1226};
+const pf={1:.045,2:.058,3:.082,4:.097,5:.112,6:.118,7:.115,8:.108,9:.087,10:.065,11:.042,12:.035};
+const monoAnnual=9700, bfBase=1.20, snowMos=new Set([11,12,1,2,3]);
+function bfProd(mo){const b=pf[mo]*monoAnnual*bfBase;return Math.round(snowMos.has(mo)?b*1.05:b);}
+const months=[5,6,7,8,9,10,11,12,1,2,3,4];
+const mnames={1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+const seas={1:'wi',2:'wi',3:'sp',4:'sp',5:'sp',6:'su',7:'su',8:'su',9:'fa',10:'fa',11:'fa',12:'wi'};
+const sn={wi:'Winter',su:'Summer',sp:'Spring',fa:'Fall'};
+const sc={wi:'s-wi',su:'s-su',sp:'s-sp',fa:'s-fa'};
+
+// MN sales tax rate on equipment only (panels, inverter, racking, batteries — not labor/structure)
+const staxRate=0.06875;
+// Equipment portions:
+// Plan A equipment: panels $8960 + inverters $5600 + batteries $19800 + racking $1200 = $35,560
+// Plan B P1 equipment: panels $4480 + inverter $2800 + batteries $13200 + racking $600 = $21,080
+// Plan B P2 equipment: panels $4480 + inverter $2800 + batteries $6600 + racking $600 = $14,480
+
+const planA={
+  panels:8960, inverters:5600, batteries:19800, racking:1200, structure:3000, gravel:600, electrical:6700,
+  get equip(){return this.panels+this.inverters+this.batteries+this.racking;},
+  get gross(){return this.panels+this.inverters+this.batteries+this.racking+this.structure+this.gravel+this.electrical;},
+  stax(){return Math.round(this.equip*staxRate);},
+  batteryIncentive:5000,
+  annualSavings:3841,
+  solarRewards:698,
+  netMeter:976
+};
+
+const planB1={
+  panels:4480, inverter:2800, batteries:13200, racking:600, structure:1500, gravel:300, electrical:4800, presizing:400,
+  get equip(){return this.panels+this.inverter+this.batteries+this.racking;},
+  get gross(){return this.panels+this.inverter+this.batteries+this.racking+this.structure+this.gravel+this.electrical+this.presizing;},
+  stax(){return Math.round(this.equip*staxRate);},
+  batteryIncentive:5000,
+  annualSavings:1931,
+  solarRewards:349
+};
+
+const planB2={
+  panels:4480, inverter:2800, batteries:6600, racking:600, structure:1500, gravel:300, electrical:3200,
+  get equip(){return this.panels+this.inverter+this.batteries+this.racking;},
+  get gross(){return this.panels+this.inverter+this.batteries+this.racking+this.structure+this.gravel+this.electrical;},
+  stax(){return Math.round(this.equip*staxRate);},
+  batteryIncentive:0 // already claimed in P1
+};
+
+const planANet=planA.gross-planA.stax()-planA.batteryIncentive;
+const planB1Net=planB1.gross-planB1.stax()-planB1.batteryIncentive;
+const planB2Net=planB2.gross-planB2.stax();
+const planBTotal=planB1.gross+planB2.gross;
+const planBTotalNet=planB1Net+planB2Net;
+
+// ── HELPERS ──
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function kpi(el,items){
+  const c=document.getElementById(el);
+  items.forEach(i=>{
+    c.innerHTML+=`<div class="kpi"><div class="kpi-accent" style="background:${i.color}"></div><div class="kpi-lbl">${i.lbl}</div><div class="kpi-val">${i.val}</div><div class="kpi-sub">${i.sub}</div>${i.d?`<div class="kpi-d" style="color:${i.dc||'var(--muted)'}">${i.d}</div>`:''}</div>`;
+  });
+}
+function buildChart(elId, prodFn, arrays, maxBar, colors){
+  const c=document.getElementById(elId);
+  months.forEach(mo=>{
+    const usage=monthAvg[mo];
+    const prod=prodFn(mo)*arrays;
+    const uh=Math.round((usage/maxBar)*155);
+    const ph=Math.round((prod/maxBar)*155);
+    const surplus=prod>=usage;
+    const g=document.createElement('div');g.className='bg';
+    g.innerHTML=`<div class="bars"><div class="bar" style="height:${uh}px;background:${colors[0]};" title="${mnames[mo]} use: ${usage.toLocaleString()}kWh"></div><div class="bar" style="height:${ph}px;background:${surplus?colors[1]:colors[2]};" title="${mnames[mo]} prod: ${prod.toLocaleString()}kWh"></div></div><div class="bl">${mnames[mo]}</div>`;
+    c.appendChild(g);
+  });
+}
+function buildLegend(elId, items){
+  const c=document.getElementById(elId);
+  c.innerHTML=items.map(i=>`<div class="li"><div class="ld" style="background:${i.c}"></div>${i.l}</div>`).join('');
+}
+function buildTable(elId, prodFn, arrays){
+  const tbody=document.getElementById(elId);
+  months.forEach(mo=>{
+    const usage=monthAvg[mo];
+    const prod=prodFn(mo)*arrays;
+    const net=prod-usage;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${mnames[mo]}<span class="sb ${sc[seas[mo]]}">${sn[seas[mo]]}</span>${snowMos.has(mo)?' <span class="sb s-wi">❄</span>':''}</td><td class="num">${usage.toLocaleString()}</td><td class="num" style="color:var(--green)">${prod.toLocaleString()}</td><td class="num ${net>=0?'pos':'neg'}">${net>=0?'+':''}${net.toLocaleString()}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function buildSeasons(elId, prodFn, arrays){
+  const seasonDefs=[
+    {name:'Spring (Mar–May)',mos:[3,4,5],note:'Best offset — production exceeds or matches use'},
+    {name:'Summer (Jun–Aug)',mos:[6,7,8],note:'A/C peaks; solar at max but deficit remains'},
+    {name:'Fall (Sep–Oct)',mos:[9,10],note:'Production falls; net metering bank draws down'},
+    {name:'Winter (Nov–Feb)',mos:[11,12,1,2],note:'Snow albedo bonus partially offsets low irradiance'},
+  ];
+  const c=document.getElementById(elId);
+  seasonDefs.forEach(s=>{
+    const avgU=Math.round(s.mos.reduce((a,m)=>a+monthAvg[m],0)/s.mos.length);
+    const avgP=Math.round(s.mos.reduce((a,m)=>a+prodFn(m)*arrays,0)/s.mos.length);
+    const net=avgP-avgU;
+    const pct=Math.min(100,Math.round((avgP/avgU)*100));
+    c.innerHTML+=`<div class="blk"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.77rem;font-weight:600;">${s.name}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}${net.toLocaleString()} kWh/mo</span></div><div style="font-size:0.68rem;color:var(--muted);margin-bottom:5px;">${s.note}</div><div class="pt"><div class="pf" style="width:${pct}%;background:${net>=0?'var(--green)':'linear-gradient(90deg,var(--red),var(--gold))'}"></div></div><div style="display:flex;justify-content:space-between;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--muted);"><span>Use: ${avgU.toLocaleString()} kWh/mo</span><span>Prod: ${avgP.toLocaleString()} · ${pct}%</span></div></div>`;
+  });
+}
+function buildIncentives(elId, systemKwh, batteryKwh){
+  const rewards=Math.round(systemKwh*0.03*10);
+  const battInc=Math.min(5000,Math.round(batteryKwh*175));
+  const staxSave='See BOM';
+  const c=document.getElementById(elId);
+  const items=[
+    {status:'s-gone',name:'Federal 30% ITC',val:'$0',note:'Expired Dec 31, 2025 — not available for 2026 installs'},
+    {status:'s-active',name:'MN Sales Tax Exemption',val:'6.875% on equipment',note:'Applied in BOM — saves on panels, inverter, batteries, racking'},
+    {status:'s-active',name:'Xcel Solar*Rewards',val:`~${fmt(systemKwh*0.03)}/yr · ${fmt(rewards)} over 10 yrs`,note:'$0.03/kWh × all production · paid annually · you transfer RECs to Xcel'},
+    {status:'s-active',name:'Xcel Battery Incentive',val:fmt(battInc)+' upfront',note:`$175/kWh × ${batteryKwh} kWh = ${fmt(batteryKwh*175)} → capped at $5,000`},
+    {status:'s-active',name:'Net Metering (Xcel)',val:'Credit at avg utility rate',note:'Surplus production earns bill credits · applied monthly'},
+    {status:'s-active',name:'MN Property Tax Exemption',val:'100% exempt',note:'Added home value from solar not subject to property tax'},
+  ];
+  items.forEach(i=>{
+    c.innerHTML+=`<div class="inc-row"><span class="inc-status ${i.status}">${i.status==='s-gone'?'✗ EXPIRED':'✓ ACTIVE'}</span><div><div class="inc-name">${i.name}</div><div class="inc-note">${i.note}</div></div><div class="inc-val" style="color:${i.status==='s-gone'?'var(--red)':'var(--green)'}">${i.val}</div></div>`;
+  });
+}
+function buildBOM(elId, items){
+  const c=document.getElementById(elId);
+  items.forEach(i=>{c.innerHTML+=`<div class="bom-card"><div class="bom-lbl">${i.lbl}</div><div class="bom-name">${i.name}</div><div class="bom-sub">${i.sub}</div><div class="bom-price" style="color:var(--gold)">${fmt(i.price)}</div></div>`;});
+}
+function buildFin(elId, items){
+  const c=document.getElementById(elId);
+  items.forEach(i=>{
+    c.innerHTML+=`<div class="blk"><div class="br"><span class="bk">Gross total</span><span class="bv" style="color:var(--gold)">${fmt(i.gross)}</span></div><div class="br"><span class="bk">Sales tax exemption</span><span class="bv" style="color:var(--green)">−${fmt(i.stax)}</span></div><div class="br"><span class="bk">Battery incentive</span><span class="bv" style="color:var(--green)">−${fmt(i.batt)}</span></div><div class="br"><span class="bk">Federal ITC</span><span class="bv" style="color:var(--red)">$0 (expired)</span></div><div class="div"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text);">Net cost after incentives</span><span class="bv" style="color:var(--gold);font-size:0.95rem;">${fmt(i.net)}</span></div></div>`;
+    c.innerHTML+=`<div class="blk"><div class="br"><span class="bk">Annual savings yr 1</span><span class="bv" style="color:var(--green)">${fmt(i.savings)}/yr</span></div><div class="br"><span class="bk">Simple payback</span><span class="bv" style="color:var(--gold)">${(i.net/i.savings).toFixed(1)} years</span></div><div class="div"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text);">25-yr net savings (3% escalation)</span><span class="bv" style="color:var(--green);font-size:0.95rem;">${fmt(calc25(i.net,i.savings))}</span></div></div>`;
+  });
+}
+function calc25(netCost,annSavings){let t=0,r=annSavings;for(let i=0;i<25;i++){t+=r;r*=1.03;}return Math.round(t-netCost);}
+
+// ── BUILD PAGE A ──
+kpi('kpi-a',[
+  {lbl:'Combined Production',val:'23,280 <span class="u">kWh/yr</span>',sub:'12.46kW · 28× 445W bifacial',color:'var(--green)',d:'↑ +3,880 vs monofacial dual',dc:'var(--green)'},
+  {lbl:'Annual Consumption',val:'16,052 <span class="u">kWh/yr</span>',sub:'2-yr actual avg',color:'var(--gold)'},
+  {lbl:'Annual Surplus',val:'7,228 <span class="u">kWh/yr</span>',sub:'→ Xcel net metering credit',color:'var(--green)',d:'~$976/yr credit',dc:'var(--green)'},
+  {lbl:'System Offset',val:'145 <span class="u">%</span>',sub:'True energy independence',color:'var(--green)'},
+  {lbl:'Gross Cost (no ITC)',val:fmt(planA.gross),sub:'Before MN incentives',color:'var(--red)',d:'No federal credit available',dc:'var(--red)'},
+  {lbl:'Net After MN Incentives',val:fmt(planANet),sub:`Sales tax save + $5k battery`,color:'var(--gold)',d:`Payback: ${(planANet/3841).toFixed(1)} yrs`,dc:'var(--gold)'},
+]);
+buildChart('chart-a',bfProd,2,2600,['var(--blue)','var(--green)','rgba(52,200,126,0.3)']);
+buildLegend('leg-a',[{c:'var(--blue)',l:'Actual usage'},{c:'var(--green)',l:'Bifacial prod (surplus)'},{c:'rgba(52,200,126,0.3)',l:'Bifacial prod (deficit month)'}]);
+buildTable('tbl-a',bfProd,2);
+buildSeasons('season-a',bfProd,2);
+buildIncentives('inc-a',23280,85.8);
+buildBOM('bom-a',[
+  {lbl:'Panels ×28',name:'28× TOPCon 445W Bifacial',sub:'12.46kW · glass-glass · 88%+ bifaciality',price:planA.panels},
+  {lbl:'Inverters ×2',name:'2× EG4 18kPV',sub:'Parallel · 3 MPPTs each · grid sellback',price:planA.inverters},
+  {lbl:'Batteries ×6',name:'6× EG4 PowerPro',sub:'85.8kWh · self-heat · IP65 · 8,000+ cycles',price:planA.batteries},
+  {lbl:'Racking ×2',name:'2× IronRidge XR100',sub:'Open-frame · bifacial-compatible clamps',price:planA.racking},
+  {lbl:'Structures ×2',name:'2× PT Wood Pergola',sub:'6×6 posts · LVL beams · 45° · concrete',price:planA.structure},
+  {lbl:'Patio ×2',name:'White Limestone Gravel',sub:'~400 sqft each · albedo 0.40–0.50',price:planA.gravel},
+  {lbl:'Electrical',name:'Licensed Electrician',sub:'2 arrays · permits · interconnect · BOS',price:planA.electrical},
+]);
+buildFin('fin-a',[{gross:planA.gross,stax:planA.stax(),batt:planA.batteryIncentive,net:planANet,savings:3841}]);
+
+// ── BUILD PAGE B ──
+kpi('kpi-b',[
+  {lbl:'Array 1 Production',val:'11,640 <span class="u">kWh/yr</span>',sub:'6.23kW · 14× 445W bifacial',color:'var(--blue)'},
+  {lbl:'Your Consumption',val:'16,052 <span class="u">kWh/yr</span>',sub:'2-yr actual avg',color:'var(--gold)'},
+  {lbl:'Phase 1 Offset',val:'73 <span class="u">%</span>',sub:'Net metering covers remainder',color:'var(--gold)',d:'27% from Xcel grid',dc:'var(--muted)'},
+  {lbl:'Annual Deficit',val:'4,412 <span class="u">kWh/yr</span>',sub:'Covered by net metering',color:'var(--red)',d:'→ eliminated in Phase 2',dc:'var(--blue)'},
+  {lbl:'Phase 1 Gross Cost',val:fmt(planB1.gross),sub:'Incl. expansion pre-sizing',color:'var(--blue)'},
+  {lbl:'Phase 1 Net Cost',val:fmt(planB1Net),sub:'After sales tax + battery incentive',color:'var(--blue)',d:`Payback: ${(planB1Net/1931).toFixed(1)} yrs`,dc:'var(--blue)'},
+]);
+buildChart('chart-b',bfProd,1,2200,['var(--blue)','var(--green)','rgba(52,200,126,0.3)']);
+buildLegend('leg-b',[{c:'var(--blue)',l:'Actual usage'},{c:'var(--green)',l:'Array 1 prod (surplus months)'},{c:'rgba(52,200,126,0.3)',l:'Array 1 prod (deficit month)'}]);
+buildTable('tbl-b',bfProd,1);
+buildSeasons('season-b',bfProd,1);
+buildIncentives('inc-b',11640,57.2);
+buildBOM('bom-b',[
+  {lbl:'Panels ×14',name:'14× TOPCon 445W Bifacial',sub:'6.23kW · glass-glass · expansion-matched spec',price:planB1.panels},
+  {lbl:'Inverter ×1',name:'1× EG4 18kPV',sub:'Parallel-port pre-configured for Phase 2',price:planB1.inverter},
+  {lbl:'Batteries ×4',name:'4× EG4 PowerPro',sub:'57.2kWh · busbar pre-sized for 6 batteries',price:planB1.batteries},
+  {lbl:'Racking ×1',name:'1× IronRidge XR100',sub:'Open-frame · bifacial-compatible',price:planB1.racking},
+  {lbl:'Structure ×1',name:'1× PT Wood Pergola',sub:'6×6 posts · LVL beams · 45° · concrete',price:planB1.structure},
+  {lbl:'Patio ×1',name:'White Limestone Gravel',sub:'~400 sqft · albedo 0.40–0.50',price:planB1.gravel},
+  {lbl:'Electrical + Pre-size',name:'Electrician + Phase 2 Prep',sub:'Permit · interconnect · empty conduit run · panel slots',price:planB1.electrical+planB1.presizing},
+]);
+buildFin('fin-b',[{gross:planB1.gross,stax:planB1.stax(),batt:planB1.batteryIncentive,net:planB1Net,savings:1931}]);
+
+// ── BUILD PAGE B2 ──
+const p2annualSavings=3841-1931; // incremental savings from adding P2
+kpi('kpi-b2',[
+  {lbl:'Phase 2 Added Production',val:'+11,640 <span class="u">kWh/yr</span>',sub:'Total → 23,280 kWh/yr',color:'var(--purple)'},
+  {lbl:'New Annual Surplus',val:'+7,228 <span class="u">kWh/yr</span>',sub:'→ net metering credit',color:'var(--green)'},
+  {lbl:'Final System Offset',val:'145 <span class="u">%</span>',sub:'Identical to Plan A',color:'var(--green)'},
+  {lbl:'Phase 2 Gross Cost',val:fmt(planB2.gross),sub:'Incremental only · no duplication',color:'var(--purple)'},
+  {lbl:'Phase 2 Net Cost',val:fmt(planB2Net),sub:'After sales tax exemption · no batt incentive',color:'var(--purple)',d:'Battery incentive already used in P1',dc:'var(--muted)'},
+  {lbl:'P1+P2 Total Gross',val:fmt(planBTotal),sub:`vs Plan A gross: ${fmt(planBTotal-planA.gross)}`,color:'var(--gold)'},
+]);
+document.getElementById('p2-total-gross').textContent=fmt(planBTotal);
+document.getElementById('p2-vs-a').textContent=`+${fmt(planBTotal-planA.gross)} vs Plan A (2 mobilizations)`;
+
+// P2 BOM list
+const p2items=[
+  {lbl:'Panels ×14',name:'14× TOPCon 445W Bifacial',price:planB2.panels,note:'Same spec as Phase 1'},
+  {lbl:'Inverter ×1',name:'1× EG4 18kPV',price:planB2.inverter,note:'Parallel to existing unit'},
+  {lbl:'Batteries ×2',name:'2× EG4 PowerPro',price:planB2.batteries,note:'Adds to existing busbar → 6 total'},
+  {lbl:'Racking ×1',name:'1× IronRidge XR100',price:planB2.racking,note:'Same spec as Phase 1'},
+  {lbl:'Structure ×1',name:'1× PT Wood Pergola',price:planB2.structure,note:'Second pergola + patio'},
+  {lbl:'Patio ×1',name:'White Limestone Gravel',price:planB2.gravel,note:'Matches Phase 1 surface'},
+  {lbl:'Electrical',name:'Electrician (reduced)',price:planB2.electrical,note:'Uses pre-run conduit — reduced labor'},
+];
+const b2c=document.getElementById('bom-b2-list');
+p2items.forEach(i=>{
+  b2c.innerHTML+=`<div class="blk"><div class="br"><span class="bk" style="font-weight:600;color:var(--text);">${i.lbl}: ${i.name}</span><span class="bv" style="color:var(--gold)">${fmt(i.price)}</span></div><div style="font-size:0.68rem;color:var(--muted);">${i.note}</div></div>`;
+});
+buildFin('fin-b2',[{gross:planB2.gross,stax:planB2.stax(),batt:0,net:planB2Net,savings:p2annualSavings}]);
+
+// ── BUILD PAGE C ──
+document.getElementById('ca-gross').textContent=fmt(planA.gross);
+document.getElementById('ca-stax').textContent='−'+fmt(planA.stax());
+document.getElementById('ca-net').textContent=fmt(planANet);
+const a25=calc25(planANet,3841);
+document.getElementById('ca-25').textContent=fmt(a25);
+document.getElementById('ca-pb').textContent=(planANet/3841).toFixed(1)+' years';
+document.getElementById('cb-p1gross').textContent=fmt(planB1.gross);
+document.getElementById('cb-p1stax').textContent='−'+fmt(planB1.stax());
+document.getElementById('cb-p1net').textContent=fmt(planB1Net);
+document.getElementById('cb-p2gross').textContent=fmt(planB2.gross);
+document.getElementById('cb-p2stax').textContent='−'+fmt(planB2.stax());
+document.getElementById('cb-total').textContent=fmt(planBTotal);
+const delta=planBTotal-planA.gross;
+document.getElementById('cb-delta').textContent=`+${fmt(delta)} more than Plan A`;
+document.getElementById('cmp-a-net').textContent=fmt(planANet);
+document.getElementById('cmp-b-net').textContent=fmt(planB1Net);
+document.getElementById('cmp-a-pb').textContent=(planANet/3841).toFixed(1)+' years';
+document.getElementById('cmp-b-pb').textContent=(planB1Net/1931).toFixed(1)+' years';
+
+// ── TABS ──
+function showTab(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.className='tab-btn');
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active-'+({a:'a',b:'b',b2:'b',c:'c'}[id]));
+}
+</script>
+</body>
+</html>

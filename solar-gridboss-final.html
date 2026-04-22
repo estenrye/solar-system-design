@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Plans + GridBOSS — Bloomington, MN · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06080C;
+  --surf: #0A0F18;
+  --card: #0F1620;
+  --card2: #141E2C;
+  --border: #1A2840;
+  --border2: #203050;
+  --text: #D4E2F0;
+  --muted: #5A7090;
+  --dim: #2A3D52;
+  --gold: #E8B040;
+  --gold2: #F5CC70;
+  --green: #2EC878;
+  --green2: #60FCAA;
+  --blue: #38A8F8;
+  --purple: #8870E0;
+  --red: #E85050;
+  --orange: #F07830;
+  --snow: #A0C8E8;
+  --gridboss: #E8B040;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+/* ── TABS ── */
+.tabbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,8,12,0.97); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch; padding: 0 36px; gap: 2px;
+}
+.tb { padding: 15px 22px; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; border: none; background: none; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s; }
+.tb:hover { color: var(--text); }
+.tb.ta { color: var(--gold); border-bottom-color: var(--gold); }
+.tb.tb2 { color: var(--blue); border-bottom-color: var(--blue); }
+.tb.tc { color: var(--green); border-bottom-color: var(--green); }
+.tb.td { color: var(--orange); border-bottom-color: var(--orange); }
+.tb.te { color: #7ECFC0; border-bottom-color: #7ECFC0; }
+.tdiv { width: 1px; background: var(--border); margin: 10px 6px; }
+
+/* ── PANEL TOGGLE ── */
+.panel-toggle { display:flex; gap:0; border:1px solid var(--border2); border-radius:7px; overflow:hidden; margin-bottom:14px; width:fit-content; }
+.pt-btn { padding:9px 18px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.07em; cursor:pointer; border:none; background:var(--surf); color:var(--muted); transition:all .2s; }
+.pt-btn.active { background:var(--card2); color:var(--text); }
+.pt-btn.opt1.active { color:#7ECFC0; }
+.pt-btn.opt2.active { color:var(--orange); }
+.pt-btn.opt3.active { color:var(--green); }
+.panel-note { font-size:0.72rem; color:var(--muted); font-family:'JetBrains Mono',monospace; padding:8px 12px; background:var(--surf); border:1px solid var(--border); border-radius:6px; margin-bottom:14px; line-height:1.6; }
+.panel-delta { display:inline; font-family:'JetBrains Mono',monospace; font-size:0.72rem; }
+
+/* ── PAGES ── */
+.pg { display: none; }
+.pg.on { display: block; }
+
+/* ── HEADER ── */
+.phdr { padding: 26px 36px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.phtitle { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; line-height: 1.05; }
+.phsub { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.06em; }
+.phpills { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.pp { font-family: 'JetBrains Mono', monospace; font-size: 0.61rem; padding: 3px 8px; border-radius: 3px; border: 1px solid; }
+.phmeta { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 0.67rem; color: var(--muted); line-height: 2; flex-shrink: 0; }
+.phmeta b { font-weight: 500; }
+
+/* ── NOTICE BAR ── */
+.nbar { padding: 10px 36px; font-size: 0.77rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid; flex-wrap: wrap; }
+.ntag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; white-space: nowrap; }
+
+/* ── MAIN ── */
+main { padding: 22px 36px 48px; }
+.g6 { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin-bottom: 16px; }
+.g5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 16px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.gwide { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; margin-bottom: 14px; }
+.mb14 { margin-bottom: 14px; }
+
+/* ── KPI ── */
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 13px 15px; position: relative; overflow: hidden; }
+.kac { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.kl { font-family: 'JetBrains Mono', monospace; font-size: 0.59rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.kv { font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1; }
+.kv .u { font-size: 0.82rem; font-weight: 400; color: var(--muted); }
+.ks { font-size: 0.66rem; color: var(--muted); margin-top: 3px; }
+.kd { font-family: 'JetBrains Mono', monospace; font-size: 0.63rem; margin-top: 2px; }
+
+/* ── CARD ── */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 17px 19px; }
+.ct { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--gold); margin-bottom: 11px; display: flex; align-items: center; gap: 7px; }
+.ct::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ct.bl { color: var(--blue); }
+.ct.gr { color: var(--green); }
+.ct.gb { color: var(--gridboss); }
+.ct.or { color: var(--orange); }
+
+/* ── GRIDBOSS DIAGRAM ── */
+.gb-diagram {
+  background: var(--surf); border: 1px solid var(--border2); border-radius: 8px; padding: 18px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.gb-row { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; }
+.gb-node {
+  background: var(--card2); border: 1px solid var(--border2); border-radius: 6px;
+  padding: 8px 12px; text-align: center; font-size: 0.72rem; flex: 1; max-width: 120px;
+}
+.gb-node .gbn-title { font-weight: 600; font-size: 0.75rem; margin-bottom: 2px; }
+.gb-node .gbn-sub { font-size: 0.62rem; color: var(--muted); }
+.gb-center {
+  background: linear-gradient(135deg, rgba(232,176,64,0.15), rgba(232,176,64,0.05));
+  border: 2px solid rgba(232,176,64,0.5); border-radius: 10px;
+  padding: 14px 18px; text-align: center; min-width: 160px;
+}
+.gb-center .title { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--gold2); }
+.gb-center .sub { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+.gb-arrow { color: var(--dim); font-size: 1rem; flex-shrink: 0; }
+.gb-line { width: 1px; height: 16px; background: var(--border2); margin: 0 auto; }
+.gb-conn { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: center; }
+
+/* ── BLOCKS ── */
+.blk { background: var(--surf); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 7px; }
+.blk:last-child { margin-bottom: 0; }
+.br { display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.76rem; margin-bottom: 4px; }
+.br:last-child { margin-bottom: 0; }
+.bk { color: var(--muted); flex: 1; padding-right: 8px; }
+.bv { font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; text-align: right; flex-shrink: 0; }
+.hdiv { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+
+/* ── PROGRESS ── */
+.pt { background: rgba(6,8,12,0.8); border-radius: 3px; height: 5px; overflow: hidden; margin-top: 5px; }
+.pf { height: 100%; border-radius: 3px; }
+
+/* ── TABLE ── */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); text-align: left; padding: 4px 7px; border-bottom: 1px solid var(--border); }
+.tbl td { padding: 5px 7px; font-size: 0.74rem; border-bottom: 1px solid rgba(26,40,64,0.5); }
+.tbl tr:last-child td { border-bottom: none; }
+.num { font-family: 'JetBrains Mono', monospace; text-align: right; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+
+/* ── CHART ── */
+.chart-area { height: 170px; display: flex; align-items: flex-end; gap: 3px; padding-bottom: 20px; }
+.bg { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.bars { width: 100%; display: flex; gap: 1px; align-items: flex-end; flex: 1; }
+.bar { flex: 1; border-radius: 2px 2px 0 0; min-width: 4px; cursor: default; }
+.bl { font-family: 'JetBrains Mono', monospace; font-size: 0.5rem; color: var(--muted); margin-top: 3px; text-align: center; }
+.leg { display: flex; gap: 12px; margin-top: 9px; flex-wrap: wrap; }
+.li { display: flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.61rem; color: var(--muted); }
+.ld { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── BADGE ── */
+.sb { display: inline-block; font-size: 0.54rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; padding: 1px 4px; border-radius: 2px; margin-left: 4px; }
+.s-su { background: rgba(232,176,64,0.12); color: var(--gold); }
+.s-fa { background: rgba(232,80,80,0.12); color: var(--red); }
+.s-wi { background: rgba(160,200,232,0.12); color: var(--snow); }
+.s-sp { background: rgba(46,200,120,0.12); color: var(--green); }
+
+/* ── INC ROW ── */
+.inc-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(26,40,64,0.6); font-size: 0.75rem; }
+.inc-row:last-child { border-bottom: none; }
+.ist { font-family: 'JetBrains Mono', monospace; font-size: 0.61rem; padding: 2px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.ia { background: rgba(46,200,120,0.1); color: var(--green); border: 1px solid rgba(46,200,120,0.22); }
+.ix { background: rgba(232,80,80,0.1); color: var(--red); border: 1px solid rgba(232,80,80,0.18); }
+.in-name { flex: 1; font-weight: 500; }
+.in-val { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; white-space: nowrap; }
+.in-note { font-size: 0.66rem; color: var(--muted); margin-top: 2px; }
+
+/* ── BOM GRID ── */
+.bom7 { display: grid; grid-template-columns: repeat(8,1fr); gap: 9px; margin-bottom: 10px; }
+.bom-c { background: var(--surf); border: 1px solid var(--border); border-radius: 6px; padding: 10px 11px; }
+.bom-c.highlight { border-color: rgba(232,176,64,0.4); background: rgba(232,176,64,0.04); }
+.bom-l { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.bom-n { font-size: 0.76rem; font-weight: 600; margin-bottom: 2px; }
+.bom-s { font-size: 0.63rem; color: var(--muted); margin-bottom: 6px; line-height: 1.4; }
+.bom-p { font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; color: var(--gold); }
+
+/* ── SERVICE UPGRADE ── */
+.svc-box {
+  background: linear-gradient(135deg, rgba(240,120,48,0.08), rgba(240,120,48,0.03));
+  border: 1px solid rgba(240,120,48,0.3); border-radius: 8px; padding: 18px 20px; margin-bottom: 14px;
+}
+.svc-title { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--orange); margin-bottom: 12px; }
+
+/* ── GENERATOR BOX ── */
+.gen-box {
+  background: linear-gradient(135deg, rgba(46,200,120,0.06), rgba(46,200,120,0.02));
+  border: 1px solid rgba(46,200,120,0.25); border-radius: 8px; padding: 14px 16px;
+}
+
+/* ── COMPARE ── */
+.cmp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.cc { padding: 18px 20px; }
+.cc:first-child { border-right: 1px solid var(--border2); }
+.cc.hl { background: linear-gradient(160deg, rgba(46,200,120,0.06) 0%, transparent); }
+.cbadge { font-family: 'JetBrains Mono', monospace; font-size: 0.59rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; border: 1px solid; display: inline-block; margin-bottom: 8px; }
+.ctitle { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+.cr { display: flex; justify-content: space-between; font-size: 0.76rem; padding: 5px 0; border-bottom: 1px solid rgba(26,40,64,0.5); }
+.cr:last-child { border-bottom: none; }
+.ck { color: var(--muted); }
+.cv { font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; }
+
+@media (max-width: 1150px) {
+  .g6,.g5 { grid-template-columns: repeat(3,1fr); }
+  .g3,.g2,.gwide,.cmp-cols { grid-template-columns: 1fr; }
+  .bom7 { grid-template-columns: repeat(3,1fr); }
+  main,.phdr,.tabbar,.nbar,.svc-box { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <button class="tb ta" onclick="show('a',this)">A · Dual Array + GridBOSS</button>
+  <div class="tdiv"></div>
+  <button class="tb" onclick="show('b',this)">B · Phase 1 + GridBOSS</button>
+  <div class="tdiv"></div>
+  <button class="tb" onclick="show('b2',this)">B2 · Phase 2 Expansion</button>
+  <div class="tdiv"></div>
+  <button class="tb" onclick="show('c',this)">C · System Architecture</button>
+  <div class="tdiv"></div>
+  <button class="tb" onclick="show('d',this)">D · 100A → 200A Service</button>
+  <div class="tdiv"></div>
+  <button class="tb" onclick="show('e',this)">E · Interior Panel Decision</button>
+</div>
+
+<!-- ════════════ PAGE A ════════════ -->
+<div id="pg-a" class="pg on">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:var(--gold)">Plan A — Dual Array + GridBOSS + Generator</div>
+      <div class="phsub">Bloomington MN · Both Arrays · GridBOSS MID · Generator Port · 200A Service</div>
+      <div class="phpills">
+        <span class="pp" style="border-color:rgba(232,176,64,0.35);color:var(--gold)">1× EG4 GridBOSS MID</span>
+        <span class="pp" style="border-color:rgba(232,176,64,0.35);color:var(--gold)">2× EG4 FlexBOSS21</span>
+        <span class="pp" style="border-color:rgba(46,200,120,0.35);color:var(--green)">28× TOPCon 445W Bifacial</span>
+        <span class="pp" style="border-color:rgba(46,200,120,0.35);color:var(--green)">6× EG4 PowerPro · 85.8 kWh</span>
+        <span class="pp" style="border-color:rgba(240,120,48,0.35);color:var(--orange)">200A Service Upgrade Required</span>
+        <span class="pp" style="border-color:rgba(46,200,120,0.35);color:var(--green)">Generator Port Ready</span>
+      </div>
+    </div>
+    <div class="phmeta">
+      <div>DC Combined <b>12.46 kW</b></div>
+      <div>Annual Prod <b style="color:var(--green)">~23,280 kWh</b></div>
+      <div>Your Usage <b>~16,052 kWh/yr</b></div>
+      <div>Offset <b style="color:var(--green)">145%</b></div>
+      <div>Storage <b>85.8 kWh</b></div>
+    </div>
+  </div>
+  <div class="nbar" style="background:rgba(232,176,64,0.06);border-color:rgba(232,176,64,0.2);">
+    <span class="ntag" style="color:var(--gold)">★ GRIDBOSS UPGRADE</span>
+    <span style="color:var(--muted)">GridBOSS replaces separate transfer switch, subpanel, combiner, and interlock — <b style="color:var(--text)">saving ~$3,000–7,500 in components and labor</b> vs. traditional architecture. Supports up to 3 inverters (1 spare port for future expansion beyond Phase 2). Generator port: 125A auto-start capable. No federal ITC. MN incentives apply.</span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-a"></div>
+
+    <!-- GRIDBOSS DIAGRAM -->
+    <div class="card mb14">
+      <div class="ct gb">System Architecture — GridBOSS Integration</div>
+      <div class="gb-diagram">
+        <!-- TOP ROW: inputs -->
+        <div class="gb-row">
+          <div class="gb-node"><div class="gbn-title" style="color:var(--blue)">Xcel Grid</div><div class="gbn-sub">200A service<br>utility meter</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--gold)">Array 1</div><div class="gbn-sub">14× 445W<br>6.23 kW DC</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--purple)">Array 2</div><div class="gbn-sub">14× 445W<br>6.23 kW DC</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--green)">FlexBOSS21 ×2</div><div class="gbn-sub">One per array<br>12kW AC each</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--orange)">Generator</div><div class="gbn-sub">125A port<br>auto-start dry contact</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--green)">6× PowerPro</div><div class="gbn-sub">85.8 kWh<br>LiFePO₄</div></div>
+        </div>
+        <div class="gb-conn">↕ All sources connect to single hub</div>
+        <!-- GRIDBOSS CENTER -->
+        <div class="gb-center">
+          <div class="title">EG4 GridBOSS MID</div>
+          <div class="sub">200A Service Entrance · Transfer Switch<br>3 inverter ports · 4 smart ports · Generator · Monitoring</div>
+        </div>
+        <div class="gb-conn">↕ Single distribution point to all loads</div>
+        <!-- BOTTOM ROW: outputs -->
+        <div class="gb-row">
+          <div class="gb-node"><div class="gbn-title" style="color:var(--text)">Backed-Up Loads</div><div class="gbn-sub">200A output → 100A feeder<br>→ your existing interior panel</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--text)">Non-Backed-Up</div><div class="gbn-sub">Grid passthrough<br>non-essential loads</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--gold)">Smart Port 1</div><div class="gbn-sub">125A · EV charger<br>or HVAC</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--gold)">Smart Port 2</div><div class="gbn-sub">80A · pool / hot tub<br>or subpanel</div></div>
+          <div class="gb-node"><div class="gbn-title" style="color:var(--gold)">Smart Port 3+4</div><div class="gbn-sub">60A each<br>programmable loads</div></div>
+          <div class="gb-node" style="border-color:rgba(232,176,64,0.3)"><div class="gbn-title" style="color:var(--gold)">3rd Inverter Port</div><div class="gbn-sub">90A · reserved<br>future expansion</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <!-- GridBOSS features -->
+      <div class="card">
+        <div class="ct gb">GridBOSS Key Capabilities</div>
+        <div class="blk"><div class="br"><span class="bk">Service entrance rating</span><span class="bv" style="color:var(--gold)">200A · 22kAIC</span></div><div class="br"><span class="bk">Hybrid inverter ports</span><span class="bv">3× @ 90A (2 used, 1 spare)</span></div><div class="br"><span class="bk">Breaker per FlexBOSS21</span><span class="bv">90A Eaton (sold separately)</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Generator port</span><span class="bv" style="color:var(--orange)">125A · auto-start</span></div><div class="br"><span class="bk">Generator auto-start</span><span class="bv">2-wire dry contact</span></div><div class="br"><span class="bk">Generator warm-up / cool-down</span><span class="bv">Programmable delay</span></div><div class="br"><span class="bk">Auto-charge batteries from gen</span><span class="bv" style="color:var(--green)">✓ Yes</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Smart load ports</span><span class="bv">4× (125A / 80A / 60A / 60A)</span></div><div class="br"><span class="bk">Smart port uses</span><span class="bv">EV charger, HVAC, pool, sub-panel</span></div><div class="br"><span class="bk">Load shedding logic</span><span class="bv">SOC, TOU schedule, or manual</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Transfer switch</span><span class="bv" style="color:var(--green)">✓ Built-in 200A</span></div><div class="br"><span class="bk">Manual bypass</span><span class="bv">✓ Grid direct to loads</span></div><div class="br"><span class="bk">Rapid shutdown (NEC 690.12)</span><span class="bv">✓ Compliant</span></div><div class="br"><span class="bk">Remote monitoring</span><span class="bv">EG4 app · 8 circuit monitoring</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Components replaced by GridBOSS</span><span class="bv" style="color:var(--green)">Up to 10</span></div><div class="br"><span class="bk">Estimated savings vs traditional</span><span class="bv" style="color:var(--green)">~$3,000–7,500</span></div><div class="br"><span class="bk">NEMA rating</span><span class="bv">3R outdoor · −40°F to 113°F</span></div></div>
+      </div>
+
+      <!-- Generator integration -->
+      <div class="card">
+        <div class="ct or">Generator Integration Details</div>
+        <div class="blk"><div style="font-size:0.76rem;font-weight:600;color:var(--orange);margin-bottom:6px;">How Generator Auto-Start Works</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">1. Grid fails OR battery SOC drops below set threshold<br>2. GridBOSS sends 2-wire dry-contact signal → generator starts<br>3. Programmable warm-up period (60–120 sec typical)<br>4. Transfer switch engages → gen powers loads + charges batteries<br>5. When batteries recharged to set level, gen disconnects<br>6. Programmable cool-down before generator shuts off</div></div>
+        <div class="blk"><div class="br"><span class="bk">Generator port max amps</span><span class="bv" style="color:var(--orange)">125A</span></div><div class="br"><span class="bk">Max generator size</span><span class="bv">~14–15 kW (125A × 120V)</span></div><div class="br"><span class="bk">Recommended generator types</span><span class="bv">Propane or natural gas preferred</span></div><div class="br"><span class="bk">Dry-contact auto-start</span><span class="bv">Required — most standby gens include</span></div></div>
+        <div class="gen-box" style="margin-top:8px;">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--green);margin-bottom:6px;">Recommended Generator (not included in BOM)</div>
+          <div class="br"><span class="bk">Generac 14kW Air-Cooled Standby</span><span class="bv" style="color:var(--gold)">~$4,500–6,000</span></div>
+          <div class="br"><span class="bk">Kohler 14RESAL LP/NG</span><span class="bv" style="color:var(--gold)">~$4,000–5,500</span></div>
+          <div style="font-size:0.68rem;color:var(--muted);margin-top:6px;line-height:1.6;">With 85.8 kWh of batteries, generator activates rarely — primarily during multi-day overcast stretches in winter. Propane or NG eliminates fuel storage concerns. Generator cost + install (~$2,000–3,000 install) not included in BOM below — treat as optional future add.</div>
+        </div>
+        <div class="blk" style="margin-top:8px;">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text);">Why GridBOSS makes generator smarter</span></div>
+          <div style="font-size:0.71rem;color:var(--muted);margin-top:3px;line-height:1.6;">The GridBOSS can supplement specific smart ports with generator power, effectively letting a smaller, less expensive generator handle peak loads intelligently rather than sizing for worst-case. A 14kW generator paired with GridBOSS outperforms a 22kW generator without one.</div>
+        </div>
+      </div>
+
+      <!-- Inverter upgrade: FlexBOSS21 vs 18kPV -->
+      <div class="card">
+        <div class="ct gb">Why FlexBOSS21 vs. 18kPV with GridBOSS</div>
+        <div class="blk">
+          <div style="font-size:0.74rem;font-weight:600;color:var(--text);margin-bottom:5px;">EG4 18kPV (Previous Plan)</div>
+          <div class="br"><span class="bk">PV input</span><span class="bv">18 kW max</span></div>
+          <div class="br"><span class="bk">AC output (no PV)</span><span class="bv">12 kW</span></div>
+          <div class="br"><span class="bk">AC output (with PV)</span><span class="bv">12 kW</span></div>
+          <div class="br"><span class="bk">MPPTs</span><span class="bv">3× (600V max each)</span></div>
+          <div class="br"><span class="bk">GridBOSS breaker required</span><span class="bv">70A</span></div>
+          <div class="br"><span class="bk">GridBOSS optimization</span><span class="bv" style="color:var(--gold)">Partial</span></div>
+        </div>
+        <div class="blk" style="border-color:rgba(232,176,64,0.3);background:rgba(232,176,64,0.03);">
+          <div style="font-size:0.74rem;font-weight:600;color:var(--gold2);margin-bottom:5px;">EG4 FlexBOSS21 ✓ Recommended with GridBOSS</div>
+          <div class="br"><span class="bk">PV input</span><span class="bv" style="color:var(--green)">21 kW usable / 24 kW max</span></div>
+          <div class="br"><span class="bk">AC output (no PV)</span><span class="bv">12 kW</span></div>
+          <div class="br"><span class="bk">AC output (with PV)</span><span class="bv" style="color:var(--green)">16 kW (↑ 33% vs 18kPV)</span></div>
+          <div class="br"><span class="bk">MPPTs</span><span class="bv">3× (26A/26A/15A) · 5 strings</span></div>
+          <div class="br"><span class="bk">GridBOSS breaker required</span><span class="bv">90A</span></div>
+          <div class="br"><span class="bk">GridBOSS optimization</span><span class="bv" style="color:var(--green)">✓ Native — designed together</span></div>
+          <div class="br"><span class="bk">Smart loads / AC coupling</span><span class="bv" style="color:var(--green)">✓ Full via GridBOSS ports</span></div>
+          <div class="br"><span class="bk">Price delta vs 18kPV</span><span class="bv" style="color:var(--muted)">~$0–200 per unit</span></div>
+        </div>
+        <div style="font-size:0.71rem;color:var(--muted);margin-top:8px;line-height:1.6;background:var(--surf);padding:8px;border-radius:5px;border:1px solid var(--border);">With GridBOSS, the FlexBOSS21's 16kW daytime output matters — your combined system can deliver <b style="color:var(--text)">32kW AC during peak solar hours</b>, enough to power all loads plus fast-charge batteries simultaneously in summer.</div>
+      </div>
+    </div>
+
+    <div class="gwide">
+      <div class="card"><div class="ct">Monthly Usage vs. Bifacial Production</div><div class="chart-area" id="chart-a"></div><div class="leg" id="leg-a"></div></div>
+      <div class="card"><div class="ct">Monthly Net Balance</div><table class="tbl"><thead><tr><th>Month</th><th class="num">Use</th><th class="num">Prod</th><th class="num">Net</th></tr></thead><tbody id="tbl-a"></tbody></table></div>
+    </div>
+
+    <div class="card mb14">
+      <div class="ct gb">Plan A — Full BOM with GridBOSS</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <div class="panel-toggle">
+          <button class="pt-btn opt1" onclick="setPanelOpt('a',1,this)">Option 1 — Keep as-is (100A)</button>
+          <button class="pt-btn opt2" onclick="setPanelOpt('a',2,this)">Option 2 — Swap breaker to 225A</button>
+          <button class="pt-btn opt3 active" onclick="setPanelOpt('a',3,this)">Option 3 — New 42-space 225A panel ✓ Recommended</button>
+        </div>
+        <div class="panel-note" id="pnote-a">Replace with Eaton BR4242B225 (42 spaces, 225A bus). All 32 existing Eaton BR breakers re-land — no replacements needed. Install CSR2225 225A main breaker. 10 open spaces for solar circuits, EV, heat pump, and future loads. Incremental: +~$850.</div>
+      </div>
+      <div class="bom7" id="bom-a"></div>
+      <div class="g4" id="fin-a"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════ PAGE B ════════════ -->
+<div id="pg-b" class="pg">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:var(--blue)">Plan B — Phase 1 + GridBOSS</div>
+      <div class="phsub">Single Array Now · GridBOSS Installed at Phase 1 · Ready for Phase 2 + Generator</div>
+      <div class="phpills">
+        <span class="pp" style="border-color:rgba(56,168,248,0.35);color:var(--blue)">1× GridBOSS MID (installed now)</span>
+        <span class="pp" style="border-color:rgba(56,168,248,0.35);color:var(--blue)">1× FlexBOSS21 (Phase 1)</span>
+        <span class="pp" style="border-color:rgba(56,168,248,0.35);color:var(--blue)">14× TOPCon 445W · 4× PowerPro</span>
+        <span class="pp" style="border-color:rgba(240,120,48,0.35);color:var(--orange)">200A Service Upgrade Required</span>
+        <span class="pp" style="border-color:rgba(46,200,120,0.35);color:var(--green)">Generator Port Live · 2nd Inverter Port Reserved</span>
+      </div>
+    </div>
+    <div class="phmeta">
+      <div>DC Phase 1 <b>6.23 kW</b></div>
+      <div>Annual Prod <b style="color:var(--gold)">~11,640 kWh</b></div>
+      <div>Offset <b style="color:var(--gold)">~73%</b></div>
+      <div>Expandable <b style="color:var(--blue)">Yes → Phase 2 + Gen</b></div>
+    </div>
+  </div>
+  <div class="nbar" style="background:rgba(56,168,248,0.05);border-color:rgba(56,168,248,0.18);">
+    <span class="ntag" style="color:var(--blue)">ℹ KEY ADVANTAGE</span>
+    <span style="color:var(--muted)">Installing the GridBOSS at Phase 1 means the <b style="color:var(--text)">200A service upgrade, transfer switch, generator port, and smart port infrastructure</b> are all live from day one. Phase 2 simply adds a second FlexBOSS21 and 2 more batteries — plugs into existing GridBOSS port. Generator can be added at any time independently.</span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-b"></div>
+    <div class="g3">
+      <div class="card">
+        <div class="ct bl">Phase 1 GridBOSS Port Status</div>
+        <div class="blk"><div class="br"><span class="bk">Inverter Port 1 (90A)</span><span class="bv" style="color:var(--green)">● FlexBOSS21 — Array 1</span></div><div class="br"><span class="bk">Inverter Port 2 (90A)</span><span class="bv" style="color:var(--blue)">○ Reserved — Phase 2</span></div><div class="br"><span class="bk">Inverter Port 3 (90A)</span><span class="bv" style="color:var(--dim)">○ Reserved — future</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Generator Port (125A)</span><span class="bv" style="color:var(--orange)">○ Wired · generator TBD</span></div><div class="br"><span class="bk">Smart Port 1 (125A)</span><span class="bv" style="color:var(--gold)">○ Available — EV/HVAC</span></div><div class="br"><span class="bk">Smart Port 2 (80A)</span><span class="bv" style="color:var(--gold)">○ Available</span></div><div class="br"><span class="bk">Smart Port 3+4 (60A each)</span><span class="bv" style="color:var(--gold)">○ Available</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Battery bank busbar</span><span class="bv">Pre-sized for 6 batteries</span></div><div class="br"><span class="bk">Batteries installed</span><span class="bv">4× (57.2 kWh)</span></div><div class="br"><span class="bk">Battery ports reserved</span><span class="bv" style="color:var(--blue)">2× for Phase 2</span></div></div>
+      </div>
+      <div class="card">
+        <div class="ct bl">Phase 1 Battery Coverage</div>
+        <div class="blk"><div class="br"><span class="bk">Storage (4× PowerPro)</span><span class="bv" style="color:var(--green)">57.2 kWh</span></div><div class="br"><span class="bk">Avg daily coverage</span><span class="bv" style="color:var(--gold)">~1.29 days</span></div><div class="br"><span class="bk">Winter daily coverage</span><span class="bv" style="color:var(--green)">~1.47 days</span></div><div class="br"><span class="bk">Summer peak coverage</span><span class="bv" style="color:var(--red)">~0.85 days</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Xcel battery incentive (cap)</span><span class="bv" style="color:var(--green)">−$5,000</span></div><div class="br"><span class="bk">Note</span><span class="bv" style="color:var(--muted)">Cap already reached — no incentive on Phase 2 batteries</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Generator fills gap?</span><span class="bv" style="color:var(--green)">✓ Yes — GridBOSS auto-starts</span></div><div class="br"><span class="bk">Generator + batteries combined</span><span class="bv" style="color:var(--green)">Effectively unlimited runtime</span></div></div>
+      </div>
+      <div class="card"><div class="ct bl">Season Balance — Phase 1</div><div id="season-b"></div></div>
+    </div>
+    <div class="gwide">
+      <div class="card"><div class="ct bl">Phase 1 Monthly Balance</div><div class="chart-area" id="chart-b"></div><div class="leg" id="leg-b"></div></div>
+      <div class="card"><div class="ct bl">Monthly Net — Phase 1</div><table class="tbl"><thead><tr><th>Month</th><th class="num">Use</th><th class="num">Prod</th><th class="num">Net</th></tr></thead><tbody id="tbl-b"></tbody></table></div>
+    </div>
+    <div class="card mb14"><div class="ct bl">Phase 1 BOM — Includes GridBOSS</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <div class="panel-toggle">
+          <button class="pt-btn opt1" onclick="setPanelOpt('b',1,this)">Option 1 — Keep as-is (100A)</button>
+          <button class="pt-btn opt2" onclick="setPanelOpt('b',2,this)">Option 2 — Swap breaker to 225A</button>
+          <button class="pt-btn opt3 active" onclick="setPanelOpt('b',3,this)">Option 3 — New 42-space 225A panel ✓ Recommended</button>
+        </div>
+        <div class="panel-note" id="pnote-b">Replace with Eaton BR4242B225 (42 spaces, 225A bus). All 32 existing Eaton BR breakers re-land — no replacements needed. Install CSR2225 225A main breaker. 10 open spaces for expansion. Best time: electrician already on-site. Incremental: +~$850.</div>
+      </div>
+      <div class="bom7" id="bom-b"></div><div class="g4" id="fin-b"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════ PAGE B2 ════════════ -->
+<div id="pg-b2" class="pg">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:var(--purple)">Plan B · Phase 2 — Expansion</div>
+      <div class="phsub">Add Second Array · Second FlexBOSS21 · 2 More Batteries · GridBOSS Already In Place</div>
+      <div class="phpills">
+        <span class="pp" style="border-color:rgba(136,112,224,0.35);color:var(--purple)">+14× TOPCon 445W</span>
+        <span class="pp" style="border-color:rgba(136,112,224,0.35);color:var(--purple)">+1× FlexBOSS21 (plugs into existing GridBOSS)</span>
+        <span class="pp" style="border-color:rgba(136,112,224,0.35);color:var(--purple)">+2× EG4 PowerPro → 6 total</span>
+        <span class="pp" style="border-color:rgba(46,200,120,0.35);color:var(--green)">No GridBOSS work needed</span>
+      </div>
+    </div>
+    <div class="phmeta">
+      <div>Incremental DC <b>+6.23 kW</b></div>
+      <div>Final Total <b style="color:var(--green)">12.46 kW · 23,280 kWh/yr</b></div>
+      <div>Final Offset <b style="color:var(--green)">145%</b></div>
+    </div>
+  </div>
+  <div class="nbar" style="background:rgba(136,112,224,0.06);border-color:rgba(136,112,224,0.2);">
+    <span class="ntag" style="color:var(--purple)">↑ PLUG-IN EXPANSION</span>
+    <span style="color:var(--muted)">Phase 2 is the simplest possible expansion: add second pergola + panels, run DC to new FlexBOSS21, plug FlexBOSS21 into <b style="color:var(--text)">pre-wired GridBOSS inverter port 2</b>. Add 2 batteries to existing busbar. <b style="color:var(--text)">No 200A service work, no GridBOSS modifications, no transfer switch changes.</b></span>
+  </div>
+  <main>
+    <div class="g6" id="kpi-b2"></div>
+    <div class="g2">
+      <div class="card">
+        <div class="ct" style="color:var(--purple)">Phase 2 Incremental Items</div>
+        <div id="bom-b2-list"></div>
+      </div>
+      <div class="card">
+        <div class="ct" style="color:var(--purple)">Final System State After Phase 2</div>
+        <div class="blk"><div class="br"><span class="bk">Total panels</span><span class="bv">28× 445W TOPCon bifacial</span></div><div class="br"><span class="bk">Total DC</span><span class="bv">12.46 kW</span></div><div class="br"><span class="bk">Annual production</span><span class="bv" style="color:var(--green)">~23,280 kWh</span></div><div class="br"><span class="bk">Total storage</span><span class="bv" style="color:var(--green)">85.8 kWh (6× PowerPro)</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Inverters</span><span class="bv">2× FlexBOSS21 via GridBOSS</span></div><div class="br"><span class="bk">3rd GridBOSS inverter port</span><span class="bv" style="color:var(--gold)">Still available for future</span></div><div class="br"><span class="bk">Generator port</span><span class="bv">Active (generator optional)</span></div><div class="br"><span class="bk">Smart ports available</span><span class="bv">4× (EV, HVAC, subpanel…)</span></div></div>
+        <div class="blk"><div class="br"><span class="bk" style="color:var(--text);font-weight:600;">Annual surplus to Xcel</span><span class="bv" style="color:var(--green)">~7,228 kWh</span></div><div class="br"><span class="bk">Offset</span><span class="bv" style="color:var(--green)">145%</span></div><div class="br"><span class="bk">P1 + P2 total gross</span><span class="bv" style="color:var(--gold)" id="p2gross">—</span></div></div>
+      </div>
+    </div>
+    <div class="card mb14"><div class="ct" style="color:var(--purple)">Phase 2 Financial Summary</div><div class="g4" id="fin-b2"></div></div>
+  </main>
+</div>
+
+<!-- ════════════ PAGE C ════════════ -->
+<div id="pg-c" class="pg">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:var(--green)">Side-by-Side Comparison</div>
+      <div class="phsub">Plan A (Full Build) vs. Plan B Phased · No Federal ITC · GridBOSS in Both</div>
+    </div>
+    <div class="phmeta"><div>Both plans reach <b style="color:var(--green)">identical final state</b></div><div>GridBOSS in both plans from day 1</div></div>
+  </div>
+  <div class="nbar" style="background:rgba(46,200,120,0.05);border-color:rgba(46,200,120,0.18);">
+    <span class="ntag" style="color:var(--green)">★ KEY CHANGE</span>
+    <span style="color:var(--muted)">Adding GridBOSS shifts inverter recommendation to <b style="color:var(--text)">FlexBOSS21</b> — natively designed for GridBOSS, delivers <b style="color:var(--text)">16kW AC output with PV vs 12kW for 18kPV.</b> GridBOSS cost is largely offset by components it replaces (transfer switch, subpanel, combiners, interlocks).</span>
+  </div>
+  <main>
+    <div class="cmp-cols">
+      <div class="cc">
+        <span class="cbadge" style="border-color:rgba(232,176,64,0.4);color:var(--gold)">Plan A · Full Build</span>
+        <div class="ctitle" style="color:var(--gold)">Both Arrays Now</div>
+        <div class="cr"><span class="ck">Gross cost</span><span class="cv" style="color:var(--red)" id="ca-g">—</span></div>
+        <div class="cr"><span class="ck">MN sales tax exemption (6.875%)</span><span class="cv" style="color:var(--green)" id="ca-s">—</span></div>
+        <div class="cr"><span class="ck">Xcel battery incentive (cap)</span><span class="cv" style="color:var(--green)">−$5,000</span></div>
+        <div class="cr"><span class="ck">Federal ITC</span><span class="cv" style="color:var(--red)">$0 (expired)</span></div>
+        <div class="cr"><span class="ck">Net upfront cost</span><span class="cv" style="color:var(--gold)" id="ca-n">—</span></div>
+        <div class="cr"><span class="ck">Annual savings yr 1</span><span class="cv" style="color:var(--green)">~$3,841</span></div>
+        <div class="cr"><span class="ck">Simple payback</span><span class="cv" id="ca-pb">—</span></div>
+        <div class="cr"><span class="ck">25-yr net savings (3% escalation)</span><span class="cv" style="color:var(--green)" id="ca-25">—</span></div>
+        <div class="cr"><span class="ck">Service upgrade</span><span class="cv">200A (required)</span></div>
+        <div class="cr"><span class="ck">Permits / mobilizations</span><span class="cv">1 permit · 1 mobilization</span></div>
+        <div class="cr"><span class="ck">Generator ready</span><span class="cv" style="color:var(--green)">✓ From day 1</span></div>
+        <div class="cr"><span class="ck">Future expansion capacity</span><span class="cv" style="color:var(--gold)">1 more inverter port (GridBOSS)</span></div>
+      </div>
+      <div class="cc hl">
+        <span class="cbadge" style="border-color:rgba(56,168,248,0.4);color:var(--blue)">Plan B · Phased</span>
+        <div class="ctitle" style="color:var(--blue)">Phase 1 Now · Phase 2 Later</div>
+        <div class="cr"><span class="ck">Phase 1 gross cost</span><span class="cv" style="color:var(--blue)" id="cb-g1">—</span></div>
+        <div class="cr"><span class="ck">Phase 1 MN sales tax exemption</span><span class="cv" style="color:var(--green)" id="cb-s1">—</span></div>
+        <div class="cr"><span class="ck">Phase 1 battery incentive (cap)</span><span class="cv" style="color:var(--green)">−$5,000</span></div>
+        <div class="cr"><span class="ck">Phase 1 net upfront</span><span class="cv" style="color:var(--blue)" id="cb-n1">—</span></div>
+        <div class="cr"><span class="ck">Phase 2 incremental gross</span><span class="cv" id="cb-g2">—</span></div>
+        <div class="cr"><span class="ck">Phase 2 MN sales tax exemption</span><span class="cv" style="color:var(--green)" id="cb-s2">—</span></div>
+        <div class="cr"><span class="ck">Total gross P1+P2</span><span class="cv" id="cb-tot">—</span></div>
+        <div class="cr"><span class="ck">vs Plan A (total spend delta)</span><span class="cv" id="cb-d">—</span></div>
+        <div class="cr"><span class="ck">Service upgrade</span><span class="cv">200A at Phase 1 (required)</span></div>
+        <div class="cr"><span class="ck">Permits / mobilizations</span><span class="cv">2 permits · 2 mobilizations</span></div>
+        <div class="cr"><span class="ck">Generator ready</span><span class="cv" style="color:var(--green)">✓ From Phase 1</span></div>
+        <div class="cr"><span class="ck">Future expansion</span><span class="cv" style="color:var(--gold)">Phase 2 port + 1 more after</span></div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="card">
+        <div class="ct gr">Annual Savings — Both Plans</div>
+        <div class="blk"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Plan A / Plan B After Phase 2</div><div class="br"><span class="bk">Xcel bill eliminated</span><span class="bv" style="color:var(--green)">~$2,167/yr</span></div><div class="br"><span class="bk">Solar*Rewards ($0.03 × 23,280 kWh)</span><span class="bv" style="color:var(--green)">~$698/yr</span></div><div class="br"><span class="bk">Net metering (~7,228 kWh surplus)</span><span class="bv" style="color:var(--green)">~$976/yr</span></div><div class="hdiv"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Total annual savings</span><span class="bv" style="color:var(--green);font-size:0.9rem;">~$3,841/yr</span></div></div>
+        <div class="blk"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Plan B Phase 1 Only</div><div class="br"><span class="bk">Partial bill offset (~73%)</span><span class="bv" style="color:var(--gold)">~$1,582/yr</span></div><div class="br"><span class="bk">Solar*Rewards (11,640 kWh)</span><span class="bv" style="color:var(--green)">~$349/yr</span></div><div class="br"><span class="bk">Net metering surplus</span><span class="bv" style="color:var(--muted)">~$0–100/yr</span></div><div class="hdiv"></div><div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Phase 1 annual savings</span><span class="bv" style="color:var(--gold);font-size:0.9rem;">~$1,931/yr</span></div></div>
+      </div>
+      <div class="card">
+        <div class="ct gr">Payback Comparison</div>
+        <div class="blk"><div class="br"><span class="bk">Plan A net cost</span><span class="bv" id="pca-n">—</span></div><div class="br"><span class="bk">Plan A savings/yr</span><span class="bv" style="color:var(--green)">~$3,841</span></div><div class="br"><span class="bk" style="color:var(--text);font-weight:600;">Plan A payback</span><span class="bv" style="color:var(--gold)" id="pca-pb">—</span></div></div>
+        <div class="blk"><div class="br"><span class="bk">Plan B Phase 1 net</span><span class="bv" id="pcb-n">—</span></div><div class="br"><span class="bk">Phase 1 savings/yr</span><span class="bv" style="color:var(--green)">~$1,931</span></div><div class="br"><span class="bk" style="color:var(--text);font-weight:600;">Phase 1 payback</span><span class="bv" style="color:var(--blue)" id="pcb-pb">—</span></div></div>
+      </div>
+      <div class="card">
+        <div class="ct gr">Which Plan?</div>
+        <div class="blk"><div style="font-size:0.76rem;font-weight:600;color:var(--gold);margin-bottom:5px;">Choose Plan A if…</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.7;">· Capital available now<br>· Want 145% offset from day 1<br>· Minimize total lifetime spend<br>· One permit, one electrician visit<br>· Want 32kW daytime AC capacity immediately</div></div>
+        <div class="blk"><div style="font-size:0.76rem;font-weight:600;color:var(--blue);margin-bottom:5px;">Choose Plan B if…</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.7;">· Prefer to spread ~$20k outlay over time<br>· Want Phase 1 savings to fund Phase 2<br>· 73% offset is acceptable interim<br>· Generator covers summer peak gap in Phase 1<br>· Two permit visits acceptable</div></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════ PAGE D — SERVICE UPGRADE ════════════ -->
+<div id="pg-d" class="pg">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:var(--orange)">100A → 200A Service Upgrade</div>
+      <div class="phsub">Why It's Required · What's Involved · Cost · Xcel Coordination</div>
+    </div>
+    <div class="phmeta"><div>Required for <b style="color:var(--orange)">GridBOSS</b></div><div>Required for <b style="color:var(--orange)">12+ kW solar system</b></div><div>Covered by <b style="color:var(--green)">MN sales tax exemption</b></div></div>
+  </div>
+  <div class="nbar" style="background:rgba(240,120,48,0.06);border-color:rgba(240,120,48,0.25);">
+    <span class="ntag" style="color:var(--orange)">⚠ MANDATORY</span>
+    <span style="color:var(--muted)">The GridBOSS <b style="color:var(--text)">requires a 200A service entrance</b> with the Eaton CSR2200N main breaker. Your current 100A service cannot feed it. This upgrade must be completed before or simultaneously with solar installation. It is the first task in the electrician scope of work.</span>
+  </div>
+  <main>
+    <div class="svc-box">
+      <div class="svc-title">Why Your 100A Service Must Be Upgraded</div>
+      <div class="g3" style="margin:0;">
+        <div class="blk" style="margin:0;">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--orange);margin-bottom:6px;">1. GridBOSS Hardware Requirement</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">The GridBOSS is rated as a 200A service entrance device. Its Eaton CSR2200N main breaker is a 200A unit. You cannot simply swap it for a 100A breaker and maintain UL certification or permit compliance. The device is designed to replace your existing main service entrance — it must match your utility feed ampacity.</div>
+        </div>
+        <div class="blk" style="margin:0;">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--orange);margin-bottom:6px;">2. Inverter Load Requirements</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">Each FlexBOSS21 uses a 90A breaker in the GridBOSS. Two FlexBOSS21 units = 180A of inverter capacity alone. Add home loads, generator port, and smart port circuits — your system fundamentally requires 200A service. A 100A feed would be undersized even for a single-inverter installation of this scale.</div>
+        </div>
+        <div class="blk" style="margin:0;">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--orange);margin-bottom:6px;">3. Good News: GridBOSS IS the Upgrade</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">The GridBOSS functions as your new service entrance panel — it replaces your current main breaker panel. You're not adding a 200A panel and a GridBOSS; the GridBOSS IS the 200A panel. This means the service upgrade and solar installation are a single coordinated job, not two separate projects.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="ct or">What the Upgrade Involves</div>
+        <div class="blk">
+          <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:6px;">Xcel Energy Coordination</div>
+          <div style="font-size:0.71rem;color:var(--muted);line-height:1.7;">1. Contact Xcel to request 200A service upgrade<br>2. Xcel inspects existing service drop from pole/underground to meter<br>3. If service lateral (wire from Xcel to your meter) is undersized for 200A, Xcel upgrades their portion (usually at their cost or low cost)<br>4. You upgrade meter base and everything on your side of the meter<br>5. City of Bloomington electrical permit required<br>6. Xcel re-inspection and reconnect</div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:6px;">Physical Work (Your Side of Meter)</div>
+          <div class="br"><span class="bk">New 200A meter base/socket</span><span class="bv" style="color:var(--gold)">~$300–500</span></div>
+          <div class="br"><span class="bk">Service entrance conductors (if overhead)</span><span class="bv" style="color:var(--gold)">~$200–400</span></div>
+          <div class="br"><span class="bk">GridBOSS replaces main panel</span><span class="bv" style="color:var(--green)">Included in BOM</span></div>
+          <div class="br"><span class="bk">Existing circuits re-homed to GridBOSS</span><span class="bv" style="color:var(--gold)">Electrician labor</span></div>
+          <div class="br"><span class="bk">Grounding electrode conductor update</span><span class="bv" style="color:var(--gold)">~$100–200</span></div>
+        </div>
+        <div class="blk">
+          <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Total service upgrade cost (est.)</span><span class="bv" style="color:var(--orange)">~$1,500–3,000</span></div>
+          <div style="font-size:0.68rem;color:var(--muted);margin-top:4px;line-height:1.5;">Included in electrician line item in both BOM plans. If Xcel's lateral must also be upgraded, they typically cover that portion — confirm with Xcel before final budget.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct or">100A vs 200A — Before and After</div>
+        <div class="blk">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--red);text-transform:uppercase;margin-bottom:6px;">Current: 100A Service</div>
+          <div class="br"><span class="bk">Max continuous draw from grid</span><span class="bv" style="color:var(--red)">100A / 24kW</span></div>
+          <div class="br"><span class="bk">Compatible with GridBOSS</span><span class="bv" style="color:var(--red)">✗ No</span></div>
+          <div class="br"><span class="bk">Can support 12kW solar system</span><span class="bv" style="color:var(--red)">✗ Undersized</span></div>
+          <div class="br"><span class="bk">EV charger capability</span><span class="bv" style="color:var(--red)">Limited (Level 1 only safe)</span></div>
+          <div class="br"><span class="bk">Generator + solar + loads</span><span class="bv" style="color:var(--red)">✗ Cannot handle</span></div>
+        </div>
+        <div class="blk" style="border-color:rgba(46,200,120,0.3);">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--green);text-transform:uppercase;margin-bottom:6px;">After: 200A Service + GridBOSS</div>
+          <div class="br"><span class="bk">Max continuous draw from grid</span><span class="bv" style="color:var(--green)">200A / 48kW</span></div>
+          <div class="br"><span class="bk">Compatible with GridBOSS</span><span class="bv" style="color:var(--green)">✓ Yes — GridBOSS IS the panel</span></div>
+          <div class="br"><span class="bk">Supports 12.46kW solar</span><span class="bv" style="color:var(--green)">✓ Comfortably</span></div>
+          <div class="br"><span class="bk">EV charger (Level 2 EVSE)</span><span class="bv" style="color:var(--green)">✓ Via GridBOSS smart port</span></div>
+          <div class="br"><span class="bk">Generator + solar + loads</span><span class="bv" style="color:var(--green)">✓ All managed by GridBOSS</span></div>
+          <div class="br"><span class="bk">Future expansion headroom</span><span class="bv" style="color:var(--green)">✓ 3rd inverter port still free</span></div>
+          <div class="br"><span class="bk">Home resale value added</span><span class="bv" style="color:var(--green)">✓ Significant</span></div>
+        </div>
+        <div style="font-size:0.71rem;color:var(--muted);margin-top:10px;line-height:1.6;background:var(--surf);padding:9px;border-radius:6px;border:1px solid var(--border);">
+          <b style="color:var(--text)">Bottom line:</b> The 200A service upgrade is not optional — it's structurally required for this system. The cost (~$1,500–3,000) is modest relative to the overall project and is already included in the electrical labor line items in both plans. The upgrade also future-proofs your home for EV charging, heat pumps, and any further electrification.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct or">Electrician Scope of Work — Service Upgrade + Solar Combined</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        <div class="blk" style="margin:0;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--orange);text-transform:uppercase;margin-bottom:5px;">Step 1 — Permits</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.6;">Pull City of Bloomington electrical permit. File Xcel interconnection application. Notify Xcel of 200A service upgrade request. Typical timeline: 2–4 weeks approval.</div></div>
+        <div class="blk" style="margin:0;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--orange);text-transform:uppercase;margin-bottom:5px;">Step 2 — Service Entrance</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.6;">Xcel disconnects and upgrades utility-side lateral if needed. Install new 200A meter base. Mount GridBOSS as new service entrance. Install Eaton CSR2200N 200A main breaker.</div></div>
+        <div class="blk" style="margin:0;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--orange);text-transform:uppercase;margin-bottom:5px;">Step 3 — Solar Tie-In</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.6;">Install FlexBOSS21(s) with 90A breakers in GridBOSS hybrid ports. Connect DC from arrays to inverters. Connect battery bank to inverters. Run all conduit and wiring per NEC.</div></div>
+        <div class="blk" style="margin:0;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--orange);text-transform:uppercase;margin-bottom:5px;">Step 4 — Load Migration</div><div style="font-size:0.71rem;color:var(--muted);line-height:1.6;">Re-home all existing circuits from old 100A panel to GridBOSS backed-up and non-backed-up outputs. Configure smart ports. Set up generator port wiring. Commission and test. Inspection sign-off.</div></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════ PAGE E — INTERIOR PANEL ════════════ -->
+<div id="pg-e" class="pg">
+  <div class="phdr">
+    <div>
+      <div class="phtitle" style="color:#7ECFC0">Interior Panel Decision</div>
+      <div class="phsub">Your Eaton BR 32-Space 225A Panel — 3 Options Analyzed</div>
+    </div>
+    <div class="phmeta">
+      <div>Your panel <b style="color:#7ECFC0">Eaton BR · 225A bus · 32 spaces · full</b></div>
+      <div>Main breaker <b style="color:var(--orange)">100A CSR25K (upgradeable)</b></div>
+      <div>Option 3 <b style="color:var(--green)">42-space 225A · +~$850 · Recommended</b></div>
+    </div>
+  </div>
+  <div class="nbar" style="background:rgba(126,207,192,0.05);border-color:rgba(126,207,192,0.2);">
+    <span class="ntag" style="color:#7ECFC0">★ KEY INSIGHT</span>
+    <span style="color:var(--muted)"><b style="color:var(--text)">Your panel box is already rated to 225A — only the 100A CSR25K breaker limits you.</b> You have three distinct options ranging from a simple bond relocation ($0) to a breaker swap (~$250) to a full panel box upgrade (~$850). All existing Eaton BR breakers are compatible with the larger panel — no breaker replacements needed. The panel is full at 32 spaces regardless of which option you choose for ampacity.</span>
+  </div>
+  <main>
+
+    <!-- OPTION COMPARISON -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin-bottom:14px;">
+      <div class="cc" style="border-right:1px solid var(--border2);">
+        <span class="cbadge" style="border-color:rgba(126,207,192,0.4);color:#7ECFC0">Option 1 — Minimal</span>
+        <div class="ctitle" style="color:#7ECFC0">Keep Panel As-Is</div>
+        <div class="cr"><span class="ck">Panel box</span><span class="cv" style="color:var(--green)">Keep existing Eaton BR 32-sp.</span></div>
+        <div class="cr"><span class="ck">Main breaker</span><span class="cv">Keep 100A CSR25K</span></div>
+        <div class="cr"><span class="ck">Work required</span><span class="cv" style="color:var(--green)">Bond relocation only (~1 hr)</span></div>
+        <div class="cr"><span class="ck">Backed-up load limit</span><span class="cv" style="color:var(--red)">100A / 24kW</span></div>
+        <div class="cr"><span class="ck">Available spaces</span><span class="cv" style="color:var(--red)">0 — full</span></div>
+        <div class="cr"><span class="ck">All existing circuits</span><span class="cv" style="color:var(--green)">Untouched</span></div>
+        <div class="cr"><span class="ck">Incremental cost</span><span class="cv" style="color:var(--green)">$0</span></div>
+        <div class="cr"><span class="ck">Good for</span><span class="cv">Budget · no plans for new circuits</span></div>
+      </div>
+      <div class="cc" style="border-right:1px solid var(--border2);">
+        <span class="cbadge" style="border-color:rgba(240,120,48,0.4);color:var(--orange)">Option 2 — Breaker Swap</span>
+        <div class="ctitle" style="color:var(--orange)">Swap Main Breaker Only</div>
+        <div class="cr"><span class="ck">Panel box</span><span class="cv">Keep existing Eaton BR 32-sp.</span></div>
+        <div class="cr"><span class="ck">Main breaker</span><span class="cv" style="color:var(--orange)">Replace with CSR2225 225A</span></div>
+        <div class="cr"><span class="ck">Compatibility</span><span class="cv" style="color:var(--green)">Same bolt-on form factor as CSR25K</span></div>
+        <div class="cr"><span class="ck">Backed-up load limit</span><span class="cv" style="color:var(--green)">225A / 54kW (full bus rating)</span></div>
+        <div class="cr"><span class="ck">Available spaces</span><span class="cv" style="color:var(--red)">0 — still full</span></div>
+        <div class="cr"><span class="ck">All existing circuits</span><span class="cv" style="color:var(--green)">Untouched</span></div>
+        <div class="cr"><span class="ck">Incremental cost</span><span class="cv" style="color:var(--orange)">~$250 (breaker + labor)</span></div>
+        <div class="cr"><span class="ck">Good for</span><span class="cv">Remove ampacity ceiling · no space needed</span></div>
+      </div>
+      <div class="cc hl">
+        <span class="cbadge" style="border-color:rgba(46,200,120,0.4);color:var(--green)">Option 3 ✓ Recommended</span>
+        <div class="ctitle" style="color:var(--green)">New 42-Space 225A Panel</div>
+        <div class="cr"><span class="ck">Panel box</span><span class="cv" style="color:var(--green)">Eaton BR4242B225 (42 spaces)</span></div>
+        <div class="cr"><span class="ck">Main breaker</span><span class="cv" style="color:var(--green)">CSR2225 225A (new)</span></div>
+        <div class="cr"><span class="ck">Existing breakers</span><span class="cv" style="color:var(--green)">All 32 Eaton BR re-land — no replacements</span></div>
+        <div class="cr"><span class="ck">Backed-up load limit</span><span class="cv" style="color:var(--green)">225A / 54kW</span></div>
+        <div class="cr"><span class="ck">Available spaces after</span><span class="cv" style="color:var(--green)">10 open spaces</span></div>
+        <div class="cr"><span class="ck">All existing circuits</span><span class="cv" style="color:var(--green)">Re-landed (same breakers)</span></div>
+        <div class="cr"><span class="ck">Incremental cost</span><span class="cv" style="color:var(--orange)">~$850 (panel + breaker + labor)</span></div>
+        <div class="cr"><span class="ck">Good for</span><span class="cv">Full future-proofing · EV · heat pump · expansion</span></div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <!-- What actually changes -->
+      <div class="card">
+        <div class="ct" style="color:#7ECFC0">Your Panel — What You Have</div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--text);margin-bottom:6px;">Eaton BR Load Center — Key Facts</div>
+          <div class="br"><span class="bk">Panel box bus rating</span><span class="bv" style="color:var(--green)">225A max</span></div>
+          <div class="br"><span class="bk">Current main breaker</span><span class="bv" style="color:var(--orange)">100A CSR25K (limiting factor)</span></div>
+          <div class="br"><span class="bk">Total spaces</span><span class="bv" style="color:var(--red)">32 — all full</span></div>
+          <div class="br"><span class="bk">Breaker type</span><span class="bv">Eaton Type BR (1-inch)</span></div>
+          <div class="br"><span class="bk">CSR breaker family</span><span class="bv" style="color:var(--green)">Same family as GridBOSS CSR2200N</span></div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--text);margin-bottom:6px;">The Required Change — All Options</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">In all three options, the <b style="color:var(--text)">neutral-ground bond</b> moves from your interior panel to the GridBOSS (which becomes the first point of disconnect). This is a standard 30-minute subpanel conversion task. No new hardware required for this step alone.</div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--text);margin-bottom:6px;">Option 3 Panel — Eaton BR4242B225</div>
+          <div class="br"><span class="bk">Catalog number</span><span class="bv">BR4242B225</span></div>
+          <div class="br"><span class="bk">Spaces / circuits</span><span class="bv" style="color:var(--green)">42 spaces / 84 circuits</span></div>
+          <div class="br"><span class="bk">Bus rating</span><span class="bv">225A</span></div>
+          <div class="br"><span class="bk">Main breaker (new)</span><span class="bv">CSR2225 225A bolt-on</span></div>
+          <div class="br"><span class="bk">Accepts your existing breakers?</span><span class="bv" style="color:var(--green)">✓ All Eaton BR type</span></div>
+          <div class="br"><span class="bk">Approx. panel cost</span><span class="bv" style="color:var(--gold)">~$170 (Lowes / Home Depot)</span></div>
+          <div class="br"><span class="bk">CSR2225 breaker cost</span><span class="bv" style="color:var(--gold)">~$100</span></div>
+        </div>
+      </div>
+
+      <!-- The capacity question -->
+      <div class="card">
+        <div class="ct" style="color:#7ECFC0">Is 100A Enough? Your Usage Says Yes — But Space Says No</div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--green);margin-bottom:5px;">Ampacity — 100A Is Adequate Today</div>
+          <div class="br"><span class="bk">Your avg daily consumption</span><span class="bv">44.5 kWh/day</span></div>
+          <div class="br"><span class="bk">Avg hourly draw</span><span class="bv">~1.85 kW / ~7.7A</span></div>
+          <div class="br"><span class="bk">100A panel capacity</span><span class="bv" style="color:var(--green)">24 kW continuous</span></div>
+          <div class="br"><span class="bk">Headroom above your avg draw</span><span class="bv" style="color:var(--green)">~22 kW (~11× avg)</span></div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--red);margin-bottom:5px;">Space — 0 Open Slots Is the Real Problem</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">Even with Option 1 or 2, your panel is <b style="color:var(--text)">full at 32 spaces.</b> Any new circuit you need — solar monitoring, EV charger (if not using smart port), dedicated heat pump, future appliance, or code-required AFCI/GFCI upgrade — has nowhere to land. Option 2 fixes the amp ceiling but doesn't fix the space problem. Only Option 3 gives you 10 open slots for expansion.</div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.76rem;font-weight:600;color:var(--text);margin-bottom:5px;">GridBOSS Smart Ports Still Help (All Options)</div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.7;">EV chargers, HVAC loads, and high-draw appliances can connect directly to GridBOSS smart ports — bypassing the interior panel entirely. This works regardless of which panel option you choose, and is often the cleaner solution anyway.</div>
+        </div>
+      </div>
+
+      <!-- Cost and timing -->
+      <div class="card">
+        <div class="ct" style="color:#7ECFC0">Cost Breakdown — All Three Options</div>
+        <div class="blk">
+          <div style="font-size:0.75rem;font-weight:600;color:#7ECFC0;margin-bottom:6px;">Option 1 — Keep As-Is</div>
+          <div class="br"><span class="bk">Panel work</span><span class="bv" style="color:var(--green)">None</span></div>
+          <div class="br"><span class="bk">Bond relocation (included in elec. scope)</span><span class="bv" style="color:var(--green)">~$0 incremental</span></div>
+          <div class="hdiv"></div>
+          <div class="br"><span class="bk" style="color:var(--text)">Total incremental</span><span class="bv" style="color:var(--green)">$0</span></div>
+        </div>
+        <div class="blk">
+          <div style="font-size:0.75rem;font-weight:600;color:var(--orange);margin-bottom:6px;">Option 2 — Breaker Swap Only</div>
+          <div class="br"><span class="bk">CSR2225 225A bolt-on breaker</span><span class="bv" style="color:var(--gold)">~$100</span></div>
+          <div class="br"><span class="bk">Electrician swap labor (~1 hr)</span><span class="bv" style="color:var(--gold)">~$150</span></div>
+          <div class="hdiv"></div>
+          <div class="br"><span class="bk" style="color:var(--text)">Total incremental</span><span class="bv" style="color:var(--orange)">~$250</span></div>
+        </div>
+        <div class="blk" style="border-color:rgba(46,200,120,0.3);background:rgba(46,200,120,0.03);">
+          <div style="font-size:0.75rem;font-weight:600;color:var(--green);margin-bottom:6px;">Option 3 — New 42-Space Panel ✓ Recommended</div>
+          <div class="br"><span class="bk">Eaton BR4242B225 panel box</span><span class="bv" style="color:var(--gold)">~$170</span></div>
+          <div class="br"><span class="bk">CSR2225 225A main breaker</span><span class="bv" style="color:var(--gold)">~$100</span></div>
+          <div class="br"><span class="bk">Re-land 32 breakers (~3 hrs labor)</span><span class="bv" style="color:var(--gold)">~$450–580</span></div>
+          <div class="hdiv"></div>
+          <div class="br"><span class="bk" style="color:var(--text)">Total incremental</span><span class="bv" style="color:var(--orange)">~$720–850</span></div>
+          <div style="font-size:0.69rem;color:var(--muted);margin-top:6px;line-height:1.5;">As standalone project later: ~$1,800–2,500. Do it now while electrician is already on-site — saves ~$1,000–1,600.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIRING TOPOLOGY -->
+    <div class="card mb14">
+      <div class="ct" style="color:#7ECFC0">Wiring Topology — All Three Options</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:#7ECFC0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">Option 1 — Keep As-Is</div>
+          <div style="background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:0.69rem;line-height:2.1;color:var(--muted);">
+            <span style="color:var(--blue)">Xcel Meter (200A service)</span><br>↓ 200A service conductors<br>
+            <span style="color:var(--gold)">EG4 GridBOSS MID</span><br>↓ Backed-Up Loads · 100A feeder<br>
+            <span style="color:#7ECFC0">Existing 32-sp. panel (100A CSR25K)</span><br>
+            <span style="font-size:0.6rem;color:rgba(126,207,192,0.5);">(N-G bond removed · now subpanel)</span><br>↓ All 32 circuits — unchanged
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--orange);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">Option 2 — Breaker Swap</div>
+          <div style="background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:0.69rem;line-height:2.1;color:var(--muted);">
+            <span style="color:var(--blue)">Xcel Meter (200A service)</span><br>↓ 200A service conductors<br>
+            <span style="color:var(--gold)">EG4 GridBOSS MID</span><br>↓ Backed-Up Loads · 225A feeder<br>
+            <span style="color:var(--orange)">Existing 32-sp. panel (CSR2225 225A)</span><br>
+            <span style="font-size:0.6rem;color:rgba(240,120,48,0.5);">(N-G bond removed · CSR25K → CSR2225)</span><br>↓ All 32 circuits — unchanged
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--green);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">Option 3 — New 42-Space Panel ✓</div>
+          <div style="background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:0.69rem;line-height:2.1;color:var(--muted);">
+            <span style="color:var(--blue)">Xcel Meter (200A service)</span><br>↓ 200A service conductors<br>
+            <span style="color:var(--gold)">EG4 GridBOSS MID</span><br>↓ Backed-Up Loads · 225A feeder<br>
+            <span style="color:var(--green)">New BR4242B225 42-sp. (CSR2225 225A)</span><br>
+            <span style="font-size:0.6rem;color:rgba(46,200,120,0.5);">(32 existing BR breakers re-landed · 10 open)</span><br>↓ All circuits + 10 open for expansion
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;background:linear-gradient(135deg,rgba(46,200,120,0.07),rgba(46,200,120,0.02));border:1px solid rgba(46,200,120,0.2);border-radius:7px;padding:14px 16px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">✓ Recommendation Summary</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:0.75rem;">
+          <div><b style="color:var(--text)">Choose Option 1 if:</b><br><span style="color:var(--muted)">Your panel will never need more circuits. You're keeping all high-draw loads (EV, heat pump) on GridBOSS smart ports. Tightest budget.</span></div>
+          <div><b style="color:var(--text)">Choose Option 2 if:</b><br><span style="color:var(--muted)">You want full 225A ampacity but have no plans to add new circuits. Quick and cheap — breaker swap in 1 hour.</span></div>
+          <div><b style="color:var(--green)">Choose Option 3 if:</b><br><span style="color:var(--muted)">You want expansion room now. At ~$850 incremental while the electrician is already on-site, this is the best value. Your panel was already rated 225A — the box swap is straightforward.</span></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── DATA ──
+const mAvg={1:1183,2:1390,3:1256,4:1040,5:1059,6:1469,7:1902,8:2027,9:1670,10:1577,11:1093,12:1226};
+const pf={1:.045,2:.058,3:.082,4:.097,5:.112,6:.118,7:.115,8:.108,9:.087,10:.065,11:.042,12:.035};
+const snowMos=new Set([11,12,1,2,3]);
+function bfP(mo){const b=pf[mo]*9700*1.20;return Math.round(snowMos.has(mo)?b*1.05:b);}
+const mos=[5,6,7,8,9,10,11,12,1,2,3,4];
+const mn={1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+const seas={1:'wi',2:'wi',3:'sp',4:'sp',5:'sp',6:'su',7:'su',8:'su',9:'fa',10:'fa',11:'fa',12:'wi'};
+const sn={wi:'Winter',su:'Summer',sp:'Spring',fa:'Fall'};
+const sc={wi:'s-wi',su:'s-su',sp:'s-sp',fa:'s-fa'};
+const stax=0.06875;
+
+// ── PANEL OPTION COSTS ──
+// Option 1: Keep 100A as-is — $0 additional
+// Option 2: Swap main breaker only — CSR2225 breaker ~$100 + 1hr labor ~$150
+// Option 3: New 42-space 225A Eaton BR panel (BR4242B225) + CSR2225 + re-land all 32 breakers
+const panelCosts = { 1: 0, 2: 250, 3: 850 };
+// Option 3 breakdown: panel $170 + CSR2225 breaker $100 + electrician re-land labor $580
+
+// PLAN A costs
+const pA={
+  panels:8960, inv:6200, gridboss:1800, breakers:600, batteries:19800,
+  racking:1200, struct:3000, gravel:600, elec:7800,
+  get eq(){return this.panels+this.inv+this.gridboss+this.breakers+this.batteries+this.racking;},
+  gross(panelOpt){return this.panels+this.inv+this.gridboss+this.breakers+this.batteries+this.racking+this.struct+this.gravel+this.elec+(panelCosts[panelOpt||1]);},
+  stax(){return Math.round(this.eq*stax);},
+  batt:5000, savings:3841
+};
+// PLAN B Phase 1
+const pB1={
+  panels:4480, inv:3100, gridboss:1800, breakers:350, batteries:13200,
+  racking:600, struct:1500, gravel:300, elec:5800, presize:400,
+  get eq(){return this.panels+this.inv+this.gridboss+this.breakers+this.batteries+this.racking;},
+  gross(panelOpt){return this.panels+this.inv+this.gridboss+this.breakers+this.batteries+this.racking+this.struct+this.gravel+this.elec+this.presize+(panelCosts[panelOpt||1]);},
+  stax(){return Math.round(this.eq*stax);},
+  batt:5000, savings:1931
+};
+// PLAN B Phase 2
+const pB2={
+  panels:4480, inv:3100, breakers:300, batteries:6600,
+  racking:600, struct:1500, gravel:300, elec:3500,
+  get eq(){return this.panels+this.inv+this.breakers+this.batteries+this.racking;},
+  gross(){return this.panels+this.inv+this.breakers+this.batteries+this.racking+this.struct+this.gravel+this.elec;},
+  stax(){return Math.round(this.eq*stax);},
+  batt:0
+};
+
+// Track current panel option per plan — default to Option 3 (recommended)
+const panelOpts = {a:3, b:3};
+
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function calc25(nc,as){let t=0,r=as;for(let i=0;i<25;i++){t+=r;r*=1.03;}return Math.round(t-nc);}
+
+// ── PANEL TOGGLE HANDLER ──
+function setPanelOpt(plan, opt, btn) {
+  panelOpts[plan] = opt;
+  const container = btn.closest('.panel-toggle');
+  container.querySelectorAll('.pt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const notes = {
+    a1: 'Your existing Eaton BR 32-space 225A-rated panel becomes a subpanel fed from GridBOSS. No panel work needed — neutral-ground bond moves to GridBOSS. Your 100A CSR25K main breaker remains, limiting backed-up loads to 100A. Panel stays full at 32 spaces — no room for future circuits.',
+    a2: 'Swap your existing 100A CSR25K for a CSR2225 225A breaker (same bolt-on form factor, ~$100 part). Panel box and all 32 breakers stay. Removes the 100A ampacity ceiling and fully utilizes the 225A bus. Still full at 32 spaces — no expansion room. Incremental: +~$250.',
+    a3: 'Replace the 32-space panel box with an Eaton BR4242B225 (42 spaces, 225A bus). All 32 existing Eaton BR breakers re-land in the new panel — no breaker replacements needed. Install CSR2225 225A main breaker. 10 open spaces for solar circuits, EV, heat pump, and future loads. Incremental: +~$850.',
+    b1: 'Your existing Eaton BR 32-space 225A-rated panel becomes a subpanel fed from GridBOSS. No panel work needed — neutral-ground bond moves to GridBOSS. 100A CSR25K remains, limiting loads to 100A. Panel stays full at 32 spaces.',
+    b2: 'Swap 100A CSR25K for a CSR2225 225A breaker (~$100 part, same bolt-on). Panel box and all 32 breakers stay. Removes 100A ceiling. Still full at 32 spaces — no expansion room. Incremental: +~$250.',
+    b3: 'Replace with Eaton BR4242B225 (42 spaces, 225A bus). All 32 existing Eaton BR breakers re-land — no replacements. Install CSR2225 225A main breaker. 10 open spaces for expansion. Best time to do it — electrician already on-site. Incremental: +~$850.'
+  };
+  document.getElementById('pnote-'+plan).textContent = notes[plan+opt];
+  rebuildBOM(plan);
+  rebuildFin(plan);
+  updateComparison();
+}
+
+// ── KPI ──
+function kpis(id,items){
+  const c=document.getElementById(id);
+  items.forEach(i=>c.innerHTML+=`<div class="kpi"><div class="kac" style="background:${i.c}"></div><div class="kl">${i.l}</div><div class="kv">${i.v}</div><div class="ks">${i.s}</div>${i.d?`<div class="kd" style="color:${i.dc||'var(--muted)'}">${i.d}</div>`:''}</div>`);
+}
+
+function getPAGross(opt){return pA.gross(opt||panelOpts.a);}
+function getPB1Gross(opt){return pB1.gross(opt||panelOpts.b);}
+function getPANet(opt){return getPAGross(opt)-pA.stax()-pA.batt;}
+function getPB1Net(opt){return getPB1Gross(opt)-pB1.stax()-pB1.batt;}
+
+kpis('kpi-a',[
+  {l:'Combined Production',v:'23,280 <span class="u">kWh/yr</span>',s:'12.46kW · 28× 445W bifacial',c:'var(--green)',d:'↑ 145% of your usage',dc:'var(--green)'},
+  {l:'Annual Surplus',v:'7,228 <span class="u">kWh/yr</span>',s:'→ Xcel net metering',c:'var(--green)',d:'~$976/yr credit',dc:'var(--green)'},
+  {l:'GridBOSS Inverter Ports',v:'3 <span class="u">ports</span>',s:'2 used · 1 spare for future',c:'var(--gold)'},
+  {l:'Generator Port',v:'125 <span class="u">A</span>',s:'Auto-start · up to 14–15kW gen',c:'var(--orange)'},
+  {l:'Smart Load Ports',v:'4 <span class="u">ports</span>',s:'125A/80A/60A/60A · EV, HVAC…',c:'var(--gold)'},
+  {l:'Net Cost (Option 3 — Rec.)',v:'<span id="kpi-a-net">—</span>',s:'<span id="kpi-a-pb">—</span>',c:'var(--gold)'},
+]);
+kpis('kpi-b',[
+  {l:'Array 1 Production',v:'11,640 <span class="u">kWh/yr</span>',s:'6.23kW · 14× 445W bifacial',c:'var(--blue)'},
+  {l:'Phase 1 Offset',v:'73 <span class="u">%</span>',s:'Net metering covers remainder',c:'var(--gold)'},
+  {l:'GridBOSS Installed',v:'Phase 1',s:'All ports live from day 1',c:'var(--gold)',d:'Gen port + smart ports ready',dc:'var(--green)'},
+  {l:'Phase 2 Ready',v:'✓ Yes',s:'Port 2 reserved · conduit pre-run',c:'var(--blue)'},
+  {l:'Phase 1 Net (Option 3 — Rec.)',v:'<span id="kpi-b-net">—</span>',s:'<span id="kpi-b-pb">—</span>',c:'var(--blue)'},
+  {l:'Interior Panel',v:'<span id="kpi-b-panel">Keep 100A</span>',s:'Toggle in BOM section below',c:'var(--green)'},
+]);
+kpis('kpi-b2',[
+  {l:'Added Production',v:'+11,640 <span class="u">kWh/yr</span>',s:'Total → 23,280 kWh/yr',c:'var(--purple)'},
+  {l:'Final Offset',v:'145 <span class="u">%</span>',s:'Identical to Plan A',c:'var(--green)'},
+  {l:'GridBOSS Work Needed',v:'None',s:'Plug FlexBOSS21 into port 2',c:'var(--green)'},
+  {l:'Phase 2 Gross',v:fmt(pB2.gross()),s:'Incremental only',c:'var(--purple)'},
+  {l:'Phase 2 Net Cost',v:fmt(pB2.gross()-pB2.stax()),s:'After MN sales tax (no batt incentive)',c:'var(--purple)'},
+  {l:'P1+P2 Total Gross',v:'<span id="kpi-b2-total">—</span>',s:'Depends on panel option chosen in Phase 1',c:'var(--gold)'},
+]);
+
+// ── CHARTS ──
+function buildChart(id, arrays, colU, colP, colD){
+  const c=document.getElementById(id); const max=2600;
+  mos.forEach(mo=>{
+    const u=mAvg[mo], p=bfP(mo)*arrays;
+    const uh=Math.round((u/max)*150), ph=Math.round((p/max)*150);
+    const surplus=p>=u;
+    const g=document.createElement('div'); g.className='bg';
+    g.innerHTML=`<div class="bars"><div class="bar" style="height:${uh}px;background:${colU};" title="${mn[mo]} use: ${u.toLocaleString()} kWh"></div><div class="bar" style="height:${ph}px;background:${surplus?colP:colD};" title="${mn[mo]} prod: ${p.toLocaleString()} kWh"></div></div><div class="bl">${mn[mo]}</div>`;
+    c.appendChild(g);
+  });
+}
+function buildLeg(id, items){
+  document.getElementById(id).innerHTML=items.map(i=>`<div class="li"><div class="ld" style="background:${i.c}"></div>${i.l}</div>`).join('');
+}
+function buildTable(id, arrays){
+  const tb=document.getElementById(id);
+  mos.forEach(mo=>{
+    const u=mAvg[mo], p=bfP(mo)*arrays, net=p-u;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${mn[mo]}<span class="sb ${sc[seas[mo]]}">${sn[seas[mo]]}</span>${snowMos.has(mo)?' <span class="sb s-wi">❄</span>':''}</td><td class="num">${u.toLocaleString()}</td><td class="num" style="color:var(--green)">${p.toLocaleString()}</td><td class="num ${net>=0?'pos':'neg'}">${net>=0?'+':''}${net.toLocaleString()}</td>`;
+    tb.appendChild(tr);
+  });
+}
+function buildSeasons(id, arrays){
+  const defs=[
+    {n:'Spring (Mar–May)',mos:[3,4,5],note:'Best offset — production meets or exceeds usage'},
+    {n:'Summer (Jun–Aug)',mos:[6,7,8],note:'A/C peaks; solar strong but deficit persists'},
+    {n:'Fall (Sep–Nov)',mos:[9,10,11],note:'Declining production; snow albedo starts Nov'},
+    {n:'Winter (Dec–Feb)',mos:[12,1,2],note:'Snow albedo +30% bifacial boost; low base irradiance'},
+  ];
+  const c=document.getElementById(id);
+  defs.forEach(d=>{
+    const au=Math.round(d.mos.reduce((a,m)=>a+mAvg[m],0)/d.mos.length);
+    const ap=Math.round(d.mos.reduce((a,m)=>a+bfP(m)*arrays,0)/d.mos.length);
+    const net=ap-au, pct=Math.min(100,Math.round((ap/au)*100));
+    c.innerHTML+=`<div class="blk"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.75rem;font-weight:600;">${d.n}</span><span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}${net.toLocaleString()} kWh/mo</span></div><div style="font-size:0.67rem;color:var(--muted);margin-bottom:4px;">${d.note}</div><div class="pt"><div class="pf" style="width:${pct}%;background:${net>=0?'var(--green)':'linear-gradient(90deg,var(--red),var(--gold))'}"></div></div><div style="display:flex;justify-content:space-between;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);"><span>Use: ${au.toLocaleString()} kWh/mo</span><span>Prod: ${ap.toLocaleString()} · ${pct}%</span></div></div>`;
+  });
+}
+buildChart('chart-a',2,'var(--blue)','var(--green)','rgba(46,200,120,0.3)');
+buildLeg('leg-a',[{c:'var(--blue)',l:'Actual usage'},{c:'var(--green)',l:'Prod (surplus)'},{c:'rgba(46,200,120,0.3)',l:'Prod (deficit month)'}]);
+buildTable('tbl-a',2);
+buildChart('chart-b',1,'var(--blue)','var(--green)','rgba(46,200,120,0.3)');
+buildLeg('leg-b',[{c:'var(--blue)',l:'Actual usage'},{c:'var(--green)',l:'Array 1 prod (surplus)'},{c:'rgba(46,200,120,0.3)',l:'Array 1 prod (deficit)'}]);
+buildTable('tbl-b',1);
+buildSeasons('season-b',1);
+
+// ── BOM ──
+function buildBOM(id, items){
+  document.getElementById(id).innerHTML=items.map(i=>`<div class="bom-c${i.hl?' highlight':''}"><div class="bom-l">${i.l}</div><div class="bom-n">${i.n}</div><div class="bom-s">${i.s}</div><div class="bom-p">${fmt(i.p)}</div></div>`).join('');
+}
+
+function getBOMItems(plan, panelOpt) {
+  const panelLines = {
+    1: {l:'Interior Panel',n:'Keep Existing Eaton BR 32-space',s:'225A bus · becomes subpanel · bond relocates · 100A CSR25K stays · 0 open spaces',p:0,hl:true},
+    2: {l:'Interior Panel',n:'Breaker Swap — CSR2225 225A',s:'Same bolt-on form factor as CSR25K · removes 100A ceiling · 32 spaces still full',p:250,hl:true},
+    3: {l:'Interior Panel',n:'Eaton BR4242B225 42-Space 225A ✓',s:'42 spaces · 10 open · all 32 existing BR breakers re-land · CSR2225 main · $170 panel + $100 breaker + labor',p:850,hl:true},
+  };
+  const panelLine = panelLines[panelOpt] || panelLines[1];
+
+  if (plan === 'a') {
+    return [
+      {l:'Panels ×28',n:'28× TOPCon 445W Bifacial',s:'12.46kW · glass-glass · 88%+ bifaciality',p:pA.panels},
+      {l:'Inverters ×2',n:'2× EG4 FlexBOSS21',s:'16kW w/PV · 3 MPPTs · native GridBOSS',p:pA.inv},
+      {l:'GridBOSS MID',n:'EG4 GridBOSS v3.1',s:'200A · 3 inv ports · gen port · 4 smart ports',p:pA.gridboss,hl:true},
+      {l:'Breakers (GridBOSS)',n:'2× 90A Eaton + gen/smart',s:'FlexBOSS21 needs 90A · sold separately',p:pA.breakers,hl:true},
+      {l:'Batteries ×6',n:'6× EG4 PowerPro 14.3kWh',s:'85.8kWh · self-heat · IP65 · 8,000+ cycles',p:pA.batteries},
+      {l:'Racking ×2',n:'2× IronRidge XR100',s:'Open-frame · bifacial-compatible',p:pA.racking},
+      {l:'Structures ×2',n:'2× PT Wood Pergola',s:'6×6 posts · LVL beams · 45° · concrete',p:pA.struct},
+      {l:'Patio ×2',n:'White Limestone Gravel',s:'~400 sqft each · albedo 0.40–0.50',p:pA.gravel},
+      panelLine,
+      {l:'Electrical + 200A',n:'Licensed Electrician',s:'200A upgrade · GridBOSS install · permits · interconnect',p:pA.elec},
+    ];
+  } else {
+    return [
+      {l:'Panels ×14',n:'14× TOPCon 445W Bifacial',s:'6.23kW · same spec as Phase 2',p:pB1.panels},
+      {l:'Inverter ×1',n:'1× EG4 FlexBOSS21',s:'Port 2 reserved for Phase 2',p:pB1.inv},
+      {l:'GridBOSS MID',n:'EG4 GridBOSS v3.1',s:'Install at Phase 1 — all future expansion ready',p:pB1.gridboss,hl:true},
+      {l:'Breakers (GridBOSS)',n:'1× 90A + gen/smart',s:'Phase 2 adds second 90A breaker',p:pB1.breakers,hl:true},
+      {l:'Batteries ×4',n:'4× EG4 PowerPro',s:'57.2kWh · busbar pre-sized for 6',p:pB1.batteries},
+      {l:'Racking ×1',n:'1× IronRidge XR100',s:'Open-frame · bifacial-compatible',p:pB1.racking},
+      {l:'Structure ×1',n:'1× PT Wood Pergola',s:'6×6 posts · LVL beams · 45°',p:pB1.struct},
+      {l:'Patio ×1',n:'White Limestone Gravel',s:'~400 sqft · albedo 0.40–0.50',p:pB1.gravel},
+      panelLine,
+      {l:'Electrical + 200A + Pre-size',n:'Licensed Electrician',s:'200A upgrade · GridBOSS · conduit pre-run · permits',p:pB1.elec+pB1.presize},
+    ];
+  }
+}
+
+function rebuildBOM(plan) {
+  buildBOM('bom-'+plan, getBOMItems(plan, panelOpts[plan]));
+}
+rebuildBOM('a');
+rebuildBOM('b');
+
+// ── FINANCIALS ──
+function buildFinBlock(id, gross, stx, batt, net, savings, panelOpt){
+  const panelLabels = {
+    1: 'Option 1 — Keep 100A · 32 spaces · $0',
+    2: `Option 2 — CSR2225 swap · 32 spaces · +${fmt(panelCosts[2])}`,
+    3: `Option 3 — New 42-space 225A · +${fmt(panelCosts[3])} ✓ Rec.`
+  };
+  const panelColors = { 1:'#7ECFC0', 2:'var(--orange)', 3:'var(--green)' };
+  const panelLabel = panelLabels[panelOpt] || panelLabels[1];
+  const panelColor = panelColors[panelOpt] || panelColors[1];
+  const c=document.getElementById(id);
+  c.innerHTML=`
+    <div class="blk">
+      <div class="br"><span class="bk">Gross total</span><span class="bv" style="color:var(--gold)">${fmt(gross)}</span></div>
+      <div class="br"><span class="bk">MN sales tax exemption</span><span class="bv" style="color:var(--green)">−${fmt(stx)}</span></div>
+      <div class="br"><span class="bk">Xcel battery incentive</span><span class="bv" style="color:var(--green)">−${fmt(batt)}</span></div>
+      <div class="br"><span class="bk">Federal ITC</span><span class="bv" style="color:var(--red)">$0 (expired)</span></div>
+      <div class="br"><span class="bk">Interior panel</span><span class="bv" style="color:${panelColor}">${panelLabel}</span></div>
+      <div class="hdiv"></div>
+      <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Net after incentives</span><span class="bv" style="color:var(--gold);font-size:0.95rem;">${fmt(net)}</span></div>
+    </div>
+    <div class="blk">
+      <div class="br"><span class="bk">Annual savings yr 1</span><span class="bv" style="color:var(--green)">${fmt(savings)}/yr</span></div>
+      <div class="br"><span class="bk">Simple payback</span><span class="bv" style="color:var(--gold)">${(net/savings).toFixed(1)} years</span></div>
+      <div class="hdiv"></div>
+      <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">25-yr net savings (3% escalation)</span><span class="bv" style="color:var(--green);font-size:0.95rem;">${fmt(calc25(net,savings))}</span></div>
+    </div>`;
+}
+
+function rebuildFin(plan) {
+  const opt = panelOpts[plan];
+  const panelKpiLabels = { 1:'Keep 100A · 32 sp.', 2:'Breaker swap 225A', 3:'42-space 225A ✓' };
+  if (plan === 'a') {
+    const gross = getPAGross(opt);
+    const net = getPANet(opt);
+    buildFinBlock('fin-a', gross, pA.stax(), pA.batt, net, pA.savings, opt);
+    document.getElementById('kpi-a-net').textContent = fmt(net);
+    document.getElementById('kpi-a-pb').textContent = 'Payback: '+(net/pA.savings).toFixed(1)+' yrs';
+  } else {
+    const gross = getPB1Gross(opt);
+    const net = getPB1Net(opt);
+    buildFinBlock('fin-b', gross, pB1.stax(), pB1.batt, net, pB1.savings, opt);
+    document.getElementById('kpi-b-net').textContent = fmt(net);
+    document.getElementById('kpi-b-pb').textContent = 'Payback: '+(net/pB1.savings).toFixed(1)+' yrs';
+    document.getElementById('kpi-b-panel').textContent = panelKpiLabels[opt] || panelKpiLabels[1];
+    const pBTotal = getPB1Gross(opt) + pB2.gross();
+    document.getElementById('kpi-b2-total').textContent = fmt(pBTotal);
+    document.getElementById('p2gross').textContent = fmt(pBTotal);
+  }
+}
+
+// Phase 2 fin (static)
+const b2net = pB2.gross() - pB2.stax();
+const b2savings = pA.savings - pB1.savings;
+document.getElementById('fin-b2').innerHTML=`
+  <div class="blk">
+    <div class="br"><span class="bk">Gross total (incremental)</span><span class="bv" style="color:var(--gold)">${fmt(pB2.gross())}</span></div>
+    <div class="br"><span class="bk">MN sales tax exemption</span><span class="bv" style="color:var(--green)">−${fmt(pB2.stax())}</span></div>
+    <div class="br"><span class="bk">Battery incentive</span><span class="bv" style="color:var(--muted)">$0 (cap used in Phase 1)</span></div>
+    <div class="br"><span class="bk">Interior panel upgrade</span><span class="bv" style="color:var(--muted)">N/A — done in Phase 1</span></div>
+    <div class="hdiv"></div>
+    <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">Phase 2 net cost</span><span class="bv" style="color:var(--gold);font-size:0.95rem;">${fmt(b2net)}</span></div>
+  </div>
+  <div class="blk">
+    <div class="br"><span class="bk">Added annual savings</span><span class="bv" style="color:var(--green)">${fmt(b2savings)}/yr</span></div>
+    <div class="br"><span class="bk">Phase 2 payback</span><span class="bv" style="color:var(--gold)">${(b2net/b2savings).toFixed(1)} years</span></div>
+    <div class="hdiv"></div>
+    <div class="br"><span class="bk" style="font-weight:600;color:var(--text)">25-yr net savings on Phase 2</span><span class="bv" style="color:var(--green);font-size:0.95rem;">${fmt(calc25(b2net,b2savings))}</span></div>
+  </div>`;
+
+// Initial render
+rebuildFin('a');
+rebuildFin('b');
+
+// ── B2 BOM LIST ──
+const b2items=[
+  {l:'Panels ×14',n:'14× TOPCon 445W Bifacial',p:pB2.panels,note:'Same spec as Phase 1'},
+  {l:'Inverter ×1',n:'1× EG4 FlexBOSS21',p:pB2.inv,note:'Plugs into GridBOSS port 2'},
+  {l:'Breaker',n:'1× 90A Eaton (GridBOSS)',p:pB2.breakers,note:'GridBOSS already installed — just add breaker'},
+  {l:'Batteries ×2',n:'2× EG4 PowerPro',p:pB2.batteries,note:'Adds to existing busbar → 6 total'},
+  {l:'Racking ×1',n:'1× IronRidge XR100',p:pB2.racking,note:'Same spec as Phase 1'},
+  {l:'Structure ×1',n:'1× PT Wood Pergola',p:pB2.struct,note:'Second pergola + gravel patio'},
+  {l:'Patio ×1',n:'White Limestone Gravel',p:pB2.gravel,note:'Matches Phase 1'},
+  {l:'Electrical',n:'Electrician (reduced)',p:pB2.elec,note:'Pre-run conduit used — no 200A work — reduced labor'},
+];
+const b2c=document.getElementById('bom-b2-list');
+b2items.forEach(i=>b2c.innerHTML+=`<div class="blk"><div class="br"><span class="bk" style="font-weight:600;color:var(--text);">${i.l}: ${i.n}</span><span class="bv" style="color:var(--gold)">${fmt(i.p)}</span></div><div style="font-size:0.66rem;color:var(--muted);">${i.note}</div></div>`);
+
+// ── COMPARISON PAGE ──
+function updateComparison() {
+  const optA = panelOpts.a, optB = panelOpts.b;
+  const aGross = getPAGross(optA), aNet = getPANet(optA);
+  const b1Gross = getPB1Gross(optB), b1Net = getPB1Net(optB);
+  const bTotal = b1Gross + pB2.gross();
+  document.getElementById('ca-g').textContent=fmt(aGross);
+  document.getElementById('ca-s').textContent='−'+fmt(pA.stax());
+  document.getElementById('ca-n').textContent=fmt(aNet);
+  document.getElementById('ca-pb').textContent=(aNet/3841).toFixed(1)+' years';
+  document.getElementById('ca-25').textContent=fmt(calc25(aNet,3841));
+  document.getElementById('cb-g1').textContent=fmt(b1Gross);
+  document.getElementById('cb-s1').textContent='−'+fmt(pB1.stax());
+  document.getElementById('cb-n1').textContent=fmt(b1Net);
+  document.getElementById('cb-g2').textContent=fmt(pB2.gross());
+  document.getElementById('cb-s2').textContent='−'+fmt(pB2.stax());
+  document.getElementById('cb-tot').textContent=fmt(bTotal);
+  document.getElementById('cb-d').textContent=`+${fmt(bTotal-aGross)} more than Plan A`;
+  document.getElementById('pca-n').textContent=fmt(aNet);
+  document.getElementById('pcb-n').textContent=fmt(b1Net);
+  document.getElementById('pca-pb').textContent=(aNet/3841).toFixed(1)+' years';
+  document.getElementById('pcb-pb').textContent=(b1Net/1931).toFixed(1)+' years';
+}
+updateComparison();
+
+// ── TABS ──
+function show(id,btn){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.className='tb');
+  document.getElementById('pg-'+id).classList.add('on');
+  const map={a:'ta',b:'tb2',b2:'tb2',c:'tc',d:'td',e:'te'};
+  btn.classList.add(map[id]);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar System Analysis — Bloomington, MN</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #F5A623;
+    --solar: #FFD166;
+    --deep: #0D1117;
+    --panel: #141B24;
+    --card: #1A2332;
+    --border: #243040;
+    --text: #E8EDF3;
+    --muted: #7A8A9A;
+    --green: #3DD68C;
+    --red: #FF6B6B;
+    --blue: #4FC3F7;
+    --accent: #F5A623;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0D1117 0%, #141B24 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .header-left h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: 0.08em;
+    color: var(--solar);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .header-left p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+  .header-right {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .header-right span { color: var(--solar); }
+
+  /* MAIN */
+  main { padding: 32px 40px; max-width: 1400px; }
+
+  /* STAT CARDS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-value .unit {
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .stat-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* TWO COLUMN */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CHART */
+  .chart-wrapper { position: relative; height: 200px; }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 180px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .bar-wrap {
+    width: 100%;
+    display: flex;
+    gap: 1px;
+    justify-content: center;
+    align-items: flex-end;
+    flex: 1;
+  }
+  .bar {
+    border-radius: 2px 2px 0 0;
+    transition: opacity 0.2s;
+    min-width: 8px;
+    flex: 1;
+  }
+  .bar:hover { opacity: 0.8; }
+  .bar.usage { background: var(--blue); }
+  .bar.production { background: var(--green); }
+  .bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  /* MONTHLY TABLE */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 7px 10px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(36,48,64,0.5);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td.num { font-family: 'DM Mono', monospace; text-align: right; }
+  .surplus { color: var(--green); }
+  .deficit { color: var(--red); }
+  .bar-inline {
+    height: 4px;
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  /* SYSTEM SIZING */
+  .sizing-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .sizing-block:last-child { margin-bottom: 0; }
+  .sizing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+  }
+  .sizing-row:last-child { margin-bottom: 0; }
+  .sizing-key { color: var(--muted); }
+  .sizing-val { font-family: 'DM Mono', monospace; color: var(--text); font-weight: 500; }
+  .sizing-val.accent { color: var(--accent); }
+  .sizing-val.green { color: var(--green); }
+  .sizing-val.red { color: var(--red); }
+
+  /* RECOMMENDATION BOX */
+  .rec-box {
+    background: linear-gradient(135deg, rgba(245,166,35,0.08) 0%, rgba(245,166,35,0.03) 100%);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .rec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+    color: var(--solar);
+    margin-bottom: 14px;
+  }
+  .rec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .rec-item { }
+  .rec-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .rec-item-val {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .rec-item-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-track {
+    background: var(--panel);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+
+  /* MONTHLY SEASON LABELS */
+  .season-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 6px;
+  }
+  .s-summer { background: rgba(245,166,35,0.15); color: var(--solar); }
+  .s-winter { background: rgba(79,195,247,0.15); color: var(--blue); }
+  .s-spring { background: rgba(61,214,140,0.15); color: var(--green); }
+  .s-fall { background: rgba(255,107,107,0.15); color: var(--red); }
+
+  .full-width { grid-column: 1 / -1; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .rec-grid { grid-template-columns: repeat(2, 1fr); }
+    main, header { padding: 20px; }
+    header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>☀ Solar System Analysis</h1>
+    <p>Bloomington, Minnesota · 44.8°N · 22×22 ft Ground Mount</p>
+  </div>
+  <div class="header-right">
+    <div>Latitude <span>44.8°N</span></div>
+    <div>Optimal Tilt <span>45°</span></div>
+    <div>Peak Sun Hours <span>4.5 hrs/day</span></div>
+    <div>Analysis Period <span>May 2024 – Apr 2026</span></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Annual Usage (Yr1)</div>
+      <div class="stat-value">17,284 <span class="unit">kWh</span></div>
+      <div class="stat-sub">May 2024 – Apr 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Annual Usage (Yr2)</div>
+      <div class="stat-value">14,820 <span class="unit">kWh</span></div>
+      <div class="stat-sub">May 2025 – Apr 2026</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">2-Year Avg Monthly</div>
+      <div class="stat-value">1,337 <span class="unit">kWh</span></div>
+      <div class="stat-sub">~44.6 kWh/day avg</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Peak Month</div>
+      <div class="stat-value">2,066 <span class="unit">kWh</span></div>
+      <div class="stat-sub">Jul 2025 · Summer A/C peak</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Lowest Month</div>
+      <div class="stat-value">874 <span class="unit">kWh</span></div>
+      <div class="stat-sub">Nov 2025 · Mild fall</div>
+    </div>
+  </div>
+
+  <!-- CHART + TABLE -->
+  <div class="two-col" style="grid-template-columns: 3fr 2fr;">
+
+    <div class="section-card">
+      <div class="section-title">Monthly Usage vs. Projected Solar Production</div>
+      <div class="bar-chart" id="barChart"></div>
+      <div class="chart-legend">
+        <div><span class="legend-dot" style="background:var(--blue)"></span>Actual Usage</div>
+        <div><span class="legend-dot" style="background:var(--green)"></span>Est. Production (6.02 kW array)</div>
+        <div><span class="legend-dot" style="background:var(--accent)"></span>Surplus</div>
+      </div>
+      <div style="margin-top:10px; font-size:0.72rem; color:var(--muted); font-family:'DM Mono',monospace;">
+        * Production estimates based on 6.02kW array at 45° south, NREL PVWatts MN irradiance data
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">2-Year Monthly Breakdown</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th style="text-align:right">Yr1</th>
+            <th style="text-align:right">Yr2</th>
+            <th style="text-align:right">Est. Production</th>
+            <th style="text-align:right">Net vs Avg</th>
+          </tr>
+        </thead>
+        <tbody id="monthTable"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- SYSTEM SIZING RECOMMENDATION -->
+  <div class="rec-box">
+    <div class="rec-title">⚡ System Sizing Recommendation — Based on Your Actual Usage</div>
+    <div class="rec-grid">
+      <div class="rec-item">
+        <div class="rec-item-label">Array Size Required</div>
+        <div class="rec-item-val">14 Panels × 430W</div>
+        <div class="rec-item-sub">= 6.02 kW DC · ~9,700 kWh/yr est.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-label">Inverter</div>
+        <div class="rec-item-val">EG4 18kPV</div>
+        <div class="rec-item-sub">12kW continuous · 3 MPPTs · grid sellback</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-label">Battery Storage</div>
+        <div class="rec-item-val">4× EG4 PowerPro</div>
+        <div class="rec-item-sub">57.2 kWh total · ~1.3 days avg backup</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-label">Annual Offset</div>
+        <div class="rec-item-val" id="offsetPct" style="color:var(--green)">—</div>
+        <div class="rec-item-sub" id="offsetNote">Based on 2-year avg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE COLUMN: SIZING DETAILS -->
+  <div class="three-col">
+
+    <div class="section-card">
+      <div class="section-title">Why 6 kW Isn't Enough — And What Is</div>
+      <div class="sizing-block">
+        <div class="sizing-row">
+          <span class="sizing-key">Your 2-yr avg annual usage</span>
+          <span class="sizing-val accent" id="annualAvg">—</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">MN avg assumed (prev estimate)</span>
+          <span class="sizing-val">9,000 kWh/yr</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Your actual usage premium</span>
+          <span class="sizing-val red" id="usagePremium">—</span>
+        </div>
+      </div>
+      <div class="sizing-block">
+        <div class="sizing-row">
+          <span class="sizing-key">Required to fully offset</span>
+          <span class="sizing-val accent" id="requiredProduction">—</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">6.02 kW array produces</span>
+          <span class="sizing-val">~9,700 kWh/yr</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Shortfall at 6 kW</span>
+          <span class="sizing-val red" id="shortfall">—</span>
+        </div>
+      </div>
+      <div style="font-size:0.75rem; color:var(--muted); margin-top:10px; line-height:1.6;">
+        Your summer A/C usage (Jul–Oct) is significantly above MN average. A 6 kW array handles shoulder seasons well but falls short in summer peaks. The 22×22 ft space limits you — <strong style="color:var(--solar)">14 panels at 6.02 kW is the maximum your space allows.</strong> Net metering covers the remaining gap.
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Season-by-Season Solar Balance</div>
+      <div id="seasonBlocks"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Battery Sizing vs. Your Usage</div>
+      <div class="sizing-block">
+        <div class="sizing-row">
+          <span class="sizing-key">Avg daily usage</span>
+          <span class="sizing-val accent">~44.6 kWh/day</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Peak summer daily</span>
+          <span class="sizing-val red">~67 kWh/day</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Min winter daily</span>
+          <span class="sizing-val blue">~29 kWh/day</span>
+        </div>
+      </div>
+      <div class="sizing-block">
+        <div class="sizing-row">
+          <span class="sizing-key">4× PowerPro (57.2 kWh)</span>
+          <span class="sizing-val green">✓ Recommended</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Coverage at avg daily usage</span>
+          <span class="sizing-val green">~1.3 days</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Coverage at winter daily</span>
+          <span class="sizing-val green">~2.0 days</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Coverage at summer peak</span>
+          <span class="sizing-val accent">~0.85 days</span>
+        </div>
+      </div>
+      <div style="font-size:0.75rem; color:var(--muted); margin-top:10px; line-height:1.6;">
+        Consider <strong style="color:var(--solar)">6× PowerPro (85.8 kWh)</strong> if full summer blackout resilience is critical. At ~$3,300/unit, adding 2 more batteries costs ~$6,600 before the tax credit (~$4,620 net).
+      </div>
+      <div class="progress-track" style="margin-top:12px;">
+        <div class="progress-fill" style="width:78%; background: linear-gradient(90deg, var(--green), var(--solar));"></div>
+      </div>
+      <div style="font-size:0.68rem; color:var(--muted); margin-top:4px; font-family:'DM Mono',monospace;">4× battery covers 78% of max daily load</div>
+    </div>
+
+  </div>
+
+  <!-- FINAL UPDATED BOM -->
+  <div class="section-card">
+    <div class="section-title">Updated Bill of Materials — Based on Actual Usage Data</div>
+    <div style="display:grid; grid-template-columns: repeat(6, 1fr); gap:12px;">
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Panels</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">14× 430W Mono</div>
+        <div style="font-size:0.72rem; color:var(--muted);">6.02 kW DC</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$4,200</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Inverter</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">EG4 18kPV</div>
+        <div style="font-size:0.72rem; color:var(--muted);">12kW · 3 MPPT · Grid Sellback</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$2,800</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Batteries</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">4× EG4 PowerPro</div>
+        <div style="font-size:0.72rem; color:var(--muted);">57.2 kWh · Self-Heat · IP65</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$13,200</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Racking</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">IronRidge XR100</div>
+        <div style="font-size:0.72rem; color:var(--muted);">Rails + clamps + L-feet</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$600</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Structure</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">PT Wood Pergola</div>
+        <div style="font-size:0.72rem; color:var(--muted);">6×6 posts, beams, rafters, concrete</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$1,500</div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Electrical + Labor</div>
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Licensed Electrician</div>
+        <div style="font-size:0.72rem; color:var(--muted);">Tie-in, permits, interconnect</div>
+        <hr class="divider">
+        <div style="font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--solar);">~$4,300</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-top:12px;">
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row">
+          <span class="sizing-key">Gross Total</span>
+          <span class="sizing-val accent">~$26,600</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Federal 30% ITC</span>
+          <span class="sizing-val green">−$7,980</span>
+        </div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Net After Tax Credit</span>
+          <span class="sizing-val accent" style="font-size:1.1rem;">~$18,620</span>
+        </div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row">
+          <span class="sizing-key" id="annualCostLabel">Est. annual Xcel bill (avg usage)</span>
+          <span class="sizing-val red" id="annualBill">—</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Net metering surplus credit est.</span>
+          <span class="sizing-val green">~$200–400/yr</span>
+        </div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Simple Payback (net cost)</span>
+          <span class="sizing-val accent" id="payback">—</span>
+        </div>
+      </div>
+      <div class="sizing-block" style="margin:0">
+        <div class="sizing-row">
+          <span class="sizing-key">Array covers avg annual usage</span>
+          <span class="sizing-val" id="coveragePct">—</span>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-key">Net metering covers remainder</span>
+          <span class="sizing-val green">✓ Yes (Xcel)</span>
+        </div>
+        <div class="sizing-row" style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+          <span class="sizing-key" style="font-weight:600; color:var(--text);">Effective annual offset</span>
+          <span class="sizing-val green">~100% w/ net metering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// --- DATA ---
+const rawData = [
+  { month: 'Apr 26', usage: 1112, year: 2, mo: 4 },
+  { month: 'Mar 26', usage: 1137, year: 2, mo: 3 },
+  { month: 'Feb 26', usage: 1264, year: 2, mo: 2 },
+  { month: 'Jan 26', usage: 1103, year: 2, mo: 1 },
+  { month: 'Dec 25', usage: 984,  year: 2, mo: 12 },
+  { month: 'Nov 25', usage: 874,  year: 2, mo: 11 },
+  { month: 'Oct 25', usage: 1509, year: 2, mo: 10 },
+  { month: 'Sep 25', usage: 1402, year: 2, mo: 9 },
+  { month: 'Aug 25', usage: 2056, year: 2, mo: 8 },
+  { month: 'Jul 25', usage: 2066, year: 2, mo: 7 },
+  { month: 'Jun 25', usage: 1393, year: 2, mo: 6 },
+  { month: 'May 25', usage: 1077, year: 2, mo: 5 },
+  { month: 'Apr 25', usage: 968,  year: 1, mo: 4 },
+  { month: 'Mar 25', usage: 1375, year: 1, mo: 3 },
+  { month: 'Feb 25', usage: 1516, year: 1, mo: 2 },
+  { month: 'Jan 25', usage: 1460, year: 1, mo: 1 },
+  { month: 'Dec 24', usage: 1468, year: 1, mo: 12 },
+  { month: 'Nov 24', usage: 1312, year: 1, mo: 11 },
+  { month: 'Oct 24', usage: 1645, year: 1, mo: 10 },
+  { month: 'Sep 24', usage: 1938, year: 1, mo: 9 },
+  { month: 'Aug 24', usage: 1997, year: 1, mo: 8 },
+  { month: 'Jul 24', usage: 1737, year: 1, mo: 7 },
+  { month: 'Jun 24', usage: 1544, year: 1, mo: 6 },
+  { month: 'May 24', usage: 1040, year: 1, mo: 5 },
+];
+
+// MN solar production factors by month (fraction of annual, NREL PVWatts data for ~45N)
+// Normalized so sum = 1, then scaled to annual production
+const productionFactors = {
+  1: 0.045, 2: 0.058, 3: 0.082, 4: 0.097,
+  5: 0.112, 6: 0.118, 7: 0.115, 8: 0.108,
+  9: 0.087, 10: 0.065, 11: 0.042, 12: 0.035
+};
+const annualProduction = 9700; // kWh/yr for 6.02kW at 45°
+
+// Avg by month
+const monthAvg = {};
+const monthYr1 = {};
+const monthYr2 = {};
+rawData.forEach(d => {
+  if (!monthAvg[d.mo]) { monthAvg[d.mo] = []; monthYr1[d.mo] = null; monthYr2[d.mo] = null; }
+  monthAvg[d.mo].push(d.usage);
+  if (d.year === 1) monthYr1[d.mo] = d.usage;
+  else monthYr2[d.mo] = d.usage;
+});
+Object.keys(monthAvg).forEach(mo => {
+  monthAvg[mo] = Math.round(monthAvg[mo].reduce((a,b)=>a+b,0)/monthAvg[mo].length);
+});
+
+// Totals
+const yr1total = rawData.filter(d=>d.year===1).reduce((a,d)=>a+d.usage,0);
+const yr2total = rawData.filter(d=>d.year===2).reduce((a,d)=>a+d.usage,0);
+const avgAnnual = Math.round((yr1total+yr2total)/2);
+const xcelRate = 0.135; // $/kWh approx Xcel MN
+const annualBill = Math.round(avgAnnual * xcelRate);
+const netCost = 18620;
+const paybackYrs = (netCost / annualBill).toFixed(1);
+const offsetPct = Math.round((annualProduction / avgAnnual)*100);
+
+// --- POPULATE STATS ---
+document.getElementById('annualAvg').textContent = avgAnnual.toLocaleString() + ' kWh/yr';
+document.getElementById('usagePremium').textContent = '+' + Math.round(((avgAnnual/9000)-1)*100) + '% above MN avg';
+document.getElementById('requiredProduction').textContent = avgAnnual.toLocaleString() + ' kWh/yr';
+document.getElementById('shortfall').textContent = (avgAnnual - 9700).toLocaleString() + ' kWh/yr';
+document.getElementById('offsetPct').textContent = offsetPct + '%';
+document.getElementById('offsetNote').textContent = 'array covers ' + offsetPct + '% · net metering fills rest';
+document.getElementById('annualBill').textContent = '~$' + annualBill.toLocaleString() + '/yr';
+document.getElementById('payback').textContent = paybackYrs + ' years';
+document.getElementById('coveragePct').textContent = offsetPct + '% direct coverage';
+
+// --- BUILD CHART ---
+const months = [5,6,7,8,9,10,11,12,1,2,3,4]; // May-Apr
+const chartLabels = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+const maxBar = 2200;
+const chart = document.getElementById('barChart');
+
+months.forEach((mo, i) => {
+  const usage = monthAvg[mo] || 0;
+  const prod = Math.round(productionFactors[mo] * annualProduction);
+  const usageH = Math.round((usage / maxBar) * 140);
+  const prodH = Math.round((prod / maxBar) * 140);
+  const surplus = prod > usage;
+
+  const group = document.createElement('div');
+  group.className = 'bar-group';
+  group.innerHTML = `
+    <div class="bar-wrap">
+      <div class="bar usage" style="height:${usageH}px" title="Usage: ${usage} kWh"></div>
+      <div class="bar production" style="height:${prodH}px; background:${surplus?'var(--green)':'rgba(61,214,140,0.4)'};" title="Production: ${prod} kWh"></div>
+    </div>
+    <div class="bar-label">${chartLabels[i]}</div>
+  `;
+  chart.appendChild(group);
+});
+
+// --- BUILD TABLE ---
+const seasons = {1:'winter',2:'winter',3:'spring',4:'spring',5:'spring',6:'summer',7:'summer',8:'summer',9:'fall',10:'fall',11:'fall',12:'winter'};
+const seasonLabel = {winter:'Winter',summer:'Summer',spring:'Spring',fall:'Fall'};
+const seasonClass = {winter:'s-winter',summer:'s-summer',spring:'s-spring',fall:'s-fall'};
+const monthNames = {1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+
+const tbody = document.getElementById('monthTable');
+months.forEach(mo => {
+  const yr1 = monthYr1[mo] || '—';
+  const yr2 = monthYr2[mo] || '—';
+  const avg = monthAvg[mo];
+  const prod = Math.round(productionFactors[mo] * annualProduction);
+  const net = prod - avg;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${monthNames[mo]}<span class="season-badge ${seasonClass[seasons[mo]]}">${seasonLabel[seasons[mo]]}</span></td>
+    <td class="num">${yr1 !== '—' ? yr1.toLocaleString() : '—'}</td>
+    <td class="num">${yr2 !== '—' ? yr2.toLocaleString() : '—'}</td>
+    <td class="num" style="color:var(--green)">${prod.toLocaleString()}</td>
+    <td class="num ${net>=0?'surplus':'deficit'}">${net>=0?'+':''}${net.toLocaleString()}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// --- SEASON BLOCKS ---
+const seasonData = [
+  { name: 'Summer (Jun–Aug)', usage: Math.round((monthAvg[6]+monthAvg[7]+monthAvg[8])/3), prod: Math.round(((productionFactors[6]+productionFactors[7]+productionFactors[8])*annualProduction)/3), note: 'A/C peaks dominate' },
+  { name: 'Fall (Sep–Nov)', usage: Math.round((monthAvg[9]+monthAvg[10]+monthAvg[11])/3), prod: Math.round(((productionFactors[9]+productionFactors[10]+productionFactors[11])*annualProduction)/3), note: 'Rapid production decline' },
+  { name: 'Winter (Dec–Feb)', usage: Math.round((monthAvg[12]+monthAvg[1]+monthAvg[2])/3), prod: Math.round(((productionFactors[12]+productionFactors[1]+productionFactors[2])*annualProduction)/3), note: 'Self-heating batteries critical' },
+  { name: 'Spring (Mar–May)', usage: Math.round((monthAvg[3]+monthAvg[4]+monthAvg[5])/3), prod: Math.round(((productionFactors[3]+productionFactors[4]+productionFactors[5])*annualProduction)/3), note: 'Best offset season' },
+];
+
+const seasonContainer = document.getElementById('seasonBlocks');
+seasonData.forEach(s => {
+  const net = s.prod - s.usage;
+  const pct = Math.min(100, Math.round((s.prod / s.usage) * 100));
+  const div = document.createElement('div');
+  div.className = 'sizing-block';
+  div.innerHTML = `
+    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+      <span style="font-size:0.78rem; font-weight:600;">${s.name}</span>
+      <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}${net} kWh/mo</span>
+    </div>
+    <div style="font-size:0.7rem; color:var(--muted); margin-bottom:6px;">${s.note}</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${pct}%; background:${net>=0?'var(--green)':'linear-gradient(90deg, var(--red), var(--solar))'}"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:4px; font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted);">
+      <span>Avg usage: ${s.usage.toLocaleString()} kWh/mo</span>
+      <span>Production: ${s.prod.toLocaleString()} kWh/mo · ${pct}% covered</span>
+    </div>
+  `;
+  seasonContainer.appendChild(div);
+});
+</script>
+</body>
+</html>
