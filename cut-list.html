@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Pergola — Materials Cut List</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2F0EA;
+    --paper: #FAFAF6;
+    --ink: #1C1C14;
+    --dim: #4C4C38;
+    --accent: #C8530A;
+    --wood: #7A5C10;
+    --metal: #4A6070;
+    --concrete: #8A8278;
+    --elec: #1A5080;
+    --border: #2A2A1E;
+    --stripe: #F5F3ED;
+    --stripe2: #ECEAE2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Share Tech Mono', monospace; color: var(--ink); padding: 24px; }
+
+  .page { max-width: 1200px; margin: 0 auto; }
+
+  .header {
+    background: var(--ink); color: var(--paper);
+    padding: 18px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 3px;
+  }
+  .header h1 { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+  .header-meta { text-align: right; font-size: 0.72rem; line-height: 2; color: #C8C0A0; }
+  .header-meta b { color: var(--paper); }
+
+  .subheader {
+    background: var(--accent); color: var(--paper);
+    padding: 6px 24px;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .section {
+    margin-bottom: 22px;
+  }
+  .section-title {
+    background: var(--border); color: var(--paper);
+    padding: 7px 14px;
+    font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .section-title span { font-size: 0.7rem; font-family: 'Share Tech Mono', monospace; color: #C8C0A0; font-weight: 400; }
+
+  .cut-table { width: 100%; border-collapse: collapse; background: var(--paper); }
+  .cut-table thead tr { background: #3A3A2A; }
+  .cut-table thead th {
+    color: var(--paper); padding: 7px 10px;
+    font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.08em;
+    text-align: left; font-weight: 400;
+    border-right: 1px solid #4A4A3A;
+  }
+  .cut-table thead th:last-child { border-right: none; }
+  .cut-table tbody tr:nth-child(odd) { background: var(--stripe); }
+  .cut-table tbody tr:nth-child(even) { background: var(--stripe2); }
+  .cut-table tbody tr:hover { background: #E8E4D8; }
+  .cut-table td {
+    padding: 6px 10px; font-size: 0.77rem;
+    border-right: 1px solid #D8D4C4;
+    vertical-align: middle;
+  }
+  .cut-table td:last-child { border-right: none; }
+  .cut-table tfoot tr { background: #2A2A1E; }
+  .cut-table tfoot td {
+    color: var(--paper); padding: 7px 10px; font-size: 0.77rem;
+    border-right: 1px solid #4A4A3A; font-weight: bold;
+  }
+
+  .mark { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  .num { text-align: right; font-family: 'Share Tech Mono', monospace; }
+  .dim { color: var(--accent); font-weight: bold; }
+  .note { color: var(--dim); font-size: 0.7rem; }
+  .cost { color: var(--wood); font-weight: bold; text-align: right; }
+  .total-cost { color: #FFD080; font-weight: bold; text-align: right; }
+
+  .cat-wood { background: rgba(122,92,16,0.12); border-left: 3px solid var(--wood); }
+  .cat-metal { background: rgba(74,96,112,0.12); border-left: 3px solid var(--metal); }
+  .cat-concrete { background: rgba(138,130,120,0.12); border-left: 3px solid var(--concrete); }
+  .cat-hardware { background: rgba(80,80,80,0.10); border-left: 3px solid #666; }
+  .cat-solar { background: rgba(26,80,128,0.10); border-left: 3px solid var(--elec); }
+  .cat-patio { background: rgba(140,120,80,0.12); border-left: 3px solid #8C7850; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 18px; }
+  .summary-card { background: var(--paper); border: 1.5px solid var(--border); padding: 12px 14px; }
+  .summary-card .label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); margin-bottom: 4px; }
+  .summary-card .value { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--ink); }
+  .summary-card .sub { font-size: 0.67rem; color: var(--dim); margin-top: 2px; }
+
+  .note-box { background: rgba(200,83,10,0.07); border: 1.5px solid rgba(200,83,10,0.3); padding: 12px 16px; margin-top: 16px; }
+  .note-box h3 { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .note-box p { font-size: 0.72rem; color: var(--dim); line-height: 1.7; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  .qty-badge { background: var(--ink); color: var(--paper); padding: 1px 6px; border-radius: 2px; font-size: 0.7rem; }
+  .per-array { color: var(--dim); font-size: 0.67rem; }
+  .both-arrays { color: var(--accent); font-size: 0.67rem; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div>
+      <h1>Materials & Cut List — Solar Pergola Frames</h1>
+      <div style="font-size:0.72rem;color:#C8C0A0;margin-top:4px;">8825 Columbus Ave S · Bloomington, MN · Dual 22′×22′ Arrays · 45° South-Facing</div>
+    </div>
+    <div class="header-meta">
+      <div>Arrays: <b>2 (identical)</b></div>
+      <div>Each structure: <b>22′W × 22′D</b></div>
+      <div>Panel count: <b>14 per array</b></div>
+      <div>Date: <b>April 2026</b></div>
+    </div>
+  </div>
+  <div class="subheader">★ QUANTITIES SHOWN ARE PER ARRAY — MULTIPLY BY 2 FOR TOTAL DUAL-ARRAY BUILD · ADD 10% WASTE FACTOR TO ALL LUMBER</div>
+
+  <div class="two-col">
+
+    <!-- LEFT COLUMN -->
+    <div>
+
+      <!-- POSTS -->
+      <div class="section">
+        <div class="section-title">1. Posts — 6×6 Pressure Treated <span>ACQ UC4B Ground Contact</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Nominal Size</th><th>Cut Length</th><th>Qty/Array</th><th>Qty Both</th><th>Lumber Grade</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-wood">
+              <td>Front Posts (S side)</td>
+              <td class="dim">6×6</td>
+              <td class="dim">8′-0″</td>
+              <td class="num"><span class="qty-badge">3</span></td>
+              <td class="num both-arrays">6</td>
+              <td>#1 ACQ PT</td>
+              <td class="note">6′ above grade + 2′ embedment. Simpson ABU66Z base, set in concrete</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Rear Posts (N side)</td>
+              <td class="dim">6×6</td>
+              <td class="dim">12′-0″</td>
+              <td class="num"><span class="qty-badge">3</span></td>
+              <td class="num both-arrays">6</td>
+              <td>#1 ACQ PT</td>
+              <td class="note">10′ above grade + 2′ embedment. Creates 45° pitch with front posts</td>
+            </tr>
+          </tbody>
+          <tfoot><tr>
+            <td colspan="3">Section Total — Posts</td>
+            <td class="num">6 pcs</td>
+            <td class="num total-cost">12 pcs</td>
+            <td colspan="2">~$28–36/pc at 8′; ~$42–52/pc at 12′</td>
+          </tr></tfoot>
+        </table>
+      </div>
+
+      <!-- BEAMS -->
+      <div class="section">
+        <div class="section-title">2. Beams — Doubled 2×10 or LVL <span>Main Spanning Members</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Nominal Size</th><th>Cut Length</th><th>Qty/Array</th><th>Qty Both</th><th>Grade</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-wood">
+              <td>Front (S) Beam — Board A</td>
+              <td class="dim">2×10</td>
+              <td class="dim">22′-0″</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td>#1 DF or LVL</td>
+              <td class="note">E-W spanning front posts. Doubled = 2 boards face-nailed</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Front (S) Beam — Board B</td>
+              <td class="dim">2×10</td>
+              <td class="dim">22′-0″</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td>#1 DF or LVL</td>
+              <td class="note">Paired with Board A. 16d nails @ 16″ OC staggered</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Rear (N) Beam — Board A</td>
+              <td class="dim">2×10</td>
+              <td class="dim">22′-0″</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td>#1 DF or LVL</td>
+              <td class="note">E-W spanning rear posts at 10′ height</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Rear (N) Beam — Board B</td>
+              <td class="dim">2×10</td>
+              <td class="dim">22′-0″</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td>#1 DF or LVL</td>
+              <td class="note">Paired with rear Board A</td>
+            </tr>
+          </tbody>
+          <tfoot><tr>
+            <td colspan="3">Section Total — Beams (22′ lengths)</td>
+            <td class="num">4 pcs</td>
+            <td class="num total-cost">8 pcs</td>
+            <td colspan="2">~$55–75/pc for #1 DF; ~$85–110/pc for LVL</td>
+          </tr></tfoot>
+        </table>
+      </div>
+
+      <!-- RAFTERS -->
+      <div class="section">
+        <div class="section-title">3. Rafters — 2×8 <span>@ 24″ OC, N-S Direction, 45° Pitch</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Nominal Size</th><th>Cut Length</th><th>Qty/Array</th><th>Qty Both</th><th>Grade</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-wood">
+              <td>Rafters</td>
+              <td class="dim">2×8</td>
+              <td class="dim">17′-0″</td>
+              <td class="num"><span class="qty-badge">13</span></td>
+              <td class="num both-arrays">26</td>
+              <td>#1 DF</td>
+              <td class="note">Actual run: hypotenuse of 22′ rise+run at 45° = ~15.6′ + overhang. Rip seat cut at each end. 45° plumb/seat cuts</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Rafter — Blocking</td>
+              <td class="dim">2×8</td>
+              <td class="dim">14.5″</td>
+              <td class="num"><span class="qty-badge">24</span></td>
+              <td class="num both-arrays">48</td>
+              <td>#2 DF</td>
+              <td class="note">Solid blocking between rafters at beam bearing points. Cut from rafter offcuts</td>
+            </tr>
+          </tbody>
+          <tfoot><tr>
+            <td colspan="3">Section Total — Rafters</td>
+            <td class="num">13 + blocking</td>
+            <td class="num total-cost">26 rafters</td>
+            <td colspan="2">~$18–24/pc at 16′ length (buy 16′, cut to 17′ from 2-pc)</td>
+          </tr></tfoot>
+        </table>
+      </div>
+
+      <!-- LATERAL BRACING -->
+      <div class="section">
+        <div class="section-title">4. Lateral Bracing & Diagonal Braces <span>Wind Resistance</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Size</th><th>Length</th><th>Qty/Array</th><th>Qty Both</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-wood">
+              <td>Diagonal kneebrace — Front</td>
+              <td class="dim">4×4</td>
+              <td class="dim">38″ (cut 45°)</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td class="note">Post-to-beam at each front corner and mid-point. 45° cut each end. Lag bolted</td>
+            </tr>
+            <tr class="cat-wood">
+              <td>Diagonal kneebrace — Rear</td>
+              <td class="dim">4×4</td>
+              <td class="dim">38″ (cut 45°)</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td class="note">Post-to-beam at each rear corner. Same spec</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+
+      <!-- CONCRETE & FOOTINGS -->
+      <div class="section">
+        <div class="section-title">5. Concrete & Footings <span>18″ Ø Sonotube · 42″ Deep</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Size / Spec</th><th>Qty/Array</th><th>Qty Both</th><th>Unit</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-concrete">
+              <td>Sonotube forms</td>
+              <td class="dim">18″ Ø × 4′</td>
+              <td class="num"><span class="qty-badge">6</span></td>
+              <td class="num both-arrays">12</td>
+              <td>each</td>
+              <td class="note">One per post. Set min 42″ below grade (MN frost depth). Can be ordered 4′ tubes</td>
+            </tr>
+            <tr class="cat-concrete">
+              <td>Concrete (bagged)</td>
+              <td class="dim">80 lb bags / 3000 PSI</td>
+              <td class="num"><span class="qty-badge">8</span></td>
+              <td class="num both-arrays">16</td>
+              <td>bags ea. footing</td>
+              <td class="note">~8 bags per footing (18″×42″ ≈ 2.4 cu ft; 0.3 cu ft/bag). Or order ready-mix</td>
+            </tr>
+            <tr class="cat-concrete">
+              <td>Rebar #4</td>
+              <td class="dim">1/2″ dia · 20′ sticks</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td>sticks</td>
+              <td class="note">(2) vertical bars per footing, wired at top. Cut 46″ lengths from 20′ sticks</td>
+            </tr>
+            <tr class="cat-concrete">
+              <td>Rebar tie wire</td>
+              <td class="dim">16-gauge</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td>roll</td>
+              <td class="note">For tying rebar cages</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- HARDWARE -->
+      <div class="section">
+        <div class="section-title">6. Hardware & Fasteners <span>All Hot-Dip Galvanized or Stainless</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Spec</th><th>Qty/Array</th><th>Qty Both</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-hardware">
+              <td>Post bases</td>
+              <td class="dim">Simpson ABU66Z</td>
+              <td class="num"><span class="qty-badge">6</span></td>
+              <td class="num both-arrays">12</td>
+              <td class="note">Or equal. One per post. Galvanized. Set in wet concrete with J-bolts</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>J-bolts (for post bases)</td>
+              <td class="dim">1/2″ × 12″</td>
+              <td class="num"><span class="qty-badge">12</span></td>
+              <td class="num both-arrays">24</td>
+              <td class="note">(2) per post base. Set in wet concrete, plumb with template</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Post-beam connectors</td>
+              <td class="dim">Simpson BC6 cap</td>
+              <td class="num"><span class="qty-badge">6</span></td>
+              <td class="num both-arrays">12</td>
+              <td class="note">Post cap connectors for beam bearing. One per post top</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Beam bolts (through)</td>
+              <td class="dim">1/2″ × 7″ GRD 5</td>
+              <td class="num"><span class="qty-badge">32</span></td>
+              <td class="num both-arrays">64</td>
+              <td class="note">Doubles beam boards together @ 16″ OC staggered. With washers + nuts</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Rafter hangers</td>
+              <td class="dim">Simpson LUS28</td>
+              <td class="num"><span class="qty-badge">26</span></td>
+              <td class="num both-arrays">52</td>
+              <td class="note">2× per rafter (front + rear beam). LUS28 for 2×8</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Joist hanger nails</td>
+              <td class="dim">10d × 1.5″ HDG</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td class="note">5 lb box per array — for all hanger nailing</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Structural screws</td>
+              <td class="dim">3″ × #10 HDG</td>
+              <td class="num"><span class="qty-badge">1</span></td>
+              <td class="num both-arrays">2</td>
+              <td class="note">5 lb box per array — general framing connections</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Lag screws — bracing</td>
+              <td class="dim">1/2″ × 5″ GRD 5</td>
+              <td class="num"><span class="qty-badge">16</span></td>
+              <td class="num both-arrays">32</td>
+              <td class="note">(2) per kneebrace end × 8 braces. With 1/2″ washers</td>
+            </tr>
+            <tr class="cat-hardware">
+              <td>Post anchor bolts</td>
+              <td class="dim">1/2″ × 3.5″ HDG hex</td>
+              <td class="num"><span class="qty-badge">24</span></td>
+              <td class="num both-arrays">48</td>
+              <td class="note">(4) per post base × 6 posts. Structural connection</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SOLAR RACKING -->
+      <div class="section">
+        <div class="section-title">7. IronRidge Solar Racking System <span>Per Array</span></div>
+        <table class="cut-table">
+          <thead><tr>
+            <th>Item</th><th>Model / Spec</th><th>Qty/Array</th><th>Qty Both</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr class="cat-solar">
+              <td>XR100 Rail</td>
+              <td class="dim">IronRidge XR100 — 168″ (14′)</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td class="note">2 rails × 2 rows. 22′ span may need splices — confirm with IronRidge. Each rail = 14′, need 2 per run with splice</td>
+            </tr>
+            <tr class="cat-solar">
+              <td>XR100 Rail Splice</td>
+              <td class="dim">IronRidge UFO splice</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td class="note">One splice per rail run (joining two 14′ sections to span 22′). IronRidge UFO or standard</td>
+            </tr>
+            <tr class="cat-solar">
+              <td>L-Foot Mounts</td>
+              <td class="dim">IronRidge LFR or equal</td>
+              <td class="num"><span class="qty-badge">52</span></td>
+              <td class="num both-arrays">104</td>
+              <td class="note">At every rafter crossing × 4 rails = 13 rafters × 4 = 52. Includes 3/8″×3″ lag bolt each</td>
+            </tr>
+            <tr class="cat-solar">
+              <td>Mid Clamps</td>
+              <td class="dim">IronRidge MCM-145 (for 1.4–4.5″ frame)</td>
+              <td class="num"><span class="qty-badge">24</span></td>
+              <td class="num both-arrays">48</td>
+              <td class="note">Between panels, each rail. 14 panels × 2 rows = 24 mid clamps (12 per rail run, adjusted for 7 panels)</td>
+            </tr>
+            <tr class="cat-solar">
+              <td>End Clamps</td>
+              <td class="dim">IronRidge ECM (match panel frame height)</td>
+              <td class="num"><span class="qty-badge">8</span></td>
+              <td class="num both-arrays">16</td>
+              <td class="note">(2) per rail end × 4 rail runs = 8. Secure panel row ends</td>
+            </tr>
+            <tr class="cat-solar">
+              <td>Grounding lug / bonding</td>
+              <td class="dim">IronRidge GBL or equal</td>
+              <td class="num"><span class="qty-badge">4</span></td>
+              <td class="num both-arrays">8</td>
+              <td class="note">One per rail run for equipment grounding continuity</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PATIO / GRAVEL -->
+  <div class="section">
+    <div class="section-title">8. Patio Surface — White Limestone Gravel <span>Both Arrays — High Albedo (0.40–0.50)</span></div>
+    <table class="cut-table">
+      <thead><tr>
+        <th>Item</th><th>Spec</th><th>Coverage</th><th>Depth</th><th>Volume (cu yd)</th><th>Qty Both Arrays</th><th>Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr class="cat-patio">
+          <td>Landscape fabric (weed barrier)</td>
+          <td class="dim">3oz non-woven polyprop.</td>
+          <td>484 sq ft per array</td>
+          <td>—</td>
+          <td class="num">—</td>
+          <td class="num both-arrays">~1,100 sq ft total</td>
+          <td class="note">Lay before gravel. Overlap seams 12″. Secure edges with staples</td>
+        </tr>
+        <tr class="cat-patio">
+          <td>White limestone gravel (#57)</td>
+          <td class="dim">3/4″ crushed white limestone</td>
+          <td>22′ × 22′ = 484 sq ft per array</td>
+          <td class="dim">4″ deep</td>
+          <td class="num">6.0 cu yd</td>
+          <td class="num both-arrays">12.0 cu yd</td>
+          <td class="note">High albedo (0.40–0.50). Extends 4′ south of array for patio use. Order 12 cu yd total (6 per array)</td>
+        </tr>
+        <tr class="cat-patio">
+          <td>Plastic edging</td>
+          <td class="dim">4″ deep landscape edging</td>
+          <td>~88 LF perimeter per array</td>
+          <td>—</td>
+          <td class="num">—</td>
+          <td class="num both-arrays">~200 LF</td>
+          <td class="note">Black or tan. Anchor with 8″ spikes @ 24″ OC. Keep gravel contained</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MISCELLANEOUS -->
+  <div class="section">
+    <div class="section-title">9. Miscellaneous / Consumables <span>Per Build (Both Arrays)</span></div>
+    <table class="cut-table">
+      <thead><tr>
+        <th>Item</th><th>Spec</th><th>Qty</th><th>Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr class="cat-hardware">
+          <td>Post setting template (plywood)</td>
+          <td>3/4″ ply, 24″×24″</td>
+          <td class="num">1</td>
+          <td class="note">Drill template to set J-bolt spacing accurately. Reuse for all 12 footings</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Construction adhesive</td>
+          <td>Liquid Nails LN-950 or PL Premium</td>
+          <td class="num">4 tubes</td>
+          <td class="note">Apply between doubled beam boards before bolting. 2 tubes per structure</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Wood preservative / end-cut seal</td>
+          <td>Copper naphthenate (green)</td>
+          <td class="num">1 qt</td>
+          <td class="note">Apply to all PT lumber cut ends immediately after cutting. Critical at post base cuts</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Concrete form oil</td>
+          <td>Spray release agent</td>
+          <td class="num">1 can</td>
+          <td class="note">Coat sonotube interior before pour for clean form removal</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Mason's line + stakes</td>
+          <td>100′ braided nylon</td>
+          <td class="num">1 roll</td>
+          <td class="note">Layout all footing locations. Check diagonal for square</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Conduit (for wire chase)</td>
+          <td>1.5″ EMT, 10′ sticks</td>
+          <td class="num">8 sticks</td>
+          <td class="note">Run down front face of each post for DC wiring. Two sticks per post, 4 posts total per array</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Conduit straps</td>
+          <td>1.5″ EMT 2-hole strap</td>
+          <td class="num">48</td>
+          <td class="note">Every 3′ along post face runs + beam runs</td>
+        </tr>
+        <tr class="cat-hardware">
+          <td>Wire management clips</td>
+          <td>1/4″ nylon UV-rated clips</td>
+          <td class="num">1 bag (100)</td>
+          <td class="note">For securing panel-to-rail wiring on front rafter faces</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RAFTER CUT DETAIL -->
+  <div class="section">
+    <div class="section-title">10. Rafter Cut Specifications — 45° Pitch <span>For Saw Setup</span></div>
+    <table class="cut-table">
+      <thead><tr>
+        <th>Cut Location</th><th>Cut Type</th><th>Angle</th><th>Measurement</th><th>Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr class="cat-wood">
+          <td>Ridge/Rear End (North end)</td>
+          <td>Plumb cut</td>
+          <td class="dim">45°</td>
+          <td>Set saw to 45°, cut plumb</td>
+          <td class="note">Vertical face bears against rear beam face. No bird's mouth needed if using Simpson hanger</td>
+        </tr>
+        <tr class="cat-wood">
+          <td>Eave/Front End (South end)</td>
+          <td>Tail cut + seat cut (bird's mouth)</td>
+          <td class="dim">45° seat / 45° tail</td>
+          <td>Seat: 1.5″ level / 5.5″ plumb</td>
+          <td class="note">Bird's mouth notch at front beam bearing. Do not cut more than 1/3 of rafter depth. Tail = 12″ overhang</td>
+        </tr>
+        <tr class="cat-wood">
+          <td>Overall rafter length</td>
+          <td>Total cut length</td>
+          <td>—</td>
+          <td class="dim">16′-8″ actual cut length</td>
+          <td class="note">22′ run at 45° = 31.1′ rafter length total but structure is not full 45° slope — calculate from actual front/rear beam height difference and horizontal span. Verify in field before cutting all pieces</td>
+        </tr>
+        <tr class="cat-wood">
+          <td>True rafter length calc</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="dim">√(22² + 4²) = 22.36′ ≈ 22′-4½″</td>
+          <td class="note">Rise = 4′ (10′ rear − 6′ front), Run = 22′. Actual pitch = 4:22 = ~10.3° not 45°. True 45° requires equal rise+run</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COST SUMMARY -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="label">Lumber — 1 Array</div>
+      <div class="value">~$680</div>
+      <div class="sub">Posts, beams, rafters, blocking, bracing</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Hardware — 1 Array</div>
+      <div class="value">~$380</div>
+      <div class="sub">Simpson connectors, bolts, screws, anchors</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Concrete — 1 Array</div>
+      <div class="value">~$220</div>
+      <div class="sub">Sonotubes, 48 bags concrete, rebar, wire</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Patio + Misc — 1 Array</div>
+      <div class="value">~$320</div>
+      <div class="sub">Gravel, fabric, edging, conduit, consumables</div>
+    </div>
+    <div class="summary-card" style="background:#2A2A1E;border-color:#C8530A;">
+      <div class="label" style="color:#C8C0A0;">Estimated Total — 1 Array</div>
+      <div class="value" style="color:#FFD080;">~$1,600</div>
+      <div class="sub" style="color:#C8C0A0;">Materials only, not IronRidge racking</div>
+    </div>
+    <div class="summary-card" style="background:#2A2A1E;border-color:#C8530A;">
+      <div class="label" style="color:#C8C0A0;">Estimated Total — Both Arrays</div>
+      <div class="value" style="color:#FFD080;">~$3,000</div>
+      <div class="sub" style="color:#C8C0A0;">Add IronRidge racking ~$1,200 + panels/inverters separately</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Board Feet — 1 Array</div>
+      <div class="value">~580</div>
+      <div class="sub">Total lumber board footage estimate</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Concrete — 1 Array</div>
+      <div class="value">~48 bags</div>
+      <div class="sub">Or order ~1.5 cu yd ready-mix per array</div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:18px;">
+    <h3>Important Notes — Before Ordering</h3>
+    <p>
+      ▸ <strong>Rafter length verification:</strong> The actual tilt angle of this structure is ~10.3° (4′ rise over 22′ run), NOT 45°. True 45° would require equal rise and run (22′ rise and 22′ run). Verify actual rafter lengths by measuring in field from installed beam heights before ordering all material.<br><br>
+      ▸ <strong>Lumber availability:</strong> 22′ lengths of 2×10 may not be available at big-box stores — check local lumber yards. Alternative: use 2× 12′ lengths with a centered splice plate (doubled 2×10 splice plate, 24″ long, bolted). LVL beams at 22′ are standard from lumber yards and recommended.<br><br>
+      ▸ <strong>PT lumber drying:</strong> Freshly treated PT lumber contains moisture. Allow to dry 6–8 weeks or use KDAT (kiln-dried after treatment) lumber to prevent warping. Especially important for rafters.<br><br>
+      ▸ <strong>Add 10% waste factor</strong> to all lumber quantities. Add 5% to hardware quantities for installation errors and spares.<br><br>
+      ▸ <strong>Wind load check:</strong> Minnesota 90 mph design wind speed. Rafters at 24″ OC with 22′ span — engineer should confirm 2×8 is adequate or upgrade to 2×10 rafters. Solar panel wind uplift adds load; IronRidge provides load tables per array.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Pergola — Structural Drawing Set</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F1EB;
+    --paper: #FAFAF7;
+    --ink: #1A1A14;
+    --dim: #4A4A3A;
+    --accent: #C8530A;
+    --grid: #D8D4C8;
+    --steel: #6A7A8A;
+    --wood: #8B6914;
+    --elec: #1A5C8A;
+    --border: #2A2A1E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Share Tech Mono', monospace; color: var(--ink); }
+
+  .sheet {
+    width: 1200px; margin: 0 auto; padding: 20px;
+  }
+  .title-block {
+    background: var(--paper);
+    border: 2px solid var(--border);
+    padding: 0;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+  .title-main { padding: 14px 20px; border-right: 2px solid var(--border); }
+  .title-main h1 { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+  .title-main p { font-size: 0.72rem; color: var(--dim); margin-top: 4px; letter-spacing: 0.05em; }
+  .title-meta { padding: 10px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; font-size: 0.67rem; align-content: start; }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { color: var(--dim); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-val { font-weight: bold; color: var(--ink); }
+  .note-bar { background: #2A2A1E; color: #F4F1EB; padding: 6px 20px; font-size: 0.68rem; letter-spacing: 0.06em; }
+
+  .drawing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .drawing-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .drawing-panel {
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+  }
+  .panel-title {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel-title span { color: var(--accent); font-size: 0.6rem; }
+  svg { display: block; }
+
+  /* Legend */
+  .legend { background: var(--paper); border: 1.5px solid var(--border); padding: 12px 16px; }
+  .legend-title { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid var(--grid); padding-bottom: 6px; }
+  .legend-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px 16px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.65rem; }
+  .legend-swatch { width: 20px; height: 10px; border: 1px solid var(--border); flex-shrink: 0; }
+
+  .notes-box { background: var(--paper); border: 1.5px solid var(--border); padding: 12px 16px; }
+  .notes-title { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid var(--grid); padding-bottom: 6px; }
+  .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; font-size: 0.65rem; line-height: 1.6; }
+  .note-item::before { content: '▸ '; color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- TITLE BLOCK -->
+  <div class="title-block">
+    <div class="title-main">
+      <h1>Solar Pergola Structure — Drawing Set</h1>
+      <p>8825 Columbus Ave S · Bloomington, MN 55420 · Dual 22′×22′ Ground-Mount Arrays with Patio</p>
+    </div>
+    <div class="title-meta">
+      <div class="meta-item"><span class="meta-label">Scale</span><span class="meta-val">1″ = 2′-0″</span></div>
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-val">April 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Arrays</span><span class="meta-val">2× 22′×22′</span></div>
+      <div class="meta-item"><span class="meta-label">Sheet</span><span class="meta-val">S-1 of 1</span></div>
+      <div class="meta-item"><span class="meta-label">Tilt</span><span class="meta-val">45° South</span></div>
+      <div class="meta-item"><span class="meta-label">Panels</span><span class="meta-val">14 per array</span></div>
+    </div>
+  </div>
+  <div class="note-bar">ALL DIMENSIONS IN FEET-INCHES UNLESS NOTED · VERIFY ALL DIMENSIONS IN FIELD · FOOTING DESIGN BY LICENSED ENGINEER · NOT FOR CONSTRUCTION WITHOUT PERMIT</div>
+
+  <!-- ROW 1: PLAN VIEW + SOUTH ELEVATION -->
+  <div class="drawing-grid" style="margin-top:14px;">
+
+    <!-- PLAN VIEW -->
+    <div class="drawing-panel">
+      <div class="panel-title">Plan View (Top) — Single Array <span>SCALE: 1″=2′</span></div>
+      <svg width="100%" viewBox="0 0 560 420" style="background:#FAFAF7;">
+        <!-- Grid lines -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#D8D4C8" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="560" height="420" fill="url(#grid)"/>
+
+        <!-- Ground shadow -->
+        <rect x="60" y="60" width="380" height="310" fill="#EDE8DC" rx="2"/>
+
+        <!-- Concrete footings - 4 corners, 2 mid -->
+        <!-- Front posts -->
+        <rect x="70" y="330" width="22" height="22" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="81" y="342" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">FTG</text>
+        <rect x="408" y="330" width="22" height="22" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="419" y="342" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">FTG</text>
+
+        <!-- Rear posts -->
+        <rect x="70" y="68" width="22" height="22" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="81" y="80" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">FTG</text>
+        <rect x="408" y="68" width="22" height="22" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="419" y="80" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">FTG</text>
+
+        <!-- Posts (6x6) -->
+        <rect x="72" y="332" width="18" height="18" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="410" y="332" width="18" height="18" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="72" y="70" width="18" height="18" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="410" y="70" width="18" height="18" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+
+        <!-- Beams (doubled 2x10 = ~3.5" wide shown at 6px) -->
+        <!-- Front beam -->
+        <rect x="72" y="338" width="356" height="7" fill="#A07820" stroke="#2A2A1E" stroke-width="1.5"/>
+        <rect x="72" y="344" width="356" height="7" fill="#B08830" stroke="#2A2A1E" stroke-width="1.5"/>
+        <!-- Rear beam -->
+        <rect x="72" y="70" width="356" height="7" fill="#A07820" stroke="#2A2A1E" stroke-width="1.5"/>
+        <rect x="72" y="76" width="356" height="7" fill="#B08830" stroke="#2A2A1E" stroke-width="1.5"/>
+
+        <!-- Rafters (2x6 @ 24" OC, N-S direction) — 11 rafters for 22' span -->
+        <!-- Rafter positions: every 26px (24" = 2' at 13px/ft) -->
+        <!-- Scale: 22' = 286px → 13px/ft -->
+        <!-- Rafters at 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22 feet = 12 rafters -->
+        <line x1="81" y1="72" x2="81" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="107" y1="72" x2="107" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="133" y1="72" x2="133" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="159" y1="72" x2="159" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="185" y1="72" x2="185" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="211" y1="72" x2="211" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="250" y1="72" x2="250" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="276" y1="72" x2="276" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="302" y1="72" x2="302" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="328" y1="72" x2="328" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="354" y1="72" x2="354" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="380" y1="72" x2="380" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+        <line x1="418" y1="72" x2="418" y2="351" stroke="#C09030" stroke-width="4" stroke-linecap="square"/>
+
+        <!-- IronRidge Rails (E-W, 2 rails) -->
+        <rect x="72" y="155" width="356" height="6" fill="#6A7A8A" stroke="#2A2A1E" stroke-width="1" opacity="0.8"/>
+        <text x="460" y="160" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">RAIL 1</text>
+        <rect x="72" y="240" width="356" height="6" fill="#6A7A8A" stroke="#2A2A1E" stroke-width="1" opacity="0.8"/>
+        <text x="460" y="245" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">RAIL 2</text>
+
+        <!-- Panel outlines (14 panels, 2 rows of 7) -->
+        <!-- Each panel: 3.3' wide × 3.25' tall (portrait half), shown ~43px wide × 42px tall -->
+        <!-- Row 1 panels -->
+        <rect x="78" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="120" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="162" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="204" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="246" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="288" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="330" y="160" width="42" height="76" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <!-- Row 2 panels -->
+        <rect x="78" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="120" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="162" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="204" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="246" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="288" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="330" y="83" width="42" height="76" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+
+        <!-- Panel labels -->
+        <text x="240" y="130" text-anchor="middle" font-size="8" fill="#1A5C8A" font-family="Share Tech Mono" font-weight="bold">ROW 2 (upper)</text>
+        <text x="240" y="210" text-anchor="middle" font-size="8" fill="#1A5C8A" font-family="Share Tech Mono" font-weight="bold">ROW 1 (lower)</text>
+
+        <!-- Patio area -->
+        <rect x="72" y="355" width="356" height="48" fill="#D4CEB8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="250" y="383" text-anchor="middle" font-size="9" fill="#4A4A3A" font-family="Share Tech Mono">PATIO — WHITE LIMESTONE GRAVEL</text>
+
+        <!-- North arrow -->
+        <g transform="translate(510,100)">
+          <circle cx="0" cy="0" r="16" fill="none" stroke="#2A2A1E" stroke-width="1.5"/>
+          <polygon points="0,-14 5,5 0,1 -5,5" fill="#2A2A1E"/>
+          <text x="0" y="-18" text-anchor="middle" font-size="9" font-family="Share Tech Mono" font-weight="bold" fill="#2A2A1E">N</text>
+          <text x="0" y="22" text-anchor="middle" font-size="9" font-family="Share Tech Mono" fill="#C8530A">S</text>
+        </g>
+
+        <!-- Dimensions -->
+        <!-- Width 22'-0" -->
+        <line x1="72" y1="48" x2="428" y2="48" stroke="#C8530A" stroke-width="1"/>
+        <line x1="72" y1="42" x2="72" y2="54" stroke="#C8530A" stroke-width="1"/>
+        <line x1="428" y1="42" x2="428" y2="54" stroke="#C8530A" stroke-width="1"/>
+        <text x="250" y="44" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono">22′-0″</text>
+
+        <!-- Depth 22'-0" -->
+        <line x1="20" y1="70" x2="20" y2="360" stroke="#C8530A" stroke-width="1"/>
+        <line x1="14" y1="70" x2="26" y2="70" stroke="#C8530A" stroke-width="1"/>
+        <line x1="14" y1="360" x2="26" y2="360" stroke="#C8530A" stroke-width="1"/>
+        <text x="13" y="220" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,13,220)">22′-0″</text>
+
+        <!-- Patio depth -->
+        <line x1="14" y1="360" x2="26" y2="360" stroke="#C8530A" stroke-width="1"/>
+        <line x1="14" y1="406" x2="26" y2="406" stroke="#C8530A" stroke-width="1"/>
+        <line x1="20" y1="360" x2="20" y2="406" stroke="#C8530A" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="10" y="386" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,10,386)">~4′</text>
+
+        <!-- Rail spacing -->
+        <line x1="450" y1="83" x2="450" y2="236" stroke="#6A7A8A" stroke-width="1"/>
+        <text x="475" y="165" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">~12′</text>
+        <text x="475" y="175" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">row</text>
+        <text x="475" y="185" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">spacing</text>
+
+        <!-- Title -->
+        <text x="250" y="410" text-anchor="middle" font-size="9" fill="#2A2A1E" font-family="Rajdhani" font-weight="700" letter-spacing="2">PLAN VIEW — SINGLE ARRAY</text>
+      </svg>
+    </div>
+
+    <!-- SOUTH ELEVATION -->
+    <div class="drawing-panel">
+      <div class="panel-title">South Elevation (Front View) — Single Array <span>SCALE: 1″=2′</span></div>
+      <svg width="100%" viewBox="0 0 560 420" style="background:#FAFAF7;">
+        <rect width="560" height="420" fill="url(#grid)"/>
+
+        <!-- Grade line -->
+        <line x1="30" y1="340" x2="530" y2="340" stroke="#8B6914" stroke-width="2.5"/>
+        <text x="540" y="342" font-size="8" fill="#8B6914" font-family="Share Tech Mono">GL</text>
+
+        <!-- Concrete footings (below grade) -->
+        <rect x="65" y="340" width="40" height="35" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <rect x="255" y="340" width="40" height="35" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <rect x="445" y="340" width="40" height="35" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+        <!-- Footing labels -->
+        <text x="85" y="362" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">18″Ø</text>
+        <text x="275" y="362" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">18″Ø</text>
+        <text x="465" y="362" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">18″Ø</text>
+
+        <!-- Front posts (6x6, 6' above grade) shown as solid rectangles -->
+        <!-- 6' = 78px at 13px/ft scale -->
+        <rect x="72" y="262" width="26" height="78" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="85" y="252" text-anchor="middle" font-size="8" fill="#8B6914" font-family="Share Tech Mono">6×6</text>
+
+        <!-- Middle post (optional center support) -->
+        <rect x="262" y="262" width="26" height="78" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+
+        <!-- Right post -->
+        <rect x="452" y="262" width="26" height="78" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+
+        <!-- Front beam (doubled 2×10) at top of front posts -->
+        <rect x="70" y="250" width="412" height="8" fill="#A07820" stroke="#2A2A1E" stroke-width="1.5"/>
+        <rect x="70" y="257" width="412" height="8" fill="#B08830" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="276" y="246" text-anchor="middle" font-size="8" fill="#A07820" font-family="Share Tech Mono">DBL 2×10 BEAM</text>
+
+        <!-- Rafters visible from front — 13 rafters shown as thin lines going up-back -->
+        <!-- At 45° pitch, rafters go from front beam up at 45° -->
+        <!-- Each rafter end visible at front beam -->
+        <line x1="85" y1="250" x2="85" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="117" y1="250" x2="117" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="149" y1="250" x2="149" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="181" y1="250" x2="181" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="213" y1="250" x2="213" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="245" y1="250" x2="245" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="277" y1="250" x2="277" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="309" y1="250" x2="309" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="341" y1="250" x2="341" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="373" y1="250" x2="373" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="405" y1="250" x2="405" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="437" y1="250" x2="437" y2="100" stroke="#C09030" stroke-width="3"/>
+        <line x1="464" y1="250" x2="464" y2="100" stroke="#C09030" stroke-width="3"/>
+
+        <!-- Panels (14 shown in elevation) -->
+        <!-- Row 1 lower panels -->
+        <rect x="78" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="114" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="150" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="186" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="222" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="258" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="294" y="165" width="36" height="82" fill="rgba(26,92,138,0.18)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <!-- Row 2 upper panels -->
+        <rect x="330" y="165" width="36" height="82" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="366" y="165" width="36" height="82" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="402" y="165" width="36" height="82" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="78" y="100" width="36" height="60" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="150" y="100" width="36" height="60" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="222" y="100" width="36" height="60" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="294" y="100" width="36" height="60" fill="rgba(26,92,138,0.28)" stroke="#1A5C8A" stroke-width="1.5"/>
+
+        <!-- Rails -->
+        <line x1="70" y1="247" x2="482" y2="247" stroke="#6A7A8A" stroke-width="5"/>
+        <text x="490" y="250" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">RAIL</text>
+        <line x1="70" y1="163" x2="482" y2="163" stroke="#6A7A8A" stroke-width="5"/>
+        <text x="490" y="166" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">RAIL</text>
+        <line x1="70" y1="97" x2="482" y2="97" stroke="#6A7A8A" stroke-width="5"/>
+        <text x="490" y="100" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">RAIL</text>
+
+        <!-- Height dimensions -->
+        <line x1="30" y1="265" x2="30" y2="340" stroke="#C8530A" stroke-width="1"/>
+        <line x1="24" y1="265" x2="36" y2="265" stroke="#C8530A" stroke-width="1"/>
+        <line x1="24" y1="340" x2="36" y2="340" stroke="#C8530A" stroke-width="1"/>
+        <text x="18" y="307" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,18,307)">6′-0″</text>
+
+        <!-- Width dim -->
+        <line x1="72" y1="395" x2="480" y2="395" stroke="#C8530A" stroke-width="1"/>
+        <line x1="72" y1="389" x2="72" y2="401" stroke="#C8530A" stroke-width="1"/>
+        <line x1="480" y1="389" x2="480" y2="401" stroke="#C8530A" stroke-width="1"/>
+        <text x="276" y="391" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono">22′-0″</text>
+
+        <!-- Clearance label -->
+        <line x1="550" y1="265" x2="550" y2="340" stroke="#6A7A8A" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="555" y="290" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">MIN</text>
+        <text x="555" y="300" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">24″</text>
+        <text x="555" y="310" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">CLRNC</text>
+
+        <!-- Gravel patio -->
+        <rect x="72" y="340" width="408" height="14" fill="#D4CEB8" stroke="#8B6914" stroke-width="1" stroke-dasharray="4,2"/>
+        <text x="276" y="352" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">GRAVEL PATIO</text>
+
+        <text x="276" y="412" text-anchor="middle" font-size="9" fill="#2A2A1E" font-family="Rajdhani" font-weight="700" letter-spacing="2">SOUTH ELEVATION</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ROW 2: SIDE SECTION + RAFTER DETAIL + FOOTING DETAIL -->
+  <div class="drawing-grid-3">
+
+    <!-- EAST SECTION -->
+    <div class="drawing-panel">
+      <div class="panel-title">East Section (Side View) <span>SCALE: 1″=2′</span></div>
+      <svg width="100%" viewBox="0 0 360 420" style="background:#FAFAF7;">
+        <rect width="360" height="420" fill="url(#grid)"/>
+
+        <!-- Grade line -->
+        <line x1="20" y1="330" x2="340" y2="330" stroke="#8B6914" stroke-width="2.5"/>
+        <text x="342" y="332" font-size="7" fill="#8B6914" font-family="Share Tech Mono">GL</text>
+
+        <!-- Footing below grade -->
+        <rect x="40" y="330" width="35" height="32" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="57" y="351" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">18″Ø×36″</text>
+
+        <!-- Rear footing -->
+        <rect x="240" y="200" width="35" height="32" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+        <!-- Front post (6' = ~96px at 16px/ft) -->
+        <rect x="44" y="234" width="27" height="96" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="57" y="224" text-anchor="middle" font-size="8" fill="#8B6914" font-family="Share Tech Mono">6×6 PT</text>
+        <text x="57" y="214" text-anchor="middle" font-size="8" fill="#8B6914" font-family="Share Tech Mono">6′-0″</text>
+
+        <!-- Rear post (10' = ~160px) -->
+        <rect x="244" y="170" width="27" height="160" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="257" y="165" text-anchor="middle" font-size="8" fill="#8B6914" font-family="Share Tech Mono">6×6 PT</text>
+        <text x="257" y="155" text-anchor="middle" font-size="8" fill="#8B6914" font-family="Share Tech Mono">10′-0″</text>
+
+        <!-- Rafter (2x8, running south to north at 45°, ~17.5' run) -->
+        <!-- 45° = rise=run, from front beam at y=234 to rear beam at y=170 -->
+        <!-- horizontal span = 22' = 352px... compressed for view: front x=57, rear x=257, diff=200px -->
+        <!-- front height y=234, rear height y=170, diff=64px... but should be equal for 45° -->
+        <!-- Let's make it proper 45°: rise/run = 1, so if horizontal = 200px then rise = 200px but that's too much -->
+        <!-- Instead show actual proportional: 22' horizontal, 4' rise (from 6' to 10') -->
+        <!-- rise = 4' = 64px, run = 22' = 352px at 16px/ft — compress to fit -->
+        <line x1="57" y1="234" x2="257" y2="170" stroke="#C09030" stroke-width="5" stroke-linecap="square"/>
+        <text x="157" y="192" text-anchor="middle" font-size="8" fill="#C09030" font-family="Share Tech Mono" transform="rotate(-18,157,192)">2×8 RAFTER @ 24″ OC</text>
+
+        <!-- Tilt angle arc -->
+        <path d="M 90 234 A 35 35 0 0 1 113 215" fill="none" stroke="#C8530A" stroke-width="1.5"/>
+        <text x="115" y="225" font-size="9" fill="#C8530A" font-family="Share Tech Mono">45°</text>
+
+        <!-- Front beam -->
+        <rect x="44" y="228" width="215" height="6" fill="#A07820" stroke="#2A2A1E" stroke-width="1.5"/>
+
+        <!-- Rear beam (at top of rear post) -->
+        <rect x="44" y="164" width="215" height="6" fill="#A07820" stroke="#2A2A1E" stroke-width="1.5"/>
+
+        <!-- Panels shown as tilted rectangles -->
+        <!-- Panel face at 45° -->
+        <g transform="translate(70,230)">
+          <!-- Lower panel row face -->
+          <polygon points="0,0 128,-86 138,-86 10,0" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+          <!-- Upper panel row face -->
+          <polygon points="10,0 138,-86 148,-86 20,0" fill="rgba(26,92,138,0.15)" stroke="#1A5C8A" stroke-width="1.5"/>
+          <!-- Gap between rows -->
+          <polygon points="128,-86 138,-86 148,-86 138,-91" fill="#FAFAF7" stroke="#2A2A1E" stroke-width="0.5"/>
+        </g>
+
+        <!-- Panel tilt label -->
+        <text x="180" y="210" font-size="8" fill="#1A5C8A" font-family="Share Tech Mono">PANELS</text>
+        <text x="180" y="222" font-size="8" fill="#1A5C8A" font-family="Share Tech Mono">445W BIFACIAL</text>
+
+        <!-- IronRidge rail -->
+        <line x1="44" y1="215" x2="259" y2="150" stroke="#6A7A8A" stroke-width="4"/>
+        <text x="285" y="145" font-size="7" fill="#6A7A8A" font-family="Share Tech Mono">XR100</text>
+
+        <!-- Gravel patio -->
+        <rect x="22" y="330" width="230" height="12" fill="#D4CEB8" stroke="#8B6914" stroke-width="1"/>
+        <text x="137" y="342" text-anchor="middle" font-size="7" fill="#4A4A3A" font-family="Share Tech Mono">GRAVEL 4″ DEPTH</text>
+
+        <!-- Height dimensions -->
+        <line x1="15" y1="234" x2="15" y2="330" stroke="#C8530A" stroke-width="1"/>
+        <line x1="9" y1="234" x2="21" y2="234" stroke="#C8530A" stroke-width="1"/>
+        <line x1="9" y1="330" x2="21" y2="330" stroke="#C8530A" stroke-width="1"/>
+        <text x="8" y="284" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,8,284)">6′-0″</text>
+
+        <line x1="295" y1="170" x2="295" y2="330" stroke="#C8530A" stroke-width="1"/>
+        <line x1="289" y1="170" x2="301" y2="170" stroke="#C8530A" stroke-width="1"/>
+        <line x1="289" y1="330" x2="301" y2="330" stroke="#C8530A" stroke-width="1"/>
+        <text x="306" y="255" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,306,255)">10′-0″</text>
+
+        <!-- Depth dimension -->
+        <line x1="44" y1="380" x2="258" y2="380" stroke="#C8530A" stroke-width="1"/>
+        <line x1="44" y1="374" x2="44" y2="386" stroke="#C8530A" stroke-width="1"/>
+        <line x1="258" y1="374" x2="258" y2="386" stroke="#C8530A" stroke-width="1"/>
+        <text x="151" y="376" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono">22′-0″</text>
+
+        <text x="180" y="410" text-anchor="middle" font-size="9" fill="#2A2A1E" font-family="Rajdhani" font-weight="700" letter-spacing="2">EAST SECTION</text>
+      </svg>
+    </div>
+
+    <!-- POST BASE DETAIL -->
+    <div class="drawing-panel">
+      <div class="panel-title">Post Base / Footing Detail <span>NTS</span></div>
+      <svg width="100%" viewBox="0 0 360 420" style="background:#FAFAF7;">
+        <rect width="360" height="420" fill="url(#grid)"/>
+
+        <!-- Footing (sonotube) -->
+        <ellipse cx="180" cy="320" rx="70" ry="18" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="110" y="225" width="140" height="95" fill="#C8C0A8" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="180" y="280" text-anchor="middle" font-size="9" fill="#4A4A3A" font-family="Share Tech Mono">SONOTUBE</text>
+        <text x="180" y="295" text-anchor="middle" font-size="9" fill="#4A4A3A" font-family="Share Tech Mono">18″Ø × 36″ DEEP</text>
+        <text x="180" y="310" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono">BELOW FROST LINE</text>
+
+        <!-- Rebar -->
+        <line x1="160" y1="225" x2="160" y2="340" stroke="#888" stroke-width="3" stroke-dasharray="4,3"/>
+        <line x1="200" y1="225" x2="200" y2="340" stroke="#888" stroke-width="3" stroke-dasharray="4,3"/>
+        <text x="215" y="290" font-size="8" fill="#888" font-family="Share Tech Mono">(2) #4 REBAR</text>
+
+        <!-- Grade line -->
+        <line x1="50" y1="225" x2="310" y2="225" stroke="#8B6914" stroke-width="2.5"/>
+        <text x="315" y="228" font-size="8" fill="#8B6914" font-family="Share Tech Mono">GL</text>
+
+        <!-- Simpson post base -->
+        <rect x="162" y="182" width="36" height="43" fill="#C0C0C0" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="168" y="173" width="24" height="12" fill="#B0B0B0" stroke="#2A2A1E" stroke-width="1.5"/>
+        <text x="210" y="200" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">SIMPSON</text>
+        <text x="210" y="212" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">ABU66Z</text>
+        <text x="210" y="224" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">POST BASE</text>
+
+        <!-- Post -->
+        <rect x="163" y="85" width="34" height="88" fill="#8B6914" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="100" y="118" font-size="9" fill="#8B6914" font-family="Share Tech Mono">6×6 PT POST</text>
+        <line x1="140" y1="118" x2="163" y2="118" stroke="#8B6914" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="215" y="118" font-size="9" fill="#4A4A3A" font-family="Share Tech Mono">ACQ TREATED</text>
+        <text x="215" y="130" font-size="9" fill="#4A4A3A" font-family="Share Tech Mono">LUMBER, #1 OR BTR</text>
+
+        <!-- Hardware bolts -->
+        <circle cx="168" cy="192" r="3" fill="#666" stroke="#333" stroke-width="1"/>
+        <circle cx="192" cy="192" r="3" fill="#666" stroke="#333" stroke-width="1"/>
+        <text x="90" y="196" font-size="8" fill="#666" font-family="Share Tech Mono">(4) 1/2″ BOLTS</text>
+        <line x1="140" y1="192" x2="160" y2="192" stroke="#666" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+        <!-- Dimensions -->
+        <line x1="50" y1="85" x2="50" y2="225" stroke="#C8530A" stroke-width="1"/>
+        <line x1="44" y1="85" x2="56" y2="85" stroke="#C8530A" stroke-width="1"/>
+        <line x1="44" y1="225" x2="56" y2="225" stroke="#C8530A" stroke-width="1"/>
+        <text x="38" y="158" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,38,158)">VARIES</text>
+
+        <line x1="50" y1="225" x2="50" y2="340" stroke="#C8530A" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="38" y="284" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono" transform="rotate(-90,38,284)">36″ MIN</text>
+
+        <!-- Diameter -->
+        <line x1="110" y1="360" x2="250" y2="360" stroke="#C8530A" stroke-width="1"/>
+        <line x1="110" y1="354" x2="110" y2="366" stroke="#C8530A" stroke-width="1"/>
+        <line x1="250" y1="354" x2="250" y2="366" stroke="#C8530A" stroke-width="1"/>
+        <text x="180" y="355" text-anchor="middle" font-size="9" fill="#C8530A" font-family="Share Tech Mono">18″ DIA</text>
+
+        <text x="180" y="400" text-anchor="middle" font-size="9" fill="#2A2A1E" font-family="Rajdhani" font-weight="700" letter-spacing="2">POST BASE / FOOTING DETAIL</text>
+      </svg>
+    </div>
+
+    <!-- RAFTER / RAIL DETAIL -->
+    <div class="drawing-panel">
+      <div class="panel-title">Rafter–Rail–Panel Connection Detail <span>NTS</span></div>
+      <svg width="100%" viewBox="0 0 360 420" style="background:#FAFAF7;">
+        <rect width="360" height="420" fill="url(#grid)"/>
+
+        <!-- Rafter (2x8 shown in section) -->
+        <rect x="140" y="120" width="80" height="40" fill="#C09030" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="180" y="137" text-anchor="middle" font-size="8" fill="#2A2A1E" font-family="Share Tech Mono">2×8</text>
+        <text x="180" y="150" text-anchor="middle" font-size="8" fill="#2A2A1E" font-family="Share Tech Mono">RAFTER</text>
+
+        <!-- L-foot mount -->
+        <rect x="165" y="160" width="30" height="22" fill="#888" stroke="#333" stroke-width="2"/>
+        <rect x="172" y="158" width="16" height="5" fill="#999" stroke="#333" stroke-width="1.5"/>
+        <text x="215" y="173" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">IRONRIDGE</text>
+        <text x="215" y="185" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">L-FOOT MOUNT</text>
+        <text x="215" y="197" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">(3/8″ LAG BOLT)</text>
+
+        <!-- XR100 Rail (in section) -->
+        <rect x="150" y="182" width="60" height="18" fill="#6A7A8A" stroke="#2A2A1E" stroke-width="2"/>
+        <rect x="158" y="186" width="10" height="10" fill="#4A6A7A" stroke="#333" stroke-width="1"/>
+        <rect x="192" y="186" width="10" height="10" fill="#4A6A7A" stroke="#333" stroke-width="1"/>
+        <text x="100" y="194" text-anchor="middle" font-size="8" fill="#6A7A8A" font-family="Share Tech Mono">XR100 RAIL</text>
+        <line x1="132" y1="191" x2="150" y2="191" stroke="#6A7A8A" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+        <!-- Mid clamp -->
+        <rect x="173" y="200" width="14" height="16" fill="#B0B0B0" stroke="#333" stroke-width="1.5"/>
+        <text x="215" y="213" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">MID CLAMP</text>
+
+        <!-- Panel cross-section (glass-glass) -->
+        <!-- Panel 1 -->
+        <rect x="100" y="200" width="73" height="18" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="100" y="200" width="73" height="3" fill="#2A4A6A" opacity="0.4"/>
+        <rect x="100" y="215" width="73" height="3" fill="#2A4A6A" opacity="0.4"/>
+        <text x="136" y="212" text-anchor="middle" font-size="7" fill="#1A5C8A" font-family="Share Tech Mono">445W BIFACIAL</text>
+
+        <!-- Panel 2 -->
+        <rect x="187" y="200" width="73" height="18" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="187" y="200" width="73" height="3" fill="#2A4A6A" opacity="0.4"/>
+        <rect x="187" y="215" width="73" height="3" fill="#2A4A6A" opacity="0.4"/>
+
+        <!-- End clamp -->
+        <rect x="100" y="197" width="10" height="24" fill="#B0B0B0" stroke="#333" stroke-width="1.5"/>
+        <rect x="250" y="197" width="10" height="24" fill="#B0B0B0" stroke="#333" stroke-width="1.5"/>
+        <text x="82" y="213" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">END</text>
+        <text x="82" y="223" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">CLAMP</text>
+
+        <!-- Row gap label -->
+        <line x1="180" y1="220" x2="180" y2="248" stroke="#C8530A" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="190" y="238" font-size="8" fill="#C8530A" font-family="Share Tech Mono">3-5″ GAP</text>
+        <text x="190" y="250" font-size="8" fill="#C8530A" font-family="Share Tech Mono">(SNOW SHED)</text>
+
+        <!-- Panel 2 second row -->
+        <rect x="100" y="250" width="73" height="18" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+        <rect x="187" y="250" width="73" height="18" fill="rgba(26,92,138,0.2)" stroke="#1A5C8A" stroke-width="1.5"/>
+
+        <!-- Second rail -->
+        <rect x="150" y="268" width="60" height="18" fill="#6A7A8A" stroke="#2A2A1E" stroke-width="2"/>
+        <text x="100" y="282" text-anchor="middle" font-size="8" fill="#6A7A8A" font-family="Share Tech Mono">XR100 RAIL 2</text>
+
+        <!-- Bifacial gap callout -->
+        <rect x="60" y="310" width="240" height="60" fill="rgba(200,83,10,0.06)" stroke="#C8530A" stroke-width="1.5" rx="3"/>
+        <text x="180" y="328" text-anchor="middle" font-size="8" fill="#C8530A" font-family="Share Tech Mono">BIFACIAL NOTE:</text>
+        <text x="180" y="342" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">OPEN-FRAME RACKING ONLY</text>
+        <text x="180" y="356" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">NO SOLID SURFACE BEHIND PANELS</text>
+        <text x="180" y="370" text-anchor="middle" font-size="8" fill="#4A4A3A" font-family="Share Tech Mono">WIRE ROUTING: FRONT FACE ONLY</text>
+
+        <text x="180" y="400" text-anchor="middle" font-size="9" fill="#2A2A1E" font-family="Rajdhani" font-weight="700" letter-spacing="2">RAIL / PANEL CONNECTION</text>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- LEGEND + GENERAL NOTES -->
+  <div class="drawing-grid" style="grid-template-columns: 1fr 2fr;">
+    <div class="legend">
+      <div class="legend-title">Legend</div>
+      <div class="legend-grid">
+        <div class="legend-item"><div class="legend-swatch" style="background:#8B6914;border-color:#2A2A1E"></div>PT Lumber</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#A07820;border-color:#2A2A1E"></div>LVL Beam</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#C09030;border-color:#2A2A1E"></div>Rafter/Joist</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#6A7A8A;border-color:#2A2A1E"></div>IronRidge Rail</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:rgba(26,92,138,0.25);border-color:#1A5C8A"></div>Solar Panel</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#C8C0A8;border-color:#2A2A1E"></div>Concrete</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#D4CEB8;border-color:#8B6914"></div>Gravel Patio</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#C8530A;border-color:#C8530A"></div>Dimensions</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:none;border-color:#2A2A1E;border-style:dashed"></div>Below Grade</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#888;border-color:#333"></div>Hardware/Metal</div>
+        <div class="legend-item" style="grid-column:span 2"><strong>ALL LUMBER:</strong> #1 or better, ACQ pressure treated for ground contact where noted</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">General Structural Notes</div>
+      <div class="notes-grid">
+        <div class="note-item">All lumber to be #1 or better Douglas Fir or Southern Yellow Pine</div>
+        <div class="note-item">Posts: 6×6 ACQ pressure treated, rated for ground contact (UC4B)</div>
+        <div class="note-item">Footings: 18″ diameter sonotube, min 42″ deep below frost line (MN frost depth ~42″)</div>
+        <div class="note-item">Concrete: minimum 3,000 PSI at 28 days, 6-bag mix</div>
+        <div class="note-item">Front beams: doubled 2×10 #1 DF, bolted with (2) 1/2″ × 6″ through bolts @ 24″ OC</div>
+        <div class="note-item">Rear beams: doubled 2×10 #1 DF, same fastening as front</div>
+        <div class="note-item">Rafters: 2×8 #1 DF @ 24″ OC, toenailed to beams (2) 10d nails each end</div>
+        <div class="note-item">Post bases: Simpson ABU66Z or equal, galvanized, (4) 1/2″ anchor bolts per base</div>
+        <div class="note-item">All hardware: hot-dip galvanized or stainless steel — no plain steel fasteners</div>
+        <div class="note-item">IronRidge XR100 rail: L-foot mounts @ every rafter — (1) 3/8″×3″ lag per L-foot</div>
+        <div class="note-item">Panel clearance: min 24″ from bottom panel edge to gravel — verify with rafter height</div>
+        <div class="note-item">Row gap: 3″ minimum between upper and lower panel rows for snow shed</div>
+        <div class="note-item">Lateral bracing: install Simpson Strong-Tie diagonal bracing at corner bays</div>
+        <div class="note-item">Wind uplift: verify rafter-to-beam connection for MN 90 mph design wind speed</div>
+        <div class="note-item">Snow load: design for 40 psf ground snow load (Minnesota), panels reduce accumulation</div>
+        <div class="note-item">Permit: structure requires City of Bloomington building permit — engineer of record to stamp footing design</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
